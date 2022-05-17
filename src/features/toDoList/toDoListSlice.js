@@ -2,27 +2,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchData } from './toDoListAPI';
 
 const initialState = {
-  data: [
-    {
-      id: 0,
-      currensy: 'RUB',
-      value: 1000,
-      status: 'active',
-    },
-    {
-      id: 1,
-      currensy: 'THB',
-      value: 3000,
-      status: 'active',
-    },
-  ],
+  data: [],
   status: 'idle',
+  btnUan: false,
 }
 
 export const getDataAsync = createAsyncThunk(
   'GET_DATA',
-  async (amount) => {
-    const response = await fetchData(amount);
+  async (data) => {
+    const response = await fetchData(data);
     return response.data
   }
 )
@@ -33,13 +21,14 @@ export const toDoListSlice = createSlice({
   reducers: {
     getTest: (state) => {     
       const tstAssets = [];
-
       state.data = [...tstAssets];
     },
+
     addAssets: (state, action) => {
       state.data.push(action.payload);
     },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(getDataAsync.pending, (state) => {
@@ -47,7 +36,8 @@ export const toDoListSlice = createSlice({
       })
       .addCase(getDataAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.data.push(action.payload);
+        state.data = [...action.payload];
+        state.btnUan = true; 
       })
   }
 });
@@ -55,6 +45,7 @@ export const toDoListSlice = createSlice({
 export const { getTest, addAssets } = toDoListSlice.actions;
 
 export const selectData = (state) => state.toDoList.data;
+export const showBtnUan = (state) => state.toDoList.btnUan;
 
 export const addYuan = (yuan) => (dispatch, getState) => {
   const existYuan = !!selectData(getState()).filter(item=>item.currensy === 'CNY').length;

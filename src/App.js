@@ -1,15 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+// import logo from './logo.svg';
+// import { Counter } from './features/counter/Counter';
 import { ToDoList } from './features/toDoList/ToDoList';
+import './rest.css';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <ToDoList/>
+
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <ToDoList/>
         <Counter />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -52,7 +54,7 @@ function App() {
             React Redux
           </a>
         </span>
-      </header>
+      </header> */}
     </div>
   );
 }
