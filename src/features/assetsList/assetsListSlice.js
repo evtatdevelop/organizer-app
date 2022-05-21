@@ -8,9 +8,7 @@ const initialState = {
 
 export const getDataAsync = createAsyncThunk(
   'assetsList/getAssets',
-  async () => {
-    return await getAssets();
-  }
+  async () => await getAssets()
 )
 
 export const assetsListSlice = createSlice({
@@ -30,8 +28,8 @@ export const assetsListSlice = createSlice({
       })
       .addCase(getDataAsync.fulfilled, (state, action) => {
         state.status = 'idle';
+        // console.log(action.payload);
         state.data = [...action.payload];
-        state.btnYuan = true; 
       })
   }
 });
