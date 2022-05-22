@@ -1,6 +1,55 @@
-.toDoList {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+.assestsList {
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    color: #424242;
+
+    li {
+      width: 100%;
+      
+      button {
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 1vh 1vw;
+        border: none;
+        border-radius: 2px;
+        background-color: transparent;
+        cursor: pointer;
+        color: #424242;
+
+        &::before {
+          content: '';
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          top: 0;
+          left: 0;
+          opacity: .1;
+          transition: width .3s, opacity .3s;
+          background-color: rgba($color: #000000, $alpha: .1);
+        }
+
+        &:focus,
+        &:hover {
+          &::before {
+            width: 100%;
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .addButton {
+      font-size: 2vw;
+      justify-content: center;
+      border: 1px solid grey
+    }
+
+  }
 }

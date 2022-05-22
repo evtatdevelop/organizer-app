@@ -28,7 +28,6 @@ export const assetsListSlice = createSlice({
       })
       .addCase(getDataAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        // console.log(action.payload);
         state.data = [...action.payload];
       })
   }
