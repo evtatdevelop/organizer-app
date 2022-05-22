@@ -33,15 +33,4 @@ export default class Service {
     if (!res.ok) throw new Error(`Could non fetch ${url}. Status: ${res.status}`);
     return await res.json(); 
   }
-
-
-
-  
-  // auth = async (login, pass) => {
-  //   const {email, expiresIn, idToken} = await this.getResource(`${this._apiBase}auth`)
-  //   if (email === 'tester@test.tst') return { idToken, expiresIn };
-  //   return null;
-  // }
-
-
 }
