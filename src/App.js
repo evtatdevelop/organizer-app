@@ -1,6 +1,6 @@
 import React from 'react';
 import { Counter } from './features/counter/Counter';
-import { Assets } from './features/assetsList/assetsList';
+import { Assets } from './features/assets/asset';
 import './rest.css';
 import './App.scss';
 
@@ -13,12 +13,6 @@ function App() {
         <ul className='navigation'></ul>
         <Counter />
       </nav>
-      
-      {/* <a className="App-link" href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">React</a>
-          <a className="App-link" href="https://redux.js.org/" target="_blank" rel="noopener noreferrer">Redux</a>
-          <a className="App-link" href="https://redux-toolkit.js.org/" target="_blank" rel="noopener noreferrer" >Redux Toolkit</a>
-          <a className="App-link" href="https://react-redux.js.org/" target="_blank" rel="noopener noreferrer">React Redux </a>
-      */}
     </div>
   );
 }

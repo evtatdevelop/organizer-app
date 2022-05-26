@@ -13,15 +13,14 @@
 
   .assets {
     grid-area: aside;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     outline: 1px solid red;
-  }  
+  }
+  
   .main {
     grid-area: main;
     outline: 1px solid blue;
   }
+  
   .nav {
     grid-area: nav;
     display: flex;
