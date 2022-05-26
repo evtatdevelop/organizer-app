@@ -1,7 +1,6 @@
 import React from 'react';
-// import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
-import { AssetsList } from './features/assetsList/assetsList';
+import { Assets } from './features/assetsList/assetsList';
 import './rest.css';
 import './App.scss';
 
@@ -9,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <main className='main'>Main</main>
-      <aside className='assets'><AssetsList/></aside>
+      <aside className='assets'><Assets/></aside>
       <nav className='nav'>
         <ul className='navigation'></ul>
         <Counter />

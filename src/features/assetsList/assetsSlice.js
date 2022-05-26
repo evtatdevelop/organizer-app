@@ -1,22 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAssets } from './assetsListSliceAPI';
+import { getAssets } from './assetsSliceAPI';
 
 const initialState = {
   data: [],
   status: 'idle',
   sorted: [],
   expanded: false,
+  showForm: false,
 }
 
 const sorting = ( assets ) => assets.filter(item => item.status === 'active');
 
 export const getDataAsync = createAsyncThunk(
-  'assetsList/getAssets',
+  'assets/getAssets',
   async () => await getAssets()
 )
 
 export const assetsListSlice = createSlice({
-  name: 'assetsList',
+  name: 'assets',
   initialState,
   reducers: {
     showAll: ( state ) => {
@@ -25,6 +26,10 @@ export const assetsListSlice = createSlice({
       : state.sorted = state.data;
       state.expanded = !state.expanded;
     },
+
+    onShowForm: ( state, show ) => {
+      state.showForm = !state.showForm;
+    }
   },
 
   extraReducers: (builder) => {
@@ -41,9 +46,10 @@ export const assetsListSlice = createSlice({
   }
 });
 
-export const { showAll } = assetsListSlice.actions;
-export const assets = ( state ) => state.assetsList.sorted;
-export const status = ( state ) => state.assetsList.status;
-export const expanded = ( state ) => state.assetsList.expanded;
+export const { showAll, onShowForm } = assetsListSlice.actions;
+export const assets = ( state ) => state.assets.sorted;
+export const status = ( state ) => state.assets.status;
+export const expanded = ( state ) => state.assets.expanded;
+export const showForm = ( state ) => state.assets.showForm;
 
 export default assetsListSlice.reducer;

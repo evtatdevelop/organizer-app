@@ -1,4 +1,5 @@
 .assestsList {
+  
   ul {
     display: flex;
     flex-direction: column;
@@ -45,7 +46,7 @@
       }
     }
 
-    .addButton {
+    .expandButton {
       font-size: 2vw;
       justify-content: center;
       // border: 1px solid grey;
