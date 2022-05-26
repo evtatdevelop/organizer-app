@@ -1,6 +1,7 @@
 import React from 'react';
 import { Counter } from './features/counter/Counter';
 import { Assets } from './features/assets/asset';
+import { Loader } from './features/loader/loader';
 import './rest.css';
 import './App.scss';
 
@@ -13,6 +14,7 @@ function App() {
         <ul className='navigation'></ul>
         <Counter />
       </nav>
+      <Loader/>
     </div>
   );
 }

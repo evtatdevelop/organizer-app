@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { assets, status, expanded, getDataAsync, showAll} from "../assetsSlice";
+import { assets, status, expanded, getDataAsync, showAll, getOneAsset} from "../assetsSlice";
 import styles from './assetsList.module.scss';
 import AssetsItem from "./assetsItem";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,7 +18,7 @@ export const AssetsList = () => {
   return (
     <div className={styles.assestsList}>
 
-    { loader === 'loading' ? <div>LOADING</div> : null}
+    {/* { loader === 'loading' ? <div>LOADING</div> : null} */}
 
       { data.length > 0 
         ? <ul>
@@ -26,7 +26,7 @@ export const AssetsList = () => {
               <AssetsItem 
                 key={ item.id }
                 item={ item }
-                hadlerClick={ (id)=>{console.log(id)} }
+                hadlerClick={ (id)=>dispatch(getOneAsset(id)) }
               />
             ))}
 

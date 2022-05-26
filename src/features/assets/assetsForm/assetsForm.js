@@ -31,9 +31,5 @@ export const AssetsForm = props => {
         onClick={ () => dispatch(onShowForm()) }
       >{icon}</button>
     </section>
-
-    
-    
-    
   )
 }

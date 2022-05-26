@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAssets } from './assetsSliceAPI';
+import { getAssets, getAsset } from './assetsSliceAPI';
 
 const initialState = {
   data: [],
-  status: 'idle',
+  status: 'idle',   // loading
   sorted: [],
-  expanded: false,
+  expanded: false,  //todo: fullList
   showForm: false,
+  currentAsset: {},
 }
 
 const sorting = ( assets ) => assets.filter(item => item.status === 'active');
@@ -14,6 +15,14 @@ const sorting = ( assets ) => assets.filter(item => item.status === 'active');
 export const getDataAsync = createAsyncThunk(
   'assets/getAssets',
   async () => await getAssets()
+)
+
+export const getOneAsset =createAsyncThunk(
+  'assets/getAsset',
+  async (id) => {
+    let response = await getAsset(id);
+    return response;
+  }
 )
 
 export const assetsListSlice = createSlice({
@@ -43,6 +52,14 @@ export const assetsListSlice = createSlice({
         const sorted = sorting(action.payload)
         state.sorted = [...sorted];
       })
+
+      .addCase(getOneAsset.pending, ( state ) => {
+        state.status = 'loading';
+      })
+      .addCase(getOneAsset.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.currentAsset = action.payload;
+      });
   }
 });
 
