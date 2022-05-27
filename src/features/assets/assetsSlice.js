@@ -3,9 +3,8 @@ import { getAssets, getAsset } from './assetsSliceAPI';
 
 const initialState = {
   data: [],
-  status: 'idle',   // loading
+  loading: false,
   sorted: [],
-  expanded: false,  //todo: fullList
   showForm: false,
   currentAsset: {},
 }
@@ -19,54 +18,44 @@ export const getDataAsync = createAsyncThunk(
 
 export const getOneAsset =createAsyncThunk(
   'assets/getAsset',
-  async (id) => {
-    let response = await getAsset(id);
-    return response;
-  }
+  async (id) => await getAsset(id)
 )
 
 export const assetsListSlice = createSlice({
   name: 'assets',
   initialState,
   reducers: {
-    showAll: ( state ) => {
-      state.expanded 
-      ? state.sorted = sorting(state.data)
-      : state.sorted = state.data;
-      state.expanded = !state.expanded;
-    },
-
-    onShowForm: ( state, show ) => {
+    onShowForm: ( state ) => {
       state.showForm = !state.showForm;
-    }
+    },
+    
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(getDataAsync.pending, ( state ) => {
-        state.status = 'loading';
+        state.loading = true;
       })
       .addCase(getDataAsync.fulfilled, ( state, action ) => {
-        state.status = 'idle';
+        state.loading = false;
         state.data = action.payload;
-        const sorted = sorting(action.payload)
-        state.sorted = [...sorted];
+        state.sorted = sorting(action.payload);
       })
 
       .addCase(getOneAsset.pending, ( state ) => {
-        state.status = 'loading';
+        state.loading = true;
       })
       .addCase(getOneAsset.fulfilled, (state, action) => {
-        state.status = 'idle';
+        state.loading = false;
         state.currentAsset = action.payload;
       });
   }
 });
 
-export const { showAll, onShowForm } = assetsListSlice.actions;
+export const { onShowForm } = assetsListSlice.actions;
+export const data = ( state ) => state.assets.data;
 export const assets = ( state ) => state.assets.sorted;
-export const status = ( state ) => state.assets.status;
-export const expanded = ( state ) => state.assets.expanded;
+export const loading = ( state ) => state.assets.loading;
 export const showForm = ( state ) => state.assets.showForm;
 
 export default assetsListSlice.reducer;

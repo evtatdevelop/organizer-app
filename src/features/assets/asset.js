@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from './assets.module.scss';
+import { useDispatch } from "react-redux";
+import { getDataAsync } from "./assetsSlice";
 import AssetsList from "./assetsList";
-import AssetsForm from "./assetsForm";
+import AssetsTools from "./assetsTools";
 
 export const Assets = () => {
+  const dispatch = useDispatch();
+  useEffect(() => { dispatch(getDataAsync()) }, []);
+
   return (
-    <div className={styles.assets}>
-
+    <section className={styles.assets}>
       <AssetsList/>
-
-      <AssetsForm/>
-
-    </div>
+      <AssetsTools/>
+    </section>
   )
 }

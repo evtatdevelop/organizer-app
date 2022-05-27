@@ -1,45 +1,24 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { assets, status, expanded, getDataAsync, showAll, getOneAsset} from "../assetsSlice";
+import { assets, getOneAsset} from "../assetsSlice";
 import styles from './assetsList.module.scss';
 import AssetsItem from "./assetsItem";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnglesDown } from '@fortawesome/free-solid-svg-icons';
-import { faAnglesUp } from '@fortawesome/free-solid-svg-icons';
 
 export const AssetsList = () => {
   const data = useSelector(assets)
-  const loader = useSelector(status)
-  const expand = useSelector(expanded)
   const dispatch = useDispatch();
-  
-  useEffect(() => { dispatch(getDataAsync()) }, []);
 
   return (
-    <div className={styles.assestsList}>
-
-    {/* { loader === 'loading' ? <div>LOADING</div> : null} */}
-
-      { data.length > 0 
-        ? <ul>
-            {data.map(item => (
-              <AssetsItem 
-                key={ item.id }
-                item={ item }
-                hadlerClick={ (id)=>dispatch(getOneAsset(id)) }
-              />
-            ))}
-
-            <li>
-              <button type="button" 
-                className={ styles.expandButton }
-                onClick={ () => dispatch(showAll()) }
-              ><FontAwesomeIcon icon={ expand ? faAnglesUp : faAnglesDown } /></button>
-            </li>
-
-          </ul>
-        : null  
-      }   
-    </div>
+    data.length > 0 
+      ? <ul className={ styles.assestsList }>
+          { data.map(item => (
+            <AssetsItem 
+              key={ item.id }
+              item={ item }
+              hadlerClick={ id => dispatch( getOneAsset(id) ) }
+            />
+          )) }
+        </ul>
+      : null 
   )
 }

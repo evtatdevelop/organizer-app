@@ -1,13 +1,13 @@
 import React from "react";
 import styles from './loader.module.scss';
 import { useSelector } from "react-redux";
-import { status } from "../assets/assetsSlice";
+import { loading } from "../assets/assetsSlice";
 
 export const Loader = () => {
 
-  const show = useSelector(status);
+  const load = useSelector(loading);
 
   return (
-    show === 'loading' ? <div className={styles.loader}>loading</div> : null
+    load ? <div className={styles.loader}>loading</div> : null
   )
 }
