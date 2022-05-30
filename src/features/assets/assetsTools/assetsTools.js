@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { showForm, onShowForm  } from "../assetsSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons'
-import { faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
+import { AssetsForm } from "./assetsForm/assetsForm";
 
 export const AssetsTools = () => {
 
@@ -15,20 +15,18 @@ export const AssetsTools = () => {
   let classesToolsButton = styles.toolsButton  
   classesForm = show ? classesForm + ` ${styles.show}` : classesForm;
   classesToolsButton = show ? classesToolsButton : classesToolsButton + ` ${styles.opacity}`;
-  const icon = show 
-    ? <FontAwesomeIcon icon={ faAnglesLeft } />
-    : <FontAwesomeIcon icon={ faAnglesRight } />
+  const icon = <FontAwesomeIcon icon={ faAnglesRight }/>
 
 
   return (
     <section className={ classesForm }>
 
-      Assets Tools
+      <AssetsForm/>
 
       <button type="button" 
         className={ classesToolsButton }
         onClick={ () => dispatch(onShowForm()) }
-      >{icon}</button>
+      ><span className={styles.icon}>{icon}</span></button>
     </section>
   )
 }

@@ -1,0 +1,85 @@
+.assetsForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 75%;
+
+  label {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; 
+    width: 100%;
+    border-bottom: 1px solid white;
+    font-size: 2vw;
+    text-transform: uppercase;
+    color: #a3a2a2;
+    padding: 10px 5px;
+    cursor: pointer;
+
+    input[type=number],
+    input[type=text] {
+      font-size: 2vw;
+      letter-spacing: .5vw;
+      width: 100%;
+      background-color: transparent;
+      color: #ffffff;
+      text-transform: uppercase;
+
+      &::placeholder {
+        color: #a3a2a2;
+        transition: color .3s;
+      }
+
+      &:focus {
+        &::placeholder {
+          color: #26b651;
+        }
+      }
+    }
+
+    input[type=checkbox] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      border: 0;
+      padding: 0;
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+
+      &:checked {
+        &~span {
+          color: #ffffff;
+        }        
+      }
+
+      &:not(:checked) {
+        &:focus {
+            &~span {
+              color: #26b651;
+            }        
+          }       
+      }
+    }
+  }
+
+  button {
+    width: 100%;
+    background-color: transparent;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 2px;
+    color: white;
+    margin-top: 20px;
+    transition: background-color, .3s;
+    cursor: pointer;
+
+    &:focus,
+    &:hover {
+      background-color: rgba($color: #ffffff, $alpha: .5)
+    }
+  }
+}
