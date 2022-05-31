@@ -1,4 +1,4 @@
-import styles from './assets.module.scss';
+import styles from './assetsForm.module.scss';
 
 export const AssetsForm = props => {
 

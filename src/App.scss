@@ -5,7 +5,7 @@
     "aside main nav";
   grid-template-rows: 1fr;
   grid-template-columns: 20% 1fr 20%;
-  grid-gap: 1vw;
+  // grid-gap: 1vw;
 
   aside, main, nav {
     padding: 12px;
@@ -13,12 +13,14 @@
 
   .assets {
     grid-area: aside;
-    outline: 1px solid red;
+    // outline: 1px solid red;
   }
   
   .main {
     grid-area: main;
-    outline: 1px solid blue;
+    // outline: 1px solid blue;
+    border-left: 1px solid #4F5A65;
+    border-right: 1px solid #4F5A65;
   }
   
   .nav {
@@ -26,7 +28,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    outline: 1px solid green;
+    // outline: 1px solid green;
   
     .navigation {
       flex-grow: 1;
