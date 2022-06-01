@@ -1,18 +1,24 @@
 import React from "react";
 import styles from './assetsForm.module.scss';
 import { useSelector, useDispatch } from "react-redux";
-import { currentAsset, setCurrCurrensy, setCurrValue, setCurrStatus, setCurrType } from "../../assetsSlice";
+import { currentAsset, setCurrCurrensy, setCurrValue, setCurrStatus, setCurrType, saveAsset } from "../../assetsSlice";
 
 export const AssetsForm = () => {
-  const {id, currensy, value, status, type, time} = useSelector(currentAsset);
+  const data = useSelector(currentAsset);
+  const {id, currensy, value, status, type, time} = data;
+
   const dispatch = useDispatch();
 
   const checked = status === 'active' ? 'checked' : null;
 
   return (
-    <form className={ styles.assetsForm }>
-      <input type='hidden' defaultValue={ id }></input>
-
+    <form 
+      className={ styles.assetsForm }
+      onSubmit={ (e)=>{ 
+        e.preventDefault();
+        dispatch(saveAsset(data)) 
+      } }
+    >
       <label> <input type='text' placeholder='Curensy' 
         defaultValue={ currensy }
         onInput={ e => dispatch(setCurrCurrensy(e.target.value)) }
@@ -28,18 +34,14 @@ export const AssetsForm = () => {
         onInput={ e => dispatch(setCurrType(e.target.value)) }
       /> </label>
 
-
-      <label>
-        <input type='checkbox'
+      <label> <input type='checkbox'
           defaultChecked={ checked }
           onClick={ e => { dispatch(setCurrStatus(e.target.checked))} }
-        />  
-        <span>Show</span>
-      </label>
+      /> <span>Show</span> </label>
       
-      
-
-      <button type='submit'>Add</button>
+      <button type='submit'>
+        {id ? 'Save' : 'Add'}
+      </button>
     </form>
   )
 }

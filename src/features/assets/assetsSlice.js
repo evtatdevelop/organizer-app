@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAssets, getAsset } from './assetsSliceAPI';
+import { getAssets, getAsset, setAsset } from './assetsSliceAPI';
 
 const initialState = {
   data: [],
@@ -16,9 +16,14 @@ export const getDataAsync = createAsyncThunk(
   async () => await getAssets()
 )
 
-export const getOneAsset =createAsyncThunk(
+export const getOneAsset = createAsyncThunk(
   'assets/getAsset',
   async (id) => await getAsset(id)
+)
+
+export const saveAsset = createAsyncThunk(
+  'assets/setAsset',
+  async (data) => await setAsset(data)
 )
 
 export const assetsListSlice = createSlice({
@@ -47,6 +52,15 @@ export const assetsListSlice = createSlice({
       .addCase(getOneAsset.fulfilled, (state, action) => {
         state.loading = false;
         state.currentAsset = action.payload;
+        state.showTools = true;
+      })
+
+      .addCase(saveAsset.pending, ( state ) => { state.loading = true })
+      .addCase(saveAsset.fulfilled, (state, action) => {
+        state.loading = false;
+        state.showTools = false;
+        state.currentAsset = {};
+        console.log(action.payload);
       });
   }
 });
