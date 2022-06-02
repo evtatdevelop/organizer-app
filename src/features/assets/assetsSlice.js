@@ -30,7 +30,10 @@ export const assetsListSlice = createSlice({
   name: 'assets',
   initialState,
   reducers: {
-    onShowTools: ( state ) => { state.showTools = !state.showTools },
+    onShowTools: ( state ) => { 
+      state.showTools = !state.showTools;
+      state.currentAsset = {}
+    },
 
     // Setting current values through the assetsForm
     setCurrCurrensy: (state, action) => { state.currentAsset.currensy = action.payload },
