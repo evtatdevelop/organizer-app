@@ -18,12 +18,12 @@ export const getDataAsync = createAsyncThunk(
 
 export const getOneAsset = createAsyncThunk(
   'assets/getAsset',
-  async (id) => await getAsset(id)
+  async ( id ) => await getAsset(id)
 )
 
 export const saveAsset = createAsyncThunk(
   'assets/setAsset',
-  async (data) => await setAsset(data)
+  async ( data ) => await setAsset(data)
 )
 
 export const assetsListSlice = createSlice({
