@@ -1,7 +1,11 @@
 import React from "react";
 import styles from './assetsForm.module.scss';
 import { useSelector, useDispatch } from "react-redux";
-import { currentAsset, setCurrCurrensy, setCurrValue, setCurrStatus, setCurrType, saveAsset, newAsset } from "../../assetsSlice";
+import { 
+  currentAsset, 
+  setCurrCurrensy, setCurrValue, setCurrStatus, setCurrType, 
+  saveAsset, newAsset, removeAsset 
+} from "../../assetsSlice";
 
 export const AssetsForm = () => {
   const data = useSelector(currentAsset);
@@ -46,6 +50,15 @@ export const AssetsForm = () => {
       <button type='submit'>
         {id ? 'Save' : 'Add'}
       </button>
+
+      {id 
+      ? <button type="button"
+          onClick={ (e) => { 
+            dispatch(removeAsset(id)) 
+            // e.target.reset();
+          }}
+        >Remove</button>
+      : null}
     </form>
   )
 }

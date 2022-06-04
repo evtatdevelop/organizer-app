@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAssets, getAsset, setAsset, addAsset } from './assetsSliceAPI';
+import { getAssets, getAsset, setAsset, addAsset, delAsset } from './assetsSliceAPI';
 
 const initialState = {
   data: [],
@@ -11,24 +11,20 @@ const initialState = {
 
 const sorting = ( assets ) => assets.filter(item => item.status === 'active');
 
-export const getDataAsync = createAsyncThunk(
-  'assets/getAssets',
+export const getDataAsync = createAsyncThunk('assets/getAssets',
   async () => await getAssets()
 )
-
-export const getOneAsset = createAsyncThunk(
-  'assets/getAsset',
+export const getOneAsset = createAsyncThunk('assets/getAsset',
   async ( id ) => await getAsset(id)
 )
-
-export const saveAsset = createAsyncThunk(
-  'assets/setAsset',
+export const saveAsset = createAsyncThunk('assets/setAsset',
   async ( data ) => await setAsset(data)
 )
-
-export const newAsset = createAsyncThunk(
-  'assets/addAsset',
+export const newAsset = createAsyncThunk('assets/addAsset',
   async ( data ) => await addAsset(data)
+)
+export const removeAsset = createAsyncThunk('assets/delAsset',
+  async ( id ) => await delAsset(id)
 )
 
 export const assetsListSlice = createSlice({
@@ -73,6 +69,14 @@ export const assetsListSlice = createSlice({
 
       .addCase(newAsset.pending, ( state ) => { state.loading = true })
       .addCase(newAsset.fulfilled, (state, action) => {
+        state.loading = false;
+        state.showTools = false;
+        state.currentAsset = {};
+        console.log(action.payload);
+      })
+
+      .addCase(removeAsset.pending, ( state ) => { state.loading = true })
+      .addCase(removeAsset.fulfilled, (state, action) => {
         state.loading = false;
         state.showTools = false;
         state.currentAsset = {};
