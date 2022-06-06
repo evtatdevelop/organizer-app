@@ -17,9 +17,12 @@ export const AssetsForm = () => {
   
   //todo input data check
   //todo set data format
-  
+  //todo checkbox reset?! styles afte delete doesn't rest, ...
+
   return (
     <form 
+      id="assetForm"
+      name="assetForm"
       className={ styles.assetsForm }
       onSubmit={ (e)=>{ 
         e.preventDefault();
@@ -43,22 +46,25 @@ export const AssetsForm = () => {
       /> </label>
 
       <label> <input type='checkbox'
+          id="activeCh"
           defaultChecked={ checked }
           onClick={ e => { dispatch(setCurrStatus(e.target.checked))} }
       /> <span>Show</span> </label>
       
       <button type='submit'>
-        {id ? 'Save' : 'Add'}
+        { id ? 'Save' : 'Add' }
       </button>
 
-      {id 
-      ? <button type="button"
-          onClick={ (e) => { 
-            dispatch(removeAsset(id)) 
-            // e.target.reset();
-          }}
-        >Remove</button>
-      : null}
+      { id 
+        ? <button type="button"
+            onClick={ e => { 
+              dispatch(removeAsset(id));
+              e.target.form.reset();
+              // document.getElementById('activeCh').defaultChecked=false;
+            }}
+          >Remove</button>
+        : null
+      }
     </form>
   )
 }

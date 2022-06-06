@@ -9,7 +9,7 @@ const initialState = {
   currentAsset: {},
 }
 
-const sorting = ( assets ) => assets.filter(item => item.status === 'active');
+const sorting = (state) => {state.sorted = state.data.filter(item => item.status === 'active')};
 
 export const getDataAsync = createAsyncThunk('assets/getAssets',
   async () => await getAssets()
@@ -49,7 +49,7 @@ export const assetsListSlice = createSlice({
       .addCase(getDataAsync.fulfilled, ( state, action ) => {
         state.loading = false;
         state.data = action.payload;
-        state.sorted = sorting(action.payload);
+        sorting(state);
       })
 
       .addCase(getOneAsset.pending, ( state ) => { state.loading = true })
@@ -64,7 +64,11 @@ export const assetsListSlice = createSlice({
         state.loading = false;
         state.showTools = false;
         state.currentAsset = {};
-        console.log(action.payload);
+        state.data = [
+          ...state.data.filter(item => +item.id !== +action.payload.id),
+          action.payload
+        ]
+        sorting(state);
       })
 
       .addCase(newAsset.pending, ( state ) => { state.loading = true })
@@ -72,6 +76,8 @@ export const assetsListSlice = createSlice({
         state.loading = false;
         state.showTools = false;
         state.currentAsset = {};
+        state.data = [...state.data, action.payload];
+        sorting(state);
         console.log(action.payload);
       })
 
@@ -80,7 +86,8 @@ export const assetsListSlice = createSlice({
         state.loading = false;
         state.showTools = false;
         state.currentAsset = {};
-        console.log(action.payload);
+        state.data = state.data.filter(item => +item.id !== +action.payload)
+        sorting(state);
       });
   }
 });

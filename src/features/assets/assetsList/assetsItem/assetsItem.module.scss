@@ -11,10 +11,10 @@
         font-size: 1.7vw;
         margin-right: 2px;
         &.card {
-          color: rgb(0, 110, 255);
+          color: rgb(103, 167, 252);
         }
         &.cash {
-          color: orangered;
+          color: rgb(255, 144, 103);
         }
       }
     }
@@ -28,10 +28,10 @@
     &:hover {
       .value {
         &.card {
-          color: rgb(0, 110, 255);
+          color: rgb(103, 167, 252);
         }
         &.cash {
-          color: orangered;
+          color: rgb(255, 144, 103);
         }
       }  
     }

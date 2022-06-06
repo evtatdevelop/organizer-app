@@ -3,10 +3,13 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 97vh;
+  // height: 100%;
+  height: auto;
+  max-height: 100%;
   color: #ffffff;
   overflow-y: auto;
   padding-right: 5px;
+  transition: height .5s;
 
   scrollbar-width: 3px;
   scrollbar-color: #4F5A65 #2A2F3A;
@@ -21,7 +24,6 @@
     // border-radius: 20px;
     // border: 1px solid #2A2F3A;
   }
-
 
   li {
     width: 100%;
