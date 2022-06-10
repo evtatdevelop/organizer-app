@@ -13,13 +13,12 @@ export const AssetsTools = () => {
 
   let classesForm = styles.assetsTools;
   
-  if ( show === 'closed' ) classesForm = classesForm + ` ${styles.show}`;
-  if ( show === 'opened' ) classesForm = classesForm + ` ${styles.hide}`;
+  if ( show === 'close' ) classesForm = classesForm + ` ${styles.show}`;
+  if ( show === 'open' ) classesForm = classesForm + ` ${styles.hide}`;
   
   let classesToolsButton = styles.toolsButton;
   classesToolsButton = show ? classesToolsButton : classesToolsButton + ` ${styles.opacity}`;
   const icon = <FontAwesomeIcon icon={ faAnglesRight }/>
-
 
   return (
     <section className={ classesForm }>

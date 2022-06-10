@@ -32,7 +32,7 @@ export const assetsListSlice = createSlice({
   initialState,
   reducers: {
     onShowTools: ( state, action ) => {
-      state.showTools = action.payload === 'closed' ? 'opened' : 'closed';
+      state.showTools = action.payload === 'close' ? 'open' : 'close';
       state.currentAsset = {}
     },
 
@@ -55,14 +55,15 @@ export const assetsListSlice = createSlice({
       .addCase(getOneAsset.pending, ( state ) => { state.loading = true })
       .addCase(getOneAsset.fulfilled, (state, action) => {
         state.loading = false;
+        state.showTools = 'close';
         state.currentAsset = action.payload;
-        state.showTools = true;
+        
       })
 
       .addCase(saveAsset.pending, ( state ) => { state.loading = true })
       .addCase(saveAsset.fulfilled, (state, action) => {
         state.loading = false;
-        state.showTools = false;
+        state.showTools = 'open';
         state.currentAsset = {};
         state.data = [
           ...state.data.filter(item => +item.id !== +action.payload.id),
@@ -74,7 +75,7 @@ export const assetsListSlice = createSlice({
       .addCase(newAsset.pending, ( state ) => { state.loading = true })
       .addCase(newAsset.fulfilled, (state, action) => {
         state.loading = false;
-        state.showTools = false;
+        state.showTools = 'open';
         state.currentAsset = {};
         state.data = [...state.data, action.payload];
         sorting(state);
@@ -84,7 +85,7 @@ export const assetsListSlice = createSlice({
       .addCase(removeAsset.pending, ( state ) => { state.loading = true })
       .addCase(removeAsset.fulfilled, (state, action) => {
         state.loading = false;
-        state.showTools = false;
+        state.showTools = 'open';
         state.currentAsset = {};
         state.data = state.data.filter(item => +item.id !== +action.payload)
         sorting(state);
