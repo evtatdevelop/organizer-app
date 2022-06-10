@@ -52,7 +52,7 @@ export const AssetsForm = () => {
           id="activeCh"
           defaultChecked={ checked }
           onClick={ e => { dispatch(setCurrStatus(e.target.checked))} }
-      /> <span>Show</span> </label>
+      /> <span>Active</span> </label>
       
       <button type='submit'>
         { id ? 'Save' : 'Add' }

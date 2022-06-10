@@ -2,30 +2,31 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getAssets, getAsset, setAsset, addAsset, delAsset } from './assetsSliceAPI';
 
 const initialState = {
-  data: [],
   loading: false,
+  data: [],
   sorted: [],
+  onlyActive: true,
   showTools: '',
+  showButtonAll: false,
   currentAsset: {},
 }
 
-const sorting = (state) => {state.sorted = state.data.filter(item => item.status === 'active')};
+const sorting = (state) => {
+  if ( state.onlyActive ) state.sorted = state.data.filter(item => item.status === 'active');
+  else state.sorted = state.data;
+  showButton(state);
+};
 
-export const getDataAsync = createAsyncThunk('assets/getAssets',
-  async () => await getAssets()
-)
-export const getOneAsset = createAsyncThunk('assets/getAsset',
-  async ( id ) => await getAsset(id)
-)
-export const saveAsset = createAsyncThunk('assets/setAsset',
-  async ( data ) => await setAsset(data)
-)
-export const newAsset = createAsyncThunk('assets/addAsset',
-  async ( data ) => await addAsset(data)
-)
-export const removeAsset = createAsyncThunk('assets/delAsset',
-  async ( id ) => await delAsset(id)
-)
+const showButton = (state) => {
+  const sorted = state.data.filter(item => item.status === 'active');
+  state.showButtonAll = sorted.length === state.data.length ? false : true;
+}
+
+export const getDataAsync = createAsyncThunk( 'assets/getAssets', async () => await getAssets() )
+export const getOneAsset = createAsyncThunk( 'assets/getAsset', async ( id ) => await getAsset(id) )
+export const saveAsset = createAsyncThunk( 'assets/setAsset', async ( data ) => await setAsset(data) )
+export const newAsset = createAsyncThunk('assets/addAsset', async ( data ) => await addAsset(data) )
+export const removeAsset = createAsyncThunk('assets/delAsset', async ( id ) => await delAsset(id) )
 
 export const assetsListSlice = createSlice({
   name: 'assets',
@@ -34,6 +35,11 @@ export const assetsListSlice = createSlice({
     onShowTools: ( state, action ) => {
       state.showTools = action.payload === 'close' ? 'open' : 'close';
       state.currentAsset = {}
+    },
+
+    showAllAssets: ( state ) => { 
+      state.onlyActive = !state.onlyActive 
+      sorting(state);
     },
 
     // Setting current values through the assetsForm
@@ -94,13 +100,15 @@ export const assetsListSlice = createSlice({
 });
 
 export const { 
-  onShowTools, 
+  onShowTools, showAllAssets,
   setCurrCurrensy, setCurrValue, setCurrStatus, setCurrType
 } = assetsListSlice.actions;
+
 export const data = ( state ) => state.assets.data;
-export const assets = ( state ) => state.assets.sorted;
+export const ative = ( state ) => state.assets.sorted;
 export const loading = ( state ) => state.assets.loading;
 export const showTools = ( state ) => state.assets.showTools;
 export const currentAsset = ( state ) => state.assets.currentAsset;
+export const showButtonAll = ( state ) => state.assets.showButtonAll;
 
 export default assetsListSlice.reducer;

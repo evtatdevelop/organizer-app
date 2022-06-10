@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { assets, getOneAsset} from "../assetsSlice";
+import { ative, getOneAsset} from "../assetsSlice";
 import styles from './assetsList.module.scss';
 import AssetsItem from "./assetsItem";
 
 export const AssetsList = () => {
-  const data = useSelector(assets)
+  const data = useSelector(ative)
   const dispatch = useDispatch();
 
   return (

@@ -19,7 +19,7 @@ const AssetsItem = props => {
           {item.type === 'card' ? <FontAwesomeIcon icon={ faCreditCard } className={ classesLabel } /> : null}
           <span className={styles.currensy}>{item.currensy}</span>        
         </span>
-        <span className={ classesValue }>{ item.value.toLocaleString('ru-RU') }</span>          
+        <span className={ classesValue }>{ item.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") }</span>          
       </button>
     </li>
   )
