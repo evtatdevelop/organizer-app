@@ -13,12 +13,8 @@ export const AssetsForm = () => {
 
   const dispatch = useDispatch();
 
-  const checked = status === 'active' ? 'checked' : null;
+  const checked = status === 'not_active' ? '' : 'checked';
   
-  //todo input data check
-  //todo set data format
-  //todo checkbox reset?! styles afte delete doesn't rest, ...
-
   return (
     <form 
       id="assetForm"
@@ -30,18 +26,25 @@ export const AssetsForm = () => {
         e.target.reset();
       } }
     >
-      <label> <input type='text' placeholder='Curensy' 
+      <label> <input type='text' 
+        placeholder='Curensy' 
         defaultValue={ currensy }
+        required
+        autoFocus={true}
         onInput={ e => dispatch(setCurrCurrensy(e.target.value)) }
       /> </label>
 
-      <label> <input type='number' placeholder='Value' 
+      <label> <input type='number' 
+        placeholder='Value' 
         defaultValue={ value }
+        required
         onInput={ e => dispatch(setCurrValue(e.target.value)) }
       /> </label>
 
-      <label> <input type='text' placeholder='Type' 
+      <label> <input type='text' 
+        placeholder='Type' 
         defaultValue={ type }
+        required
         onInput={ e => dispatch(setCurrType(e.target.value)) }
       /> </label>
 
@@ -60,7 +63,7 @@ export const AssetsForm = () => {
             onClick={ e => { 
               dispatch(removeAsset(id));
               e.target.form.reset();
-              // document.getElementById('activeCh').defaultChecked=false;
+              document.getElementById('activeCh').defaultChecked=false;
             }}
           >Remove</button>
         : null

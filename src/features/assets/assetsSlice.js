@@ -5,7 +5,7 @@ const initialState = {
   data: [],
   loading: false,
   sorted: [],
-  showTools: false,
+  showTools: '',
   currentAsset: {},
 }
 
@@ -31,8 +31,8 @@ export const assetsListSlice = createSlice({
   name: 'assets',
   initialState,
   reducers: {
-    onShowTools: ( state ) => { 
-      state.showTools = !state.showTools;
+    onShowTools: ( state, action ) => {
+      state.showTools = action.payload === 'closed' ? 'opened' : 'closed';
       state.currentAsset = {}
     },
 

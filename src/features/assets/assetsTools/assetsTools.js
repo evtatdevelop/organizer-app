@@ -11,9 +11,12 @@ export const AssetsTools = () => {
   const show = useSelector(showTools);
   const dispatch = useDispatch();
 
-  let classesForm = styles.assetsTools 
-  let classesToolsButton = styles.toolsButton  
-  classesForm = show ? classesForm + ` ${styles.show}` : classesForm;
+  let classesForm = styles.assetsTools;
+  
+  if ( show === 'closed' ) classesForm = classesForm + ` ${styles.show}`;
+  if ( show === 'opened' ) classesForm = classesForm + ` ${styles.hide}`;
+  
+  let classesToolsButton = styles.toolsButton;
   classesToolsButton = show ? classesToolsButton : classesToolsButton + ` ${styles.opacity}`;
   const icon = <FontAwesomeIcon icon={ faAnglesRight }/>
 
@@ -25,7 +28,7 @@ export const AssetsTools = () => {
 
       <button type="button" 
         className={ classesToolsButton }
-        onClick={ () => dispatch(onShowTools()) }
+        onClick={ () => dispatch(onShowTools(show)) }
       ><span className={styles.icon}>{icon}</span></button>
     </section>
   )
