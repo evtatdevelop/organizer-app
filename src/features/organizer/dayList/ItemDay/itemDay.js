@@ -5,17 +5,17 @@ import styles from './itemDay.module.scss';
 export const ItemDay = ( props ) => {
 
   const { item } = props;
-  const itemDay = item.date ? styles.itemDay : `${styles.itemDay} + ${styles.empty}`;
-  const dayName = item.dayName === 'sun' || item.dayName === 'sat' ? styles.weekEndColor : styles.weekDayColor;
+  const itemDay = item.dateNumber ? styles.itemDay : `${styles.itemDay} + ${styles.empty}`;
+  const dayName = item.day === 0 || item.day === 6 ? styles.weekEndColor : styles.weekDayColor;
 
   return (
     <li
       className={itemDay}
     >
-      <p>{ item.date }</p >
+      <p>{ item.dateNumber }</p >
       <p className={ dayName } >{ item.dayName }</p>
-      <p>{ item.startDayTime}</p>
-      <p>{ item.endDayTime}</p>
+      <p style={{'fontSize': '.6vw'}}>{ item.startDayTime}</p>
+      <p style={{'fontSize': '.6vw'}}>{ item.endDayTime}</p>
       <p>{ item.weekNumber }</p>
     </li>
   )    
