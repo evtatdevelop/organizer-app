@@ -1,0 +1,24 @@
+.itemDay {
+  display: flex;
+  min-width: 50px;
+  min-height: 50px;
+  width: 9vw;
+  height: 9vw;
+
+  justify-content: space-around;
+  align-items:center;
+
+  outline: 1px solid grey;
+
+  &.empty {
+    outline: none;
+  }
+
+  .weekEndColor {
+    color: var(--main-red);
+  }
+
+  .weekDayColor {
+    color: var(--main-blue)
+  }
+}

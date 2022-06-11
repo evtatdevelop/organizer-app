@@ -1,0 +1,14 @@
+.dayList {
+  // display: flex;
+  // flex-wrap: wrap;
+  // flex-grow: 0;
+  // width: 77vw;
+  // outline: 1px solid wheat;
+  // justify-content: space-between;
+
+  display: grid;
+  place-items: center;
+  gap: .5vmax;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: auto;
+}

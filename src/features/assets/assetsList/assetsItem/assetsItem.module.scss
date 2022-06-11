@@ -42,22 +42,22 @@
       align-items: center;
       margin-right: 2px;
       .currensy {
-        font-size: 1.5vw;
+        font-size: .8vw;
       }
       .icon {
-        font-size: 1.7vw;
+        font-size: 1vw;
         margin-right: 2px;
         &.card {
-          color: rgb(103, 167, 252);
+          color: var(--main-blue);
         }
         &.cash {
-          color: rgb(255, 144, 103);
+          color: var(--main-red);
         }
       }
     }
 
     .value {
-      font-size: 1.7vw;
+      font-size: 1vw;
       font-weight: 600;
       transition: color .3s;
     }    
@@ -65,10 +65,10 @@
     &:hover {
       .value {
         &.card {
-          color: rgb(103, 167, 252);
+          color: var(--main-blue);
         }
         &.cash {
-          color: rgb(255, 144, 103);
+          color: var(--main-red);
         }
       }  
     }
