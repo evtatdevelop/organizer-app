@@ -28,21 +28,18 @@ export const DayList = () => {
 
 const getMonthDays = (year, month) => {
   const date = new Date(year, month, 1),
+        onejan = new Date(year,0,1), onejanDay = onejan.getDay(),
         result = [];
   while ( date.getMonth() === month ) {
-    const thisYear = date.getFullYear(),
-          thisMonth = date.getMonth(),
-          thisDate = date.getDate(),
-          onejan = new Date(thisYear,0,1),
-          key = `${thisYear}.${thisMonth}.${thisDate}`,
-          dateNumber = thisDate,
+    const dateNumber = date.getDate(),
+          key = `${year}.${month}.${dateNumber}`,
           day = date.getDay(),
           dayName = date.toLocaleString('en', { weekday: 'long' }),
           startDayTime = date.getTime(),
-          endDayTime = startDayTime + 24*60*60*1000-1,
-          weekNumber = Math.ceil((((date - onejan) / 86400000) + onejan.getDay() ) / 7) - Math.floor(onejan.getDay()/4);
+          endDayTime = startDayTime + 86399999,
+          weekNumber = Math.ceil((((date - onejan) / 86400000) + onejanDay ) / 7) - Math.floor(onejanDay / 4);
     result.push({key, dateNumber, day, dayName, startDayTime, endDayTime, weekNumber}); 
-    date.setDate(thisDate + 1);
+    date.setDate(dateNumber + 1);
   }
   // console.log(result);
   return result;
