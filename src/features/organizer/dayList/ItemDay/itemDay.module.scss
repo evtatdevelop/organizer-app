@@ -23,4 +23,8 @@
   .weekDayColor {
     color: var(--main-blue)
   }
+
+  &.today {
+    background-color: rgba(0, 90, 75, $alpha: .95);
+  }
 }

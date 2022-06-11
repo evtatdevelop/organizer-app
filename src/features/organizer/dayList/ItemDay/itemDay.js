@@ -3,11 +3,12 @@ import styles from './itemDay.module.scss';
 
 
 export const ItemDay = ( props ) => {
-
   const { item } = props;
-  const itemDay = item.dateNumber ? styles.itemDay : `${styles.itemDay} + ${styles.empty}`;
+  const now = Date.now();
+  let itemDay = item.dateNumber ? styles.itemDay : `${styles.itemDay} + ${styles.empty}`;
   const dayName = item.day === 0 || item.day === 6 ? styles.weekEndColor : styles.weekDayColor;
-
+  itemDay = now > item.startDayTime && now < item.endDayTime ? `${itemDay} + ${styles.today}` : itemDay;
+  
   return (
     <li
       className={itemDay}
