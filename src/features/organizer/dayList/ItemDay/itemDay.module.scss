@@ -4,9 +4,11 @@
   min-height: 50px;
   width: 9vw;
   height: 9vw;
-
+  flex-direction: column;
   justify-content: space-around;
   align-items:center;
+
+  font-size: 1vh;
 
   outline: 1px solid grey;
 

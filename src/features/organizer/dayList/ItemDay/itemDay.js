@@ -5,7 +5,7 @@ import styles from './itemDay.module.scss';
 export const ItemDay = ( props ) => {
 
   const { item } = props;
-  const itemDay = item.date !== '' ? styles.itemDay : `${styles.itemDay} + ${styles.empty}`;
+  const itemDay = item.date ? styles.itemDay : `${styles.itemDay} + ${styles.empty}`;
   const dayName = item.dayName === 'sun' || item.dayName === 'sat' ? styles.weekEndColor : styles.weekDayColor;
 
   return (
@@ -14,6 +14,9 @@ export const ItemDay = ( props ) => {
     >
       <p>{ item.date }</p >
       <p className={ dayName } >{ item.dayName }</p>
+      <p>{ item.startDayTime}</p>
+      <p>{ item.endDayTime}</p>
+      <p>{ item.weekNumber }</p>
     </li>
   )    
 }
