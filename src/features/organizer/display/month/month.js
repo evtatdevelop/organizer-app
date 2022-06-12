@@ -1,25 +1,24 @@
 import React from "react";
-import styles from './dayList.module.scss';
+import styles from './month.module.scss';
 import ItemDay from "./ItemDay";
 
-export const DayList = () => {  
+export const Month = () => {  
   const date = new Date();
   // const date = new Date(Date.now()-35*24*60*60*1000*4);
 
+  let monthList = [];
   const year = date.getFullYear();
   const month = date.getMonth();
   const monthDays = getMonthDays(year, month);
-
-  const gapDays = [];
   let day =  new Date(year, month, 1).getDay();
-  if ( day > 0 ) while ( day-- > 1 ) gapDays.push({'key': Math.random(),});
+  if ( day > 0 ) while ( day-- > 1 ) monthList.push({'key': Math.random(),});
+  monthList = [...monthList, ...monthDays]
 
-  return (
+  return ( 
     <>
-      <span style={{'marginBottom': '1vw'}}>{date.toLocaleString('en', { month: 'long' })}</span>
-      <ul className={styles.dayList}>
-        { gapDays.map( item => <ItemDay key = {item.key} item = {item} /> ) }
-        { monthDays.map( item => <ItemDay key = {item.key} item = {item} /> ) }
+      <span style={{'marginBottom': '1vw'}}>{date.toLocaleString('en', { month: 'long' })}</span>      
+      <ul className={styles.monthList}>
+        { monthList.map( item => <ItemDay key = {item.key} item = {item} /> ) }
       </ul>    
     </>
   )    

@@ -1,0 +1,7 @@
+.monthList {
+  display: grid;
+  place-items: center;
+  gap: .5vmax;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: auto;
+}

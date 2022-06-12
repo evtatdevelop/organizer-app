@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './organizer.module.scss';
-import { DayList } from "./dayList/dayList";
+import Display from "./display";
 
 export const Organiser = () => {
 
@@ -14,11 +14,9 @@ export const Organiser = () => {
   // const daysCurrMonth = new Date(+date.getFullYear(), +date.getMonth()+1, 0).getDate();
   // console.log(getDaysArray(date.getFullYear(), date.getMonth()));
 
-
-
   return (
     <section className={styles.organizer}>
-      <DayList/>
+      <Display/>
     </section>
   )
 }
