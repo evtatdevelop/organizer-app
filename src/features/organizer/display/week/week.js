@@ -9,7 +9,7 @@ export const Week = () => {
     <>
       <span>WEEK</span>
       <ul className={styles.weekList}>
-        
+        {date.toDateString()}
       </ul>
     </>
   

@@ -1,101 +1,44 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import {  } from './organizerSliceAPI';
+import { getDays } from './organizerSliceAPI';
 
 const initialState = {
   loading: false,
-  displayMode: '',
-  next: [],
-  curr: [],
-  prev: [],
-  currDate: Date.now(),
+  display: 'month',
+  days: [],
+  time: Date.now(),
 }
 
-// const sorting = (state) => {
-//   if ( state.onlyActive ) state.sorted = state.data.filter(item => item.status === 'active');
-//   else state.sorted = state.data;
-//   showButton(state);
-// };
 
-// const showButton = (state) => {
-//   const sorted = state.data.filter(item => item.status === 'active');
-//   state.showButtonAll = sorted.length === state.data.length ? false : true;
-// }
+export const getMonth = createAsyncThunk( 'organizer/getDays', async (d) => {
+  let response = await getDays(d);
+  
+  const date = new Date(d)
+  response = getMonthDays( date.getFullYear(),  date.getMonth())
+  
+  return response
+} )
 
-// export const getDataAsync = createAsyncThunk( 'assets/getAssets', async () => await getAssets() )
-// export const getOneAsset = createAsyncThunk( 'assets/getAsset', async ( id ) => await getAsset(id) )
-// export const saveAsset = createAsyncThunk( 'assets/setAsset', async ( data ) => await setAsset(data) )
-// export const newAsset = createAsyncThunk('assets/addAsset', async ( data ) => await addAsset(data) )
-// export const removeAsset = createAsyncThunk('assets/delAsset', async ( id ) => await delAsset(id) )
 
 export const organizerSlice = createSlice({
   name: 'organizer',
   initialState,
   reducers: {
-    
+
     setDisplayMode: ( state, action ) => {
-      state.displayMode = action.payload;
+      state.display = action.payload;
     },
 
-    // showAllAssets: ( state ) => { 
-    //   state.onlyActive = !state.onlyActive 
-    //   sorting(state);
-    // },
-
-    // // Setting current values through the assetsForm
-    // setCurrCurrensy: (state, action) => { state.currentAsset.currensy = action.payload },
-    // setCurrValue: (state, action) => { state.currentAsset.value = action.payload },
-    // setCurrType: (state, action) => { state.currentAsset.type = action.payload },
-    // setCurrStatus: (state, action) => { state.currentAsset.status = action.payload ? 'active' : 'not_active' },
   },
 
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(getDataAsync.pending, ( state ) => { state.loading = true })
-  //     .addCase(getDataAsync.fulfilled, ( state, action ) => {
-  //       state.loading = false;
-  //       state.data = action.payload;
-  //       sorting(state);
-  //     })
-
-  //     .addCase(getOneAsset.pending, ( state ) => { state.loading = true })
-  //     .addCase(getOneAsset.fulfilled, (state, action) => {
-  //       state.loading = false;
-  //       state.showTools = 'close';
-  //       state.currentAsset = action.payload;
-        
-  //     })
-
-  //     .addCase(saveAsset.pending, ( state ) => { state.loading = true })
-  //     .addCase(saveAsset.fulfilled, (state, action) => {
-  //       state.loading = false;
-  //       state.showTools = 'open';
-  //       state.currentAsset = {};
-  //       state.data = [
-  //         ...state.data.filter(item => +item.id !== +action.payload.id),
-  //         action.payload
-  //       ]
-  //       sorting(state);
-  //     })
-
-  //     .addCase(newAsset.pending, ( state ) => { state.loading = true })
-  //     .addCase(newAsset.fulfilled, (state, action) => {
-  //       state.loading = false;
-  //       state.showTools = 'open';
-  //       state.currentAsset = {};
-  //       state.data = [...state.data, action.payload];
-  //       sorting(state);
-  //       console.log(action.payload);
-  //     })
-
-  //     .addCase(removeAsset.pending, ( state ) => { state.loading = true })
-  //     .addCase(removeAsset.fulfilled, (state, action) => {
-  //       state.loading = false;
-  //       state.showTools = 'open';
-  //       state.currentAsset = {};
-  //       state.data = state.data.filter(item => +item.id !== +action.payload)
-  //       sorting(state);
-  //     });
-  // }
+  extraReducers: (builder) => {
+    builder
+      .addCase(getMonth.pending, ( state ) => { state.loading = true })
+      .addCase(getMonth.fulfilled, ( state, action ) => {
+        state.loading = false;
+        state.time = action.payload[7]['startDayTime']
+        state.days = action.payload
+      })
+  }
 });
 
 export const { 
@@ -103,12 +46,32 @@ export const {
 } = organizerSlice.actions;
 
 export const loading = ( state ) => state.organizer.loading;
-export const displayMode = ( state ) => state.organizer.displayMode;
+export const days = ( state ) => state.organizer.days;
+export const time = ( state ) => state.organizer.time;
+export const display = ( state ) => state.organizer.display;
 
-// export const data = ( state ) => state.assets.data;
-// export const ative = ( state ) => state.assets.sorted;
-// export const showTools = ( state ) => state.assets.showTools;
-// export const currentAsset = ( state ) => state.assets.currentAsset;
-// export const showButtonAll = ( state ) => state.assets.showButtonAll;
+
+const getMonthDays = (year, month) => {
+  const date = new Date(year, month, 1),
+        onejan = new Date(year,0,1), onejanDay = onejan.getDay(),
+        result = [];
+        let day =  new Date(year, month, 1).getDay();
+        if ( day > 0 ) while ( day-- > 1 ) result.push({'key': Math.random(),});
+
+  while ( date.getMonth() === month ) {
+    const dateNumber = date.getDate(),
+          key = `${year}.${month}.${dateNumber}`,
+          day = date.getDay(),
+          dayName = date.toLocaleString('en', { weekday: 'long' }),
+          startDayTime = date.getTime(),
+          endDayTime = startDayTime + 86399999,
+          weekNumber = Math.ceil((((date - onejan) / 86400000) + onejanDay ) / 7) - Math.floor(onejanDay / 4);
+    result.push({key, dateNumber, day, dayName, startDayTime, endDayTime, weekNumber}); 
+    date.setDate(dateNumber + 1);
+  }
+  return result;
+}
+
+
 
 export default organizerSlice.reducer;
