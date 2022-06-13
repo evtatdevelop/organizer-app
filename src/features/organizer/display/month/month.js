@@ -10,11 +10,15 @@ export const Month = () => {
   const currTime = useSelector(time)
   const dispatch = useDispatch();
 
+  const date = new Date(currTime)
+  const year = date.getFullYear();
+  const month = date.getMonth();
+
   return ( 
     <>
       <button type="button" 
         className={styles.moveBtn}
-        onClick = { () => dispatch(getMonth(currTime-31*24*3600000)) }
+        onClick = { () => dispatch(getMonth(new Date(year, month - 1, 1, 0 ).getTime())) }
       >Prev</button>
       <span style={{'marginBottom': '1vw'}}>{new Date(currTime).toLocaleString('en', { month: 'long' })}</span>      
       <ul className={styles.monthList}>
@@ -23,7 +27,7 @@ export const Month = () => {
       </ul>
       <button type="button" 
         className={styles.moveBtn}
-        onClick = { () => dispatch(getMonth(currTime+31*24*3600000)) }
+        onClick = { () => dispatch(getMonth(new Date(year, month + 1, 1, 0 ).getTime())) }
       >Next</button>
     </>
   )    
