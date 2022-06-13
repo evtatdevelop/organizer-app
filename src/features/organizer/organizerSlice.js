@@ -9,11 +9,16 @@ const initialState = {
 }
 
 
-export const getMonth = createAsyncThunk( 'organizer/getDays', async (d) => {
-  let response = await getDays(d);
+export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay ) => {
   
-  const date = new Date(d)
-  response = getMonthDays( date.getFullYear(),  date.getMonth())
+  const date = new Date(MonthDay)
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const firstMonthDay = new Date(new Date(year, month, 1, 0 )).getTime();
+  const lastMonthDay = new Date(year, month + 1, 0, 23, 59, 59, 999 ).getTime();
+
+  let response = await getDays(firstMonthDay, lastMonthDay);
+  response = getMonthDays( year, month)
   
   return response
 } )
