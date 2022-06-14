@@ -18,8 +18,7 @@ export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay 
         to = new Date(year, month + 1, 0, 23, 59, 59, 999 ).getTime();
   
   const response = await getDays(from, to);
-
-  console.log(response);
+  // console.log(response);
 
   const onejan = new Date(year,0,1), 
         onejanDay = onejan.getDay(),
@@ -30,13 +29,11 @@ export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay 
     const dateNumber = date.getDate(),
           key = `${year}.${month}.${dateNumber}`,
           day = date.getDay(),
-          dayName = date.toLocaleString('en', { weekday: 'long' }),
+          dayName = date.toLocaleString('en', { weekday: 'short' }),
           startDayTime = date.getTime(),
           endDayTime = startDayTime + 86399999,
           weekNumber = Math.ceil((((date - onejan) / 86400000) + onejanDay ) / 7) - Math.floor(onejanDay / 4),
-          
           data = response.filter(item => item.date > startDayTime && item.date < endDayTime);
-    
           result.push({key, dateNumber, day, dayName, startDayTime, endDayTime, weekNumber, data}); 
     date.setDate(dateNumber + 1);
   }

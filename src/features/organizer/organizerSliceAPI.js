@@ -4,7 +4,7 @@ const service = new Service();
 const _apiBase = 'http://localhost/finorg';
 
 export const getDays = (from, to) => {
-  console.log(from, to);
+  // console.log(from, to);
   return service.getResource(`${_apiBase}/?q=events&from=${from}&to=${to}`);
 }
 // export const getAsset = ( id ) => service.getResource(`${_apiBase}/?q=assets&id=${id}`);
