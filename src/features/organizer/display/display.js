@@ -13,7 +13,7 @@ export const Display = () => {
 
   useEffect(() => { dispatch(getMonth(Date.now())) }, []);
 
-  const modes = ['month', 'week', 'day', ];
+  // const modes = ['month', 'week', 'day', ];
   let content = null;
 
   switch ( mode ) {
@@ -24,13 +24,6 @@ export const Display = () => {
 
   return (
     <>
-      <nav className={styles.modeNav}>
-        {modes.map(item => <label key={item}><input type="radio" name="mode" id={item} value={item}
-          onChange={ e => dispatch( setDisplayMode(e.target.value)) }
-          defaultChecked = { mode === item }
-        /><span>{item[0].toLocaleUpperCase()}</span></label>)}
-      </nav>
-
       {content}
     </>
       

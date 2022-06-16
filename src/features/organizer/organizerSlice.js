@@ -8,7 +8,6 @@ const initialState = {
   time: Date.now(),
 }
 
-
 export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay ) => {
   const monthDate = new Date(MonthDay),
         year = monthDate.getFullYear(),
@@ -17,8 +16,7 @@ export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay 
         from = date.getTime(),
         to = new Date(year, month + 1, 0, 23, 59, 59, 999 ).getTime();
   
-  const response = await getDays(from, to);
-  // console.log(response);
+  const response = await getDays(from, to); // console.log(response);
 
   const onejan = new Date(year,0,1), 
         onejanDay = onejan.getDay(),
