@@ -30,12 +30,14 @@ export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay 
     const dateNumber = date.getDate(),
           key = `${year}.${month}.${dateNumber}`,
           day = date.getDay(),
+          monthName = date.toLocaleString('en', { month: 'long' }),
           dayName = date.toLocaleString('en', { weekday: 'short' }),
+          dayNameLong = date.toLocaleString('en', { weekday: 'long' }),
           startDayTime = date.getTime(),
           endDayTime = startDayTime + 86399999,
           weekNumber = Math.ceil((((date - onejan) / 86400000) + onejanDay ) / 7) - Math.floor(onejanDay / 4),
           data = response.filter(item => item.date > startDayTime && item.date < endDayTime);
-          result.push({key, dateNumber, day, dayName, startDayTime, endDayTime, weekNumber, data}); 
+          result.push({key, dateNumber, day, dayName, dayNameLong, monthName, startDayTime, endDayTime, weekNumber, data}); 
     date.setDate(dateNumber + 1);
   }
   return result;
@@ -48,7 +50,6 @@ export const organizerSlice = createSlice({
   reducers: {
     setDisplayMode: ( state, action ) => { state.display = action.payload },
     setDay: ( state, action ) => { state.day = action.payload },
-
   },
 
   extraReducers: (builder) => {
