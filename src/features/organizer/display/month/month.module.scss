@@ -44,13 +44,14 @@
   }  
 }
 
-// @keyframes open {
-//   from {
-//     opacity: .3;
-//     transform: translateX(-100%);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateX(0);
-//   }
-// }
+.header {
+  margin-bottom: 1vw;
+  .sums{
+    margin-left: .5vw;
+    span { margin-left: .5vw }
+    font-size: .8vw;
+    .sumProfits { color: var(--profit-color) }
+    .sumCosts { color: var(--costs-color) }   
+  }
+
+}

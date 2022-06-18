@@ -56,13 +56,13 @@
       }
 
       .event {
-        color: lightblue
+        color: var(--event-color)
       }
       .profit {
-        color: lightgreen
+        color: var(--profit-color)
       }
       .costs {
-        color: lightcoral;
+        color: var(--costs-color);
       }
     } 
   }
@@ -83,6 +83,11 @@
     background-color: rgba(0, 90, 75, $alpha: .95);
     // background: linear-gradient(70deg, rgb(2, 131, 124), rgb(0, 141, 111));
   }
+
+  .postDays {
+    color: #717579FF;
+  }
+
 
   &:hover {
     &:not(.empty) {
