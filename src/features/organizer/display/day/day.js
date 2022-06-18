@@ -2,6 +2,7 @@ import React from "react";
 import styles from './day.module.scss';
 import { days, currYear, currMonth, currDay } from "../../organizerSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { moneyFormat } from "../../../../helpers";
 
 export const Day = () => {  
   const year = useSelector(currYear)
@@ -12,25 +13,39 @@ export const Day = () => {
 
   const dataDay = monthDays.find(item => item.key === `${year}.${month}.${day}`)
 
-// console.log(new Date(dataDay.data[0].date / 1000));
+// todo: color for past
+// todo: total summ
+// todo: executed sign
+// todo: card or cash sign
 
   return ( 
-    <>
-      <p>{dataDay.dateNumber}</p>
-      <p>{dataDay.dayNameLong}</p>
-      
-      <p>{dataDay.monthName} {year}</p>
-      <p>Week {dataDay.weekNumber}</p>
-      
-      <ul>
+    <section className={styles.dayList}>
+      <header className={styles.dayHeader}>
+        <div className={styles.dateNumber}>{dataDay.dateNumber}</div>
+        <div className={styles.dateIinfo}>
+          <span>{dataDay.monthName} {year}</span>
+          <span>Week {dataDay.weekNumber}</span>
+          <span>{dataDay.dayNameLong}</span>          
+        </div>
+      </header>
+
+      <ul className={styles.eventList}>
         {dataDay.data.map(item => <li key={item.id}>
-          {time(item.date)} | 
-          {item.name} |
-          {item.type} | 
-          {item.value}
+          <button>
+            <span className={styles.eventTime}>{time(item.date)}</span>
+            <span className={styles.eventName}>{item.name}</span> 
+            <span className={styleEventVal(item.type)}>
+              {item.type !== 'event' 
+                ? item.type !== 'profit' 
+                  ? `- ${moneyFormat(item.value)}`
+                  : `+ ${moneyFormat(item.value)}`
+                : null
+              }
+            </span>
+          </button>
         </li>)}
       </ul>
-    </>
+    </section>
   
   )    
 }
@@ -39,3 +54,13 @@ const time = (timeStamp) => {
   const date = new Date(+timeStamp)
   return `${date.getHours()}:${date.getMinutes()}` 
 }
+
+const styleEventVal = (eventType) => {
+  let result = styles.eventValue;
+  switch ( eventType ) {
+    case 'profit': result += ' ' + styles.profit; break;
+    case 'costs': result += ' ' + styles.costs; break;
+    default: result += ' ' + styles.event; break;
+  }
+  return result;
+} 

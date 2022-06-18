@@ -1,3 +1,75 @@
 .dayList {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  
+  .dayHeader {
+    display: flex;
+
+    .dateNumber {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 7vw;
+      margin-right: 1vw;
+    }
+    .dateIinfo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 1.4vw;
+    }
+  }
+
+  .eventList {
+    
+    li {
+      width: 100%;
+      font-size: 1.3vw;
+      border-radius: 3px;
+
+      button {
+        width: 100%;
+        height: 100%;
+        padding: .5vw .3vw;
+        // background-color: transparent;
+        color: white;
+        display: flex;
+        background-color: rgba($color: #ffffff, $alpha: .0);
+        transition: background-color .3s;
+        cursor: pointer;
+
+        &>span {
+          display: flex;
+          align-items: center;
+          margin-right: .5vw;
+        }
+        .eventTime {
+          width: 3.7vw;
+          justify-content: flex-end;
+          color: wheat;
+        }
+        .eventName {
+          width: 15vw;
+          overflow: hidden;
+          white-space: nowrap;
+          padding: 0 .5vw;
+        }
+        .eventValue {
+          width: 5vw;
+          display: flex;
+          justify-content: flex-end;
+
+          &.event { color: var(--event-color) }
+          &.profit { color: var(--profit-color) }
+          &.costs { color: var(--costs-color) }
+        }
+
+        &:hover {
+          background-color: rgba($color: #ffffff, $alpha: .1);
+          cursor: pointer;
+        } 
+      }
+    }
+  }
 }
