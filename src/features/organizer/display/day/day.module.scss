@@ -18,9 +18,22 @@
       flex-direction: column;
       justify-content: center;
       font-size: 1.4vw;
+
+      .weekBtn {
+        display: flex;
+        background-color: transparent;
+        margin: 0;
+        padding: 0;
+        border: none;
+        font: inherit;
+        color: white;
+        cursor: pointer;
+      }
     }
   }
 
+  .weekEndColor { color: var(--main-red) }
+  .weekDayColor { color: var(--main-blue) }
   .eventList {
     
     li {
@@ -35,6 +48,7 @@
         // background-color: transparent;
         color: white;
         display: flex;
+        align-items: center;
         background-color: rgba($color: #ffffff, $alpha: .0);
         transition: background-color .3s;
         cursor: pointer;
@@ -50,19 +64,32 @@
           color: wheat;
         }
         .eventName {
-          width: 15vw;
+          width: 12vw;
           overflow: hidden;
           white-space: nowrap;
           padding: 0 .5vw;
+
+          &.past {
+            color: #717579FF;
+          }
         }
         .eventValue {
           width: 5vw;
           display: flex;
           justify-content: flex-end;
-
-          &.event { color: var(--event-color) }
-          &.profit { color: var(--profit-color) }
-          &.costs { color: var(--costs-color) }
+        }
+        .eventStatus {
+          width: 1.3vw;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+        .eventCash {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1vw;
         }
 
         &:hover {
@@ -70,6 +97,25 @@
           cursor: pointer;
         } 
       }
+    }
+  }
+
+  .event { color: var(--event-color) }
+  .profit { color: var(--profit-color) }
+  .costs { color: var(--costs-color) }
+  .card { color: var(--main-blue) }
+  .cash { color: var(--main-red) }
+
+  .dayTotals {
+    margin-top: .5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: .8vw;
+    border-top: 1px solid #4F5A65;
+    span {
+      font-size: 1.3vw;
+      margin-bottom: .3vw;
     }
   }
 }

@@ -14,7 +14,7 @@ export const ItemDay = ( props ) => {
   itemDay = direction ? `${itemDay} ${styles[direction]}` : itemDay;
   const dayLabel = 
     now > item.startDayTime + 24 * 60 * 60 * 1000 
-      ? `${styles.lableDay} ${styles.postDays}` 
+      ? `${styles.lableDay} ${styles.pastDays}` 
       : item.day === 0 || item.day === 6 
         ? `${styles.lableDay} ${styles.weekEndColor}` 
         : `${styles.lableDay} ${styles.weekDayColor}`;
