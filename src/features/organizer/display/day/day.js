@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from './day.module.scss';
 import { days, currYear, currMonth, currDay } from "../../organizerSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,12 +15,28 @@ export const Day = () => {
   const day = useSelector(currDay)
   const monthDays = useSelector(days)
 
+  const getTimeNow = ( time ) => {
+    let h = time.getHours()
+    let m = time.getMinutes()
+    h = h > 9 ? h : `0${h}`
+    m = m > 9 ? m : `0${m}`
+    return `${h}:${m}`
+  }
+  setInterval(() => { setTimeNow( getTimeNow(new Date(Date.now())) ) }, 60000);
+  const [timeNow, setTimeNow] = useState(getTimeNow(new Date(Date.now())));
+  
   const dataDay = monthDays.find(item => item.key === `${year}.${month}.${day}`);
   const totalProfit = moneyFormat(dataDay.data.filter(item => item.type === 'profit').reduce((sum, curr) => sum + +curr.value, 0))
   const totalCosts = moneyFormat(dataDay.data.filter(item => item.type === 'costs').reduce((sum, curr) => sum + +curr.value, 0))
+  const cardCosts = dataDay.data.filter(item => item.type === 'costs' && item.cash === 'card').reduce((sum, curr) => sum + +curr.value, 0)
+  const cashCosts = dataDay.data.filter(item => item.type === 'costs' && item.cash === 'cash').reduce((sum, curr) => sum + +curr.value, 0)
+
 
 // todo: Button to Month
-// todo: cash / card total costs
+// todo: hover description
+// ! todo: eventItem component 
+// todo: add '0' to time
+// todo: clock depicts onli in a current day
 
   return ( 
     <section className={styles.dayList}>
@@ -38,6 +54,7 @@ export const Day = () => {
             }
           >{dataDay.dayNameLong}</span>          
         </div>
+        <div className={styles.clock}>{timeNow}</div>
       </header>
 
       <ul className={styles.eventList}>
@@ -66,8 +83,18 @@ export const Day = () => {
       </ul>
 
       <div className={styles.dayTotals}>
-        <span className={`${styles.profit}`}>+ {totalProfit}</span>
-        <span className={`${styles.costs}`}>- {totalCosts}</span>
+        <div className={styles.costtypes}>
+        {cardCosts > 0
+          ? <span className={`${styles.costs}`}>- {moneyFormat(cardCosts)} <FontAwesomeIcon icon={faCreditCard} className={styles.card}/></span>
+          : null}
+        {cashCosts > 0
+          ? <span className={`${styles.costs}`}>- {moneyFormat(cashCosts)} <FontAwesomeIcon icon={faWallet} className={styles.cash}/></span>
+          : null}
+        </div>
+        <div className={styles.total}>
+          <span className={`${styles.profit}`}>+ {totalProfit}</span>
+          <span className={`${styles.costs}`}>- {totalCosts}</span>
+        </div>
       </div>
     </section>
   
