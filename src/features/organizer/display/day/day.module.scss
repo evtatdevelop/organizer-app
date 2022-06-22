@@ -21,6 +21,7 @@
       justify-content: center;
       font-size: 1.4vw;
 
+      .monthBtn,
       .weekBtn {
         display: flex;
         background-color: transparent;
@@ -33,6 +34,7 @@
       }
     }
     .clock {
+      width: 9vw;
       display: flex;
       justify-content: flex-end;
       align-items: center;
