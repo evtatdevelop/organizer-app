@@ -2,6 +2,7 @@
   width: 100%;
   font-size: 1.3vw;
   border-radius: 3px;
+  position: relative;
 
   button {
     width: 100%;
@@ -14,6 +15,7 @@
     background-color: rgba($color: #ffffff, $alpha: .0);
     transition: background-color .3s;
     cursor: pointer;
+    z-index: 97;
 
     &>span {
       display: flex;
@@ -58,6 +60,29 @@
       background-color: rgba($color: #ffffff, $alpha: .1);
       cursor: pointer;
     } 
+  }
+
+  .description {
+    position: absolute;
+    width: 100%;
+    left: -100vw;
+    top: 100%;
+    font-size: .7vw;
+    opacity: .3;
+    transition: opacity 1.3s;
+    color: wheat;
+    background-color: rgba($color: #2A2F3AFF, $alpha: 1);
+    padding: .2vw .7vw .7vw .7vw;
+    border-radius: 3px;
+    z-index: 99;
+  }
+
+  &:hover {
+    .description {
+      left: 4.4vw;
+      opacity: 1;
+      
+    }
   }
 }
 

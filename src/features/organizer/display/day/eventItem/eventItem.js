@@ -32,6 +32,9 @@ export const EventItem = props => {
             
             </span>
           </button>
+          {item.description
+            ? <div className={styles.description}>{item.description}</div>
+            : null }
         </li>
   )    
 }
