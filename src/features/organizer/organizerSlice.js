@@ -9,6 +9,7 @@ const initialState = {
   year: data.getFullYear(),
   month: data.getMonth(),
   day: data.getDate(),
+  showForm: false,
 }
 
 export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay ) => {
@@ -51,6 +52,7 @@ export const organizerSlice = createSlice({
   reducers: {
     setDisplayMode: ( state, action ) => { state.display = action.payload },
     setDay: ( state, action ) => { state.day = action.payload },
+    onShowForm: ( state, action ) => { state.showForm = action.payload },
   },
 
   extraReducers: (builder) => {
@@ -67,7 +69,7 @@ export const organizerSlice = createSlice({
 });
 
 export const { 
-  setDisplayMode, setDay
+  setDisplayMode, setDay, onShowForm
 } = organizerSlice.actions;
 
 export const loading = ( state ) => state.organizer.loading;
@@ -76,5 +78,6 @@ export const display = ( state ) => state.organizer.display;
 export const currYear = ( state ) => state.organizer.year;
 export const currMonth = ( state ) => state.organizer.month;
 export const currDay = ( state ) => state.organizer.day;
+export const showForm = ( state ) => state.organizer.showForm;
 
 export default organizerSlice.reducer;

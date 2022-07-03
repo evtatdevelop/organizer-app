@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './day.module.scss';
-import { days, currYear, currMonth, currDay, setDisplayMode } from "../../organizerSlice";
+import { days, currYear, currMonth, currDay, setDisplayMode, onShowForm } from "../../organizerSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { moneyFormat } from "../../../../helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -27,6 +27,8 @@ export const Day = () => {
     console.log(dataDay.key);
     dispatch( setDisplayMode(mode));
   } 
+
+  // TODO: add event
 
   return ( 
     <section className={styles.dayList}>
@@ -59,6 +61,11 @@ export const Day = () => {
       <ul className={styles.eventList}>
         {dataDay.data.map( item => <EventItem key={item.id} item={item}/> )}
       </ul>
+
+      <button 
+        className={styles.addEvent}
+        onClick={() => dispatch( onShowForm(true))}
+      >new event</button>      
 
       {/* footer */}
       <footer className={styles.dayTotals}>
