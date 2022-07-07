@@ -1,55 +1,108 @@
 import React from "react";
 import styles from './eventForm.module.scss';
 import { useSelector, useDispatch } from "react-redux";
-import { onShowForm } from "../organizerSlice";
+import { 
+  currentEvent, onShowForm,
+  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus
+} from "../organizerSlice";
+import { getDate, getTime } from "../../../helpers";
 
 export const EventForm = () => {
   const dispatch = useDispatch();
-
-  // const checked = status === 'not_active' ? '' : 'checked';
+  const data = useSelector(currentEvent);
+  const {id, time, name, description, type, value, cash, status, add_time} = data;
+  const eventDate = getDate(time);
+  const eventTime = getTime(time);
   
   const submit = (e) => {
     e.preventDefault();
-    // id ? dispatch(saveAsset(data)) : dispatch(newAsset(data)) 
     console.log('add new evenet');
     e.target.reset();
   }
 
   return (
     <section className={ styles.eventForm }>
-      <button type='button' 
-        className={styles.closer}
+
+      <button type='button' className={styles.closer}
         onClick={() => dispatch(onShowForm(false))}
       >&times;</button>
+      
       <form id="eventForm" name="eventForm" onSubmit={ (e)=>submit(e) }>
         
+        {/* Name */}
         <input type='text' name="name" placeholder='Name' required
           autoFocus={true}
+          defaultValue = {name}
+          onInput={ e => dispatch(setEventName(e.target.value)) }
         />
         
+        {/* Date & time */}
         <div className={`${styles.formGroup} ${styles.datetime}`}>
-          <input type='date' name="datetime" required/>
-          <input type='time' name="time"/>        
+          <input type='date' name="datetime" required 
+            defaultValue={eventDate}
+            onChange = { e => dispatch(setEventDate(e.target.value)) }
+          />
+          <input type='time' name="time" 
+            defaultValue={eventTime}
+            onInput={ e => dispatch(setEventDate(e.target.value)) }
+          />
         </div>
 
+        {/* Type of event */}
         <div className={`${styles.formGroup} ${styles.eventType}`}>
-          <input type='radio' name='eventType' id='eventEvent' defaultChecked={true}/><label htmlFor="eventEvent"> <span className={styles.event}>Event</span> </label>        
-          <input type='radio' name='eventType' id='eventProfit'/><label htmlFor="eventProfit"><span className={styles.profit}>Profit</span> </label>
-          <input type='radio' name='eventType' id='eventCosts'/><label htmlFor="eventCosts"><span className={styles.costs}>Costs</span> </label>
+          <input type='radio' name='eventType' id='eventEvent'
+            value='event' 
+            defaultChecked={ type === 'event' }
+            onChange = { e => dispatch(setEventType(e.target.value)) }
+          /><label htmlFor="eventEvent"> <span className={styles.event}>Event</span> </label>
+          <input type='radio' name='eventType' id='eventProfit'
+            value='profit' 
+            defaultChecked={ type === 'profit' }
+            onChange = { e => dispatch(setEventType(e.target.value)) }
+          /><label htmlFor="eventProfit"><span className={styles.profit}>Profit</span> </label>
+          <input type='radio' name='eventType' id='eventCosts'
+            value='cost' 
+            defaultChecked={ type === 'costs' }
+            onChange = { e => dispatch(setEventType(e.target.value)) }
+          /><label htmlFor="eventCosts"><span className={styles.costs}>Costs</span> </label>
         </div>
 
-        <input type='number' name="value" placeholder='Value'/>
+        {/* Value */}
+        { type !== 'event'
+          ? <input type='number' name="value" placeholder='Value' className={styles.hideField}
+              min={0}
+              defaultValue={value}
+              onInput={ e => dispatch(setEventValue(+e.target.value)) }
+            />
+          : null  
+        }
+        
 
-        <div className={`${styles.formGroup} ${styles.eventCash}`}>
-          <input type='radio' name='eventCash' id='eventCash' defaultChecked={true}/><label htmlFor="eventCash"><span className={styles.cash}>Cash</span></label>
-          <input type='radio' name='eventCash' id='eventCard'/><label htmlFor="eventCard"><span className={styles.card}>Card</span></label>
-        </div>
+        {/* Cash or Card */}
+        { type !== 'event'
+          ? <div className={`${styles.formGroup} ${styles.eventCash} ${styles.hideField}`}>
+              <input type='radio' name='eventCash' id='eventCash'
+                value='cash' 
+                defaultChecked={ cash === 'cash'}
+                onChange = { e => dispatch(setEventCash(e.target.value)) }
+              /><label htmlFor="eventCash"><span className={styles.cash}>Cash</span></label>
+              <input type='radio' name='eventCash' id='eventCard'
+                value='card' 
+                defaultChecked={ cash === 'card'}
+                onChange = { e => dispatch(setEventCash(e.target.value)) }
+              /><label htmlFor="eventCard"><span className={styles.card}>Card</span></label>
+            </div>
+          : null
+        }
 
-        <textarea name="description" placeholder='Notes'></textarea>
 
-        <button type='submit'
-          // onClick={() => dispatch(onShowForm(false)) }
-        >Submit</button>
+        {/* Noies */}
+        <textarea name="description" placeholder='Notes' 
+          defaultValue={ description }
+          onInput={ e => dispatch(setEventDesc(e.target.value)) }
+        ></textarea>
+
+        <button type='submit'>Submit</button>
 
       </form>    
     </section>

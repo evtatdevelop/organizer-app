@@ -189,25 +189,29 @@
 
   }
 
-    button {
-      font: inherit;
-      font-size: 2vmin;
-      letter-spacing: .3vmin;
-      width: 100%;
-      background-color: transparent;
-      padding: 10px;
-      border: 1px solid wheat;
-      border-radius: 2px;
-      color: wheat;
-      transition: background-color, .3s;
-      cursor: pointer;
-      margin-bottom: 0;
+  button {
+    font: inherit;
+    font-size: 2vmin;
+    letter-spacing: .3vmin;
+    width: 100%;
+    background-color: transparent;
+    padding: 10px;
+    border: 1px solid wheat;
+    border-radius: 2px;
+    color: wheat;
+    transition: background-color, .3s;
+    cursor: pointer;
+    margin-bottom: 0;
 
-      &:focus,
-      &:hover {
-        background-color: rgba($color: #ffffff, $alpha: .2)
-      }
+    &:focus,
+    &:hover {
+      background-color: rgba($color: #ffffff, $alpha: .2)
     }
+  }
+
+  .hideField {
+    animation: showField 250ms ease-out forwards;
+  }
   // }
 }
 
@@ -226,11 +230,14 @@
     transform: scale(1, 1);
   }
 }
-// @keyframes hide {
-//   0% {
-//     opacity: .95;
-//   }
-//   100% {
-//     opacity: 0;
-//   }
-// }
+
+@keyframes showField {
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
