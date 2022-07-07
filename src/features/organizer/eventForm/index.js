@@ -1,2 +1,2 @@
-import { EventForm } from "./eventForn";
+import { EventForm } from "./eventForm";
 export default EventForm;

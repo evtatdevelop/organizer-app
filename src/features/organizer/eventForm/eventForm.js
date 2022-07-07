@@ -45,7 +45,7 @@ export const EventForm = () => {
           <input type='radio' name='eventCash' id='eventCard'/><label htmlFor="eventCard"><span className={styles.card}>Card</span></label>
         </div>
 
-        <textarea name="description" placeholder='Description'></textarea>
+        <textarea name="description" placeholder='Notes'></textarea>
 
         <button type='submit'
           // onClick={() => dispatch(onShowForm(false)) }
