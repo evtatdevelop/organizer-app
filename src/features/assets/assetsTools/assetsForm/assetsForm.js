@@ -1,11 +1,10 @@
 import React from "react";
 import styles from './assetsForm.module.scss';
 import { useSelector, useDispatch } from "react-redux";
-import { 
-  currentAsset, 
-  setCurrCurrensy, setCurrValue, setCurrStatus, setCurrType, 
-  saveAsset, newAsset, removeAsset 
-} from "../../assetsSlice";
+import {  currentAsset, 
+          setCurrCurrensy, setCurrValue, setCurrStatus, setCurrType, 
+          saveAsset, newAsset, removeAsset 
+       } from "../../assetsSlice";
 
 export const AssetsForm = () => {
   const data = useSelector(currentAsset);

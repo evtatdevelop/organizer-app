@@ -2,24 +2,19 @@ import React from "react";
 import styles from './eventForm.module.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { 
-  currentEvent, onShowForm,
-  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus
+  currentEvent, onShowForm, getMonth,
+  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus, 
+  saveEvent, newEvent, removeEvent 
 } from "../organizerSlice";
 import { getDate, getTime } from "../../../helpers";
 
 export const EventForm = () => {
   const dispatch = useDispatch();
   const data = useSelector(currentEvent);
-  const {id, time, name, description, type, value, cash, status, add_time} = data;
-  const eventDate = getDate(time);
-  const eventTime = getTime(time);
+  const {id, date, name, description, type, value, cash, status} = data;
+  const eventDate = getDate(date);
+  const eventTime = getTime(date);
   
-  const submit = (e) => {
-    e.preventDefault();
-    console.log('add new evenet');
-    e.target.reset();
-  }
-
   return (
     <section className={ styles.eventForm }>
 
@@ -27,7 +22,14 @@ export const EventForm = () => {
         onClick={() => dispatch(onShowForm(false))}
       >&times;</button>
       
-      <form id="eventForm" name="eventForm" onSubmit={ (e)=>submit(e) }>
+      <form id="eventForm" name="eventForm" 
+        onSubmit={ (e)=>{ 
+          e.preventDefault();
+          id ? dispatch(saveEvent(data)) : dispatch(newEvent(data)) 
+          dispatch(getMonth(Date.now()))
+          e.target.reset();
+        } } 
+      >
         
         {/* Name */}
         <input type='text' name="name" placeholder='Name' required
@@ -61,7 +63,7 @@ export const EventForm = () => {
             onChange = { e => dispatch(setEventType(e.target.value)) }
           /><label htmlFor="eventProfit"><span className={styles.profit}>Profit</span> </label>
           <input type='radio' name='eventType' id='eventCosts'
-            value='cost' 
+            value='costs' 
             defaultChecked={ type === 'costs' }
             onChange = { e => dispatch(setEventType(e.target.value)) }
           /><label htmlFor="eventCosts"><span className={styles.costs}>Costs</span> </label>

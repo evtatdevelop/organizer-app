@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getDays } from './organizerSliceAPI';
+import { getDays, setEvent, addEvent, delEvent } from './organizerSliceAPI';
 
 const data = new Date();
 const initialState = {
@@ -46,6 +46,9 @@ export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay 
   return result;
 })
 
+export const saveEvent = createAsyncThunk( 'assets/setEvent', async ( data ) => await setEvent(data) )
+export const newEvent = createAsyncThunk('assets/addEvent', async ( data ) => await addEvent(data) )
+export const removeEvent = createAsyncThunk('assets/delEvent', async ( id ) => await delEvent(id) )
 
 export const organizerSlice = createSlice({
   name: 'organizer',
@@ -55,10 +58,14 @@ export const organizerSlice = createSlice({
     setDay:         ( state, action ) => { state.day                      = action.payload },
     setEventName:   ( state, action ) => { state.currentEvent.name        = action.payload },
     setEventDesc:   ( state, action ) => { state.currentEvent.description = action.payload },
-    setEventType:   ( state, action ) => { state.currentEvent.type        = action.payload },
     setEventValue:  ( state, action ) => { state.currentEvent.value       = action.payload },
     setEventCash:   ( state, action ) => { state.currentEvent.cash        = action.payload },
     setEventStatus: ( state, action ) => { state.currentEvent.status      = action.payload },
+
+    setEventType:   ( state, action ) => { 
+      state.currentEvent.type = action.payload
+      state.currentEvent.cash = action.payload !== 'event' ? 'card' : null;
+    },
 
     onShowForm: ( state, action ) => {
       state.showForm = action.payload;
@@ -82,8 +89,26 @@ export const organizerSlice = createSlice({
           date.setMinutes( currDate.getMinutes() );
         } else date = new Date(date);  
       }
-      state.currentEvent.time = date.getTime();
+      state.currentEvent.date = date.getTime();
     },
+
+    setCurrEvent: (state, action) => {
+      const { day, id } = action.payload;
+      state.days.map( itemDay => {  
+        if (itemDay.key === day) {
+          itemDay.data.map( event => {
+            if (event.id === id) {
+              state.currentEvent = {...event}
+              state.currentEvent.date = +event.date;
+              state.showForm = true;
+            }
+            return event;
+          })
+        }
+        return itemDay;
+      })
+      // console.log( day, id );
+    }
 
   },
 
@@ -97,11 +122,41 @@ export const organizerSlice = createSlice({
         state.month = date.getMonth();
         state.days = action.payload
       })
+
+      .addCase(saveEvent.pending, ( state ) => { state.loading = true })
+      .addCase(saveEvent.fulfilled, (state, action) => {
+        console.log('saveEvent');
+        state.loading = false;
+        state.showForm = false;
+        setDefaultEvent(state);
+
+      })
+
+      .addCase(newEvent.pending, ( state ) => { state.loading = true })
+      .addCase(newEvent.fulfilled, (state, action) => {
+        state.days.map(item => {
+          if ( action.payload.date >= item.startDayTime && action.payload.date < item.endDayTime ) {
+            // TODO: sorting by time
+            item.data.push(action.payload)
+          }
+          return item
+        } )
+        state.loading = false;
+        state.showForm = false;
+        setDefaultEvent(state);
+      })
+
+      .addCase(removeEvent.pending, ( state ) => { state.loading = true })
+      .addCase(removeEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.showForm = false;
+        setDefaultEvent(state);
+      });
   }
 });
 
 export const { 
-  setDisplayMode, setDay, onShowForm,
+  setDisplayMode, setDay, onShowForm, setCurrEvent,
   setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus
 } = organizerSlice.actions;
 
@@ -120,7 +175,7 @@ export default organizerSlice.reducer;
 const setDefaultEvent = state => {
   const now = new Date();
   state.currentEvent.name = '';
-  state.currentEvent.time = new Date(state.year, state.month, state.day, now.getHours(), now.getMinutes()).getTime();
+  state.currentEvent.date = new Date(state.year, state.month, state.day, now.getHours(), now.getMinutes()).getTime();
   state.currentEvent.type = 'event';
   state.currentEvent.value = 0;
   state.currentEvent.cash = null;

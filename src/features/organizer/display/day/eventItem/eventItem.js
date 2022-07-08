@@ -1,6 +1,7 @@
 import React from "react";
 import styles from './eventItem.module.scss';
-// import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrEvent } from "../../../organizerSlice";
 import { moneyFormat, getTime } from "../../../../../helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
@@ -8,11 +9,14 @@ import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 export const EventItem = props => {
-  const { item } = props;
+  const { item, day } = props;
+  const dispatch = useDispatch();
 
   return ( 
         <li key={item.id} className={styles.eventItem}>
-          <button onClick={()=>console.log(item.id)}>
+          
+          <button onClick={ ()=> dispatch( setCurrEvent({day, id: item.id})) }>
+
             <span className={styles.eventTime}>{getTime(Number(item.date))}</span>
             <span className={styleEventName(item.date)}>{item.name}</span> 
             <span className={styles.eventStatus}>

@@ -27,7 +27,7 @@ export const ItemDay = ( props ) => {
   }
 
   const handlerClick = () => {
-    console.log(item.key);
+    // console.log(item.key);
     dispatch( setDay(item.dateNumber));
     dispatch( setDisplayMode('day'));
   } 

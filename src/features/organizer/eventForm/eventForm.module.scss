@@ -20,8 +20,6 @@
     right: .3vmin;
     top: .3vmin;
     cursor: pointer;
-
-    // outline: 1px solid green;
   }
 
   form {  
@@ -32,9 +30,7 @@
     width: 100%;
 
 
-    &>* {
-      margin-bottom: 2vmin;
-    }
+    &>* { margin-bottom: 2vmin; }
 
     .formGroup {
       display: flex;

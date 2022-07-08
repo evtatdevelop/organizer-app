@@ -22,11 +22,11 @@ const showButton = (state) => {
   state.showButtonAll = sorted.length === state.data.length ? false : true;
 }
 
-export const getDataAsync = createAsyncThunk( 'assets/getAssets', async () => await getAssets() )
-export const getOneAsset = createAsyncThunk( 'assets/getAsset', async ( id ) => await getAsset(id) )
-export const saveAsset = createAsyncThunk( 'assets/setAsset', async ( data ) => await setAsset(data) )
-export const newAsset = createAsyncThunk('assets/addAsset', async ( data ) => await addAsset(data) )
-export const removeAsset = createAsyncThunk('assets/delAsset', async ( id ) => await delAsset(id) )
+export const getDataAsync = createAsyncThunk( 'assets/getAssets', async ()        => await getAssets() )
+export const getOneAsset  = createAsyncThunk( 'assets/getAsset',  async ( id )    => await getAsset(id) )
+export const saveAsset    = createAsyncThunk( 'assets/setAsset',  async ( data )  => await setAsset(data) )
+export const newAsset     = createAsyncThunk( 'assets/addAsset',  async ( data )  => await addAsset(data) )
+export const removeAsset  = createAsyncThunk( 'assets/delAsset',  async ( id )    => await delAsset(id) )
 
 export const assetsListSlice = createSlice({
   name: 'assets',
@@ -104,11 +104,11 @@ export const {
   setCurrCurrensy, setCurrValue, setCurrStatus, setCurrType
 } = assetsListSlice.actions;
 
-export const data = ( state ) => state.assets.data;
-export const ative = ( state ) => state.assets.sorted;
-export const loading = ( state ) => state.assets.loading;
-export const showTools = ( state ) => state.assets.showTools;
-export const currentAsset = ( state ) => state.assets.currentAsset;
-export const showButtonAll = ( state ) => state.assets.showButtonAll;
+export const data           = ( state ) => state.assets.data;
+export const ative          = ( state ) => state.assets.sorted;
+export const loading        = ( state ) => state.assets.loading;
+export const showTools      = ( state ) => state.assets.showTools;
+export const currentAsset   = ( state ) => state.assets.currentAsset;
+export const showButtonAll  = ( state ) => state.assets.showButtonAll;
 
 export default assetsListSlice.reducer;

@@ -24,11 +24,9 @@ export const Day = () => {
   const cashCosts = dataDay.data.filter(item => item.type === 'costs' && item.cash === 'cash').reduce((sum, curr) => sum + +curr.value, 0)
 
   const handlerClickView = (mode) => {
-    console.log(dataDay.key);
+    // console.log(dataDay.key);
     dispatch( setDisplayMode(mode));
   } 
-
-  // TODO: add event
 
   return ( 
     <section className={styles.dayList}>
@@ -59,7 +57,7 @@ export const Day = () => {
 
       {/* main */}
       <ul className={styles.eventList}>
-        {dataDay.data.map( item => <EventItem key={item.id} item={item}/> )}
+        {dataDay.data.map( item => <EventItem key={item.id} item={item} day={dataDay.key}/> )}
       </ul>
 
       <button 
