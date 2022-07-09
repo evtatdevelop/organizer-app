@@ -19,10 +19,8 @@ export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay 
         month = monthDate.getMonth(),
         date = new Date(year, month, 1),
         from = date.getTime(),
-        to = new Date(year, month + 1, 0, 23, 59, 59, 999 ).getTime();
-  
+        to = new Date(year, month + 1, 0, 23, 59, 59, 999 ).getTime(); 
   const response = await getDays(from, to); // console.log(response);
-
   const onejan = new Date(year,0,1), 
         onejanDay = onejan.getDay(),
         result = [];
@@ -46,8 +44,8 @@ export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay 
   return result;
 })
 
-export const saveEvent = createAsyncThunk( 'assets/setEvent', async ( data ) => await setEvent(data) )
 export const newEvent = createAsyncThunk('assets/addEvent', async ( data ) => await addEvent(data) )
+export const saveEvent = createAsyncThunk( 'assets/setEvent', async ( data ) => await setEvent(data) )
 export const removeEvent = createAsyncThunk('assets/delEvent', async ( id ) => await delEvent(id) )
 
 export const organizerSlice = createSlice({
@@ -69,7 +67,15 @@ export const organizerSlice = createSlice({
 
     onShowForm: ( state, action ) => {
       state.showForm = action.payload;
-      setDefaultEvent(state);
+      if ( action.payload ) {
+        const now = new Date();
+        state.currentEvent.name = '';
+        state.currentEvent.date = new Date(state.year, state.month, state.day, now.getHours(), now.getMinutes()).getTime();
+        state.currentEvent.type = 'event';
+        state.currentEvent.value = 0;
+        state.currentEvent.cash = null;
+        state.currentEvent.description = '';
+      } else state.currentEvent = {}
     },
 
     setEventDate: (state, action) => { 
@@ -100,6 +106,7 @@ export const organizerSlice = createSlice({
             if (event.id === id) {
               state.currentEvent = {...event}
               state.currentEvent.date = +event.date;
+              state.currentEvent.value = event.value ? +event.value : null;
               state.showForm = true;
             }
             return event;
@@ -107,7 +114,6 @@ export const organizerSlice = createSlice({
         }
         return itemDay;
       })
-      // console.log( day, id );
     }
 
   },
@@ -123,34 +129,41 @@ export const organizerSlice = createSlice({
         state.days = action.payload
       })
 
-      .addCase(saveEvent.pending, ( state ) => { state.loading = true })
-      .addCase(saveEvent.fulfilled, (state, action) => {
-        console.log('saveEvent');
-        state.loading = false;
-        state.showForm = false;
-        setDefaultEvent(state);
 
-      })
+      
 
       .addCase(newEvent.pending, ( state ) => { state.loading = true })
       .addCase(newEvent.fulfilled, (state, action) => {
-        state.days.map(item => {
-          if ( action.payload.date >= item.startDayTime && action.payload.date < item.endDayTime ) {
-            // TODO: sorting by time
-            item.data.push(action.payload)
-          }
-          return item
-        } )
+        console.log(action.payload);
+
+
         state.loading = false;
         state.showForm = false;
-        setDefaultEvent(state);
+        state.currentEvent = {};
       })
+
+      .addCase(saveEvent.pending, ( state ) => { state.loading = true })
+      .addCase(saveEvent.fulfilled, (state, action) => {
+        console.log(action.payload);
+
+
+        state.loading = false;
+        state.showForm = false;
+        state.currentEvent = {};
+
+      })
+
+
+
+
+
+
 
       .addCase(removeEvent.pending, ( state ) => { state.loading = true })
       .addCase(removeEvent.fulfilled, (state, action) => {
         state.loading = false;
         state.showForm = false;
-        setDefaultEvent(state);
+        // setDefaultEvent(state);
       });
   }
 });
@@ -170,14 +183,3 @@ export const showForm     = ( state ) => state.organizer.showForm;
 export const currentEvent = ( state ) => state.organizer.currentEvent;
 
 export default organizerSlice.reducer;
-
-
-const setDefaultEvent = state => {
-  const now = new Date();
-  state.currentEvent.name = '';
-  state.currentEvent.date = new Date(state.year, state.month, state.day, now.getHours(), now.getMinutes()).getTime();
-  state.currentEvent.type = 'event';
-  state.currentEvent.value = 0;
-  state.currentEvent.cash = null;
-  state.currentEvent.description = '';
-}

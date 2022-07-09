@@ -25,8 +25,8 @@ export const EventForm = () => {
       <form id="eventForm" name="eventForm" 
         onSubmit={ (e)=>{ 
           e.preventDefault();
-          id ? dispatch(saveEvent(data)) : dispatch(newEvent(data)) 
-          dispatch(getMonth(Date.now()))
+          id ? dispatch(saveEvent(data)) : dispatch(newEvent(data));
+          // dispatch(getMonth(Date.now()))
           e.target.reset();
         } } 
       >
@@ -104,7 +104,7 @@ export const EventForm = () => {
           onInput={ e => dispatch(setEventDesc(e.target.value)) }
         ></textarea>
 
-        <button type='submit'>Submit</button>
+        <button type='submit'>Save</button>
 
       </form>    
     </section>
