@@ -134,8 +134,13 @@ export const organizerSlice = createSlice({
 
       .addCase(newEvent.pending, ( state ) => { state.loading = true })
       .addCase(newEvent.fulfilled, (state, action) => {
-        console.log(action.payload);
-
+        // console.log(action.payload);
+        const { id, date, name, description, type, value, status, cash } = action.payload;
+        state.days.map(day => {
+          if ( date >= day.startDayTime && date <= day.endDayTime ) {
+            day.data.push({ id, date, name, description, type, value, status, cash, })
+          }
+        return day; })
 
         state.loading = false;
         state.showForm = false;
@@ -145,7 +150,14 @@ export const organizerSlice = createSlice({
       .addCase(saveEvent.pending, ( state ) => { state.loading = true })
       .addCase(saveEvent.fulfilled, (state, action) => {
         console.log(action.payload);
-
+        const { id, date, name, description, type, value, status, cash } = action.payload;
+        state.days.map(day => {
+          if ( date >= day.startDayTime && date <= day.endDayTime ) {
+            const data = day.data.filter(event => Number(event.id) !== Number(id))
+            data.push({ id, date, name, description, type, value, status, cash, });
+            day.data = data;
+          }
+        return day; })
 
         state.loading = false;
         state.showForm = false;
