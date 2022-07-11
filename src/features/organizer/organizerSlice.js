@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getDays, setEvent, addEvent, delEvent } from './organizerSliceAPI';
+import { getEvents, setEvent, addEvent, delEvent } from './organizerSliceAPI';
 
 const data = new Date();
 const initialState = {
@@ -13,14 +13,14 @@ const initialState = {
   currentEvent: {}
 }
 
-export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay ) => {
+export const getMonth = createAsyncThunk( 'organizer/getMonth', async ( MonthDay ) => {
   const monthDate = new Date(MonthDay),
         year = monthDate.getFullYear(),
         month = monthDate.getMonth(),
         date = new Date(year, month, 1),
         from = date.getTime(),
         to = new Date(year, month + 1, 0, 23, 59, 59, 999 ).getTime(); 
-  const response = await getDays(from, to); // console.log(response);
+  const response = await getEvents(from, to); // console.log(response);
   const onejan = new Date(year,0,1), 
         onejanDay = onejan.getDay(),
         result = [];
@@ -44,9 +44,9 @@ export const getMonth = createAsyncThunk( 'organizer/getDays', async ( MonthDay 
   return result;
 })
 
-export const newEvent = createAsyncThunk('assets/addEvent', async ( data ) => await addEvent(data) )
-export const saveEvent = createAsyncThunk( 'assets/setEvent', async ( data ) => await setEvent(data) )
-export const removeEvent = createAsyncThunk('assets/delEvent', async ( id ) => await delEvent(id) )
+export const newEvent = createAsyncThunk('organizer/addEvent', async ( data ) => await addEvent(data) )
+export const saveEvent = createAsyncThunk( 'organizer/setEvent', async ( data ) => await setEvent(data) )
+export const removeEvent = createAsyncThunk('organizer/delEvent', async ( id ) => await delEvent(id) )
 
 export const organizerSlice = createSlice({
   name: 'organizer',
