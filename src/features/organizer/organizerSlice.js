@@ -109,11 +109,9 @@ export const organizerSlice = createSlice({
               state.currentEvent.value = event.value ? +event.value : null;
               state.showForm = true;
             }
-            return event;
-          })
+          return event; })
         }
-        return itemDay;
-      })
+      return itemDay; })
     }
 
   },
@@ -129,19 +127,15 @@ export const organizerSlice = createSlice({
         state.days = action.payload
       })
 
-
-      
-
       .addCase(newEvent.pending, ( state ) => { state.loading = true })
       .addCase(newEvent.fulfilled, (state, action) => {
-        // console.log(action.payload);
         const { id, date, name, description, type, value, status, cash } = action.payload;
         state.days.map(day => {
-          if ( date >= day.startDayTime && date <= day.endDayTime ) {
+          if ( date >= day.startDayTime && date <= day.endDayTime ) {          
             day.data.push({ id, date, name, description, type, value, status, cash, })
+            day.data.sort((a, b) => Number(a.date) - Number(b.date))
           }
         return day; })
-
         state.loading = false;
         state.showForm = false;
         state.currentEvent = {};
@@ -149,33 +143,32 @@ export const organizerSlice = createSlice({
 
       .addCase(saveEvent.pending, ( state ) => { state.loading = true })
       .addCase(saveEvent.fulfilled, (state, action) => {
-        console.log(action.payload);
         const { id, date, name, description, type, value, status, cash } = action.payload;
         state.days.map(day => {
           if ( date >= day.startDayTime && date <= day.endDayTime ) {
             const data = day.data.filter(event => Number(event.id) !== Number(id))
             data.push({ id, date, name, description, type, value, status, cash, });
+            data.sort((a, b) => Number(a.date) - Number(b.date))
             day.data = data;
           }
         return day; })
-
         state.loading = false;
         state.showForm = false;
         state.currentEvent = {};
-
       })
-
-
-
-
-
-
 
       .addCase(removeEvent.pending, ( state ) => { state.loading = true })
       .addCase(removeEvent.fulfilled, (state, action) => {
+        const { id, date } = state.currentEvent;
+        state.days.map(day => {
+          if ( date >= day.startDayTime && date <= day.endDayTime ) {
+            const data = day.data.filter(event => Number(event.id) !== Number(id))
+            day.data = data;
+          }
+        return day; })
         state.loading = false;
         state.showForm = false;
-        // setDefaultEvent(state);
+        state.currentEvent = {};
       });
   }
 });

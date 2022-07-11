@@ -7,6 +7,8 @@ import {
   saveEvent, newEvent, removeEvent 
 } from "../organizerSlice";
 import { getDate, getTime } from "../../../helpers";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 export const EventForm = () => {
   const dispatch = useDispatch();
@@ -97,7 +99,6 @@ export const EventForm = () => {
           : null
         }
 
-
         {/* Noies */}
         <textarea name="description" placeholder='Notes' 
           defaultValue={ description }
@@ -105,6 +106,25 @@ export const EventForm = () => {
         ></textarea>
 
         <button type='submit'>Save</button>
+
+        {/* control buttons */}
+        { id && status === 'active'
+          ? <div className={styles.controlBtn}>
+              <button type="button"
+              onClick={ () => dispatch(removeEvent(id)) }
+              ><FontAwesomeIcon icon={faXmark} className={styles.delete}/> Delete</button> 
+              <button type="button"
+                onClick={ () => {
+                  dispatch(setEventStatus('success'));
+                  const acceptData = {...data}
+                  acceptData.status = 'success';
+                  dispatch(saveEvent(acceptData));
+                }
+              }
+              ><FontAwesomeIcon icon={faCheck} className={styles.accept}/> Accept</button> 
+            </div>
+          : null  
+        }
 
       </form>    
     </section>

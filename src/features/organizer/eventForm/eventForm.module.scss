@@ -151,11 +151,11 @@
       }
     }
 
-    .eventCash {
-      display: flex;
-      justify-content: space-around;
-      align-items: center; 
-    }
+    // .eventCash {
+    //   display: flex;
+    //   justify-content: space-around;
+    //   align-items: center; 
+    // }
 
     input[type=number],
     input[type=text] {
@@ -182,6 +182,18 @@
       }
     }
 
+    .controlBtn {
+      margin-top: .3vmin;
+      display: flex;
+      width: 100%;
+
+      .delete {
+        color: var(--main-red)
+      }
+      .accept {
+        color: var(--main-green)
+      }
+    }
 
   }
 
