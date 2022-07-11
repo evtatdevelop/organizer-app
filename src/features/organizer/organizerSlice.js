@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getEvents, setEvent, addEvent, delEvent } from './organizerSliceAPI';
+import { getEvents, getRegulars, setEvent, addEvent, delEvent } from './organizerSliceAPI';
 
 const data = new Date();
 const initialState = {
@@ -20,7 +20,14 @@ export const getMonth = createAsyncThunk( 'organizer/getMonth', async ( MonthDay
         date = new Date(year, month, 1),
         from = date.getTime(),
         to = new Date(year, month + 1, 0, 23, 59, 59, 999 ).getTime(); 
-  const response = await getEvents(from, to); // console.log(response);
+  // const response = await getEvents(from, to); 
+  const events = await getEvents(from, to); 
+  const regulars = await getRegulars(from, to); 
+  console.log(events);
+  console.log(regulars);
+  
+  const response = [...events, ...regulars].sort((a, b) => Number(a.date) - Number(b.date));
+
   const onejan = new Date(year,0,1), 
         onejanDay = onejan.getDay(),
         result = [];
@@ -99,7 +106,7 @@ export const organizerSlice = createSlice({
     },
 
     setCurrEvent: (state, action) => {
-      const { day, id } = action.payload;
+      const { day, id, mode} = action.payload;
       state.days.map( itemDay => {  
         if (itemDay.key === day) {
           itemDay.data.map( event => {
@@ -107,7 +114,9 @@ export const organizerSlice = createSlice({
               state.currentEvent = {...event}
               state.currentEvent.date = +event.date;
               state.currentEvent.value = event.value ? +event.value : null;
-              state.showForm = true;
+              
+              if ( mode === 'onetime' ) state.showForm = true;
+              if ( mode === 'regular' ) console.log('Regula form');
             }
           return event; })
         }
@@ -129,10 +138,10 @@ export const organizerSlice = createSlice({
 
       .addCase(newEvent.pending, ( state ) => { state.loading = true })
       .addCase(newEvent.fulfilled, (state, action) => {
-        const { id, date, name, description, type, value, status, cash } = action.payload;
+        const { id, date, name, description, type, value, status, cash, mode} = action.payload;
         state.days.map(day => {
           if ( date >= day.startDayTime && date <= day.endDayTime ) {          
-            day.data.push({ id, date, name, description, type, value, status, cash, })
+            day.data.push({ id, date, name, description, type, value, status, cash, mode })
             day.data.sort((a, b) => Number(a.date) - Number(b.date))
           }
         return day; })
@@ -143,11 +152,11 @@ export const organizerSlice = createSlice({
 
       .addCase(saveEvent.pending, ( state ) => { state.loading = true })
       .addCase(saveEvent.fulfilled, (state, action) => {
-        const { id, date, name, description, type, value, status, cash } = action.payload;
+        const { id, date, name, description, type, value, status, cash, mode } = action.payload;
         state.days.map(day => {
           if ( date >= day.startDayTime && date <= day.endDayTime ) {
             const data = day.data.filter(event => Number(event.id) !== Number(id))
-            data.push({ id, date, name, description, type, value, status, cash, });
+            data.push({ id, date, name, description, type, value, status, cash, mode });
             data.sort((a, b) => Number(a.date) - Number(b.date))
             day.data = data;
           }

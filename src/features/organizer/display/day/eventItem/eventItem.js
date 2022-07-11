@@ -9,13 +9,14 @@ import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 export const EventItem = props => {
-  const { item, day } = props;
+  const { item, day, mode} = props;
   const dispatch = useDispatch();
 
   return ( 
-        <li key={item.id} className={styles.eventItem}>
+        // <li key={item.id} className={styles.eventItem}>
+        <li className={styles.eventItem}>
           
-          <button onClick={ ()=> dispatch( setCurrEvent({day, id: item.id})) }>
+          <button onClick={ ()=> dispatch( setCurrEvent({day, id: item.id, mode})) }>
 
             <span className={styles.eventTime}>{getTime(Number(item.date))}</span>
             <span className={styleEventName(item.date)}>{item.name}</span> 

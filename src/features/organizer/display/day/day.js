@@ -57,7 +57,7 @@ export const Day = () => {
 
       {/* main */}
       <ul className={styles.eventList}>
-        {dataDay.data.map( item => <EventItem key={item.id} item={item} day={dataDay.key}/> )}
+        {dataDay.data.map( item => <EventItem key={`${item.mode}${item.id}`} item={item} day={dataDay.key} mode={item.mode}/> )}
       </ul>
 
       <button 
