@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getEvents, getRegulars, setEvent, addEvent, delEvent } from './organizerSliceAPI';
+import { getEvents, setEvent, addEvent, delEvent } from './organizerSliceAPI';
 
 const data = new Date();
 const initialState = {
@@ -20,13 +20,9 @@ export const getMonth = createAsyncThunk( 'organizer/getMonth', async ( MonthDay
         date = new Date(year, month, 1),
         from = date.getTime(),
         to = new Date(year, month + 1, 0, 23, 59, 59, 999 ).getTime(); 
-  // const response = await getEvents(from, to); 
   const events = await getEvents(from, to); 
-  const regulars = await getRegulars(from, to); 
   console.log(events);
-  console.log(regulars);
-  
-  const response = [...events, ...regulars].sort((a, b) => Number(a.date) - Number(b.date));
+  const response = [...events];
 
   const onejan = new Date(year,0,1), 
         onejanDay = onejan.getDay(),
@@ -44,7 +40,7 @@ export const getMonth = createAsyncThunk( 'organizer/getMonth', async ( MonthDay
           startDayTime = date.getTime(),
           endDayTime = startDayTime + 86399999,
           weekNumber = Math.ceil((((date - onejan) / 86400000) + onejanDay ) / 7) - Math.floor(onejanDay / 4),
-          data = response.filter(item => item.date > startDayTime && item.date < endDayTime);
+          data = response.filter(item => item.date >= startDayTime && item.date < endDayTime);
           result.push({key, dateNumber, day, dayName, dayNameLong, monthNumber, monthName, startDayTime, endDayTime, weekNumber, data}); 
     date.setDate(dateNumber + 1);
   }
