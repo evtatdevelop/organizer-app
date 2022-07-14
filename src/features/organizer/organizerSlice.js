@@ -21,7 +21,7 @@ export const getMonth = createAsyncThunk( 'organizer/getMonth', async ( MonthDay
         from = date.getTime(),
         to = new Date(year, month + 1, 0, 23, 59, 59, 999 ).getTime(); 
   const events = await getEvents(from, to); 
-  console.log(events);
+  // console.log(events);
   const response = [...events];
 
   const onejan = new Date(year,0,1), 

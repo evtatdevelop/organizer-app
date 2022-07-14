@@ -110,5 +110,6 @@ export const loading        = ( state ) => state.assets.loading;
 export const showTools      = ( state ) => state.assets.showTools;
 export const currentAsset   = ( state ) => state.assets.currentAsset;
 export const showButtonAll  = ( state ) => state.assets.showButtonAll;
+export const onlyActive     = ( state ) => state.assets.onlyActive;
 
 export default assetsListSlice.reducer;

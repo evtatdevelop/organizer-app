@@ -9,10 +9,9 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    // padding: 1vh 1vw;
-    padding: 10px 10px;
+    padding: 1vmin .5vmin;
     border: none;
-    border-radius: 3px;
+    border-radius: .3vmin;
     background-color: transparent;
     cursor: pointer;
     color: #ffffff;
@@ -40,13 +39,12 @@
     .label {
       display: flex;
       align-items: center;
-      margin-right: 2px;
       .currensy {
-        font-size: .8vw;
+        font-size: 1.5vmin;
       }
       .icon {
-        font-size: 1vw;
-        margin-right: 2px;
+        font-size: 1.5vmin;
+        margin-right: .5vmin;
         &.card {
           color: var(--main-blue);
         }
@@ -57,7 +55,7 @@
     }
 
     .value {
-      font-size: 1vw;
+      font-size: 1.5vmin;
       font-weight: 600;
       transition: color .3s;
     }    

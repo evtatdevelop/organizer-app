@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import styles from './assets.module.scss';
 import { useSelector, useDispatch } from "react-redux";
-import { showButtonAll, getDataAsync, showAllAssets } from "./assetsSlice";
+import { showButtonAll, onlyActive, getDataAsync, showAllAssets } from "./assetsSlice";
 import AssetsList from "./assetsList";
 import AssetsTools from "./assetsTools";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
 export const Assets = () => {
   const showButton = useSelector(showButtonAll)
+  const openclose = useSelector(onlyActive)
   const dispatch = useDispatch();
   useEffect(() => { dispatch(getDataAsync()) }, []);
 
@@ -19,7 +22,7 @@ export const Assets = () => {
             className={styles.showAllAssets} 
             type="button" 
             onClick={() => dispatch(showAllAssets())}
-          > + </button> 
+          > <FontAwesomeIcon icon={ faCaretDown } className={openclose ? styles.iconButton : styles.iconButtonClose} /> </button> 
         : null
       }
     </section>

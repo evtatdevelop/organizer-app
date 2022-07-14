@@ -12,16 +12,25 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    // padding: 1vh 1vw;
-    padding: 0px 3px;
+    padding: .2vmin 0;
     border: none;
-    border-radius: 3px;
-    // background-color: transparent;
+    border-radius: .3vmin;
     background-color: rgba($color: #ffffff, $alpha: .1);
     cursor: pointer;
-    color: #ffffff;
-    font-size: 20px;
-    margin-top: 3px;
+    color: #b9b9b9;
+    margin: 0;
+    margin-top: .1vmin;
+    padding: .7vmin 0;
+    font-size: 1.7vmin;
+
+    .iconButtonClose {
+      transform: rotate(180deg);
+      transition: transform .3s;
+    }
+    .iconButton {
+      transform: rotate(0deg);
+      transition: transform .3s;
+    }
 
     &::before {
       content: '';

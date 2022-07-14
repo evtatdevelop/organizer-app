@@ -1,12 +1,10 @@
 .assetsTools {
   position: fixed;
   height: 100vh;
-  // width: 50%;
-  width: 500px;
+  width: 47vmin;
   background-color: rgb(0, 90, 75);
   top: 0;
-  // left: -50%;
-  left: -500px;
+  left: -47vmin;
   transition: left 1s;
   color: white;
   display: flex;
@@ -34,18 +32,19 @@
 
   .toolsButton {
     position: absolute;
-    top: 20px;
-    width: 40px;
-    height: 40px;
-    border: 3px solid #2A2F3A;
+    top: 3vmin;
+    width: 3.8vmin;
+    height: 3.8vmin;
+    border: .2vmin solid #2A2F3A;
     color: white;
-    border-radius: 20px;
-    right: -20px;
+    border-radius: 50%;
+    right: -1.9vmin;
     background-color: rgba($color: rgb(0, 90, 75), $alpha: 1);
     display: flex;
     justify-content: center;
     align-items: center;
     transition: background-color 2.5s;
+    font-size: 1.3vmin;
     cursor: pointer;
 
     &.opacity {
@@ -72,13 +71,13 @@
   }
   to {
     opacity: .95;
-    transform: translateX(500px);
+    transform: translateX(47vmin);
   }
 }
 @keyframes close {
   0% {
     opacity: .95;
-    transform: translateX(500px);
+    transform: translateX(47vmin);
   }
   99% {
     transform: translateX(0%);

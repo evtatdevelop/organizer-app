@@ -10,19 +10,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px; 
+    margin-bottom: 2vmin; 
     width: 100%;
-    border-bottom: 1px solid white;
-    font-size: 1vw;
+    border-bottom: .1vmin solid white;
+    font-size: 1.7vmin;
     text-transform: uppercase;
     color: #a3a2a2;
-    padding: 10px 5px;
+    padding: 1vmin .5vmin;
     cursor: pointer;
 
     input[type=number],
     input[type=text] {
-      font-size: 1vw;
-      letter-spacing: .5vw;
+      font-size: 1.7vmin;
+      letter-spacing: .9vmin;
       width: 100%;
       background-color: transparent;
       color: #ffffff;
@@ -70,12 +70,12 @@
   button {
     width: 100%;
     background-color: transparent;
-    padding: 10px;
-    border: 1px solid white;
-    border-radius: 2px;
+    padding: 1vmin;
+    border: .1vmin solid white;
     color: white;
     margin-top: 5vh;
     transition: background-color, .3s;
+    font-size: 1.7vmin;
     cursor: pointer;
 
     &:focus,

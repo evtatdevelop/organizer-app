@@ -1,13 +1,12 @@
 .App {
   height: 100vh;
   display: grid;
-  grid-template-areas: 
-    "aside main nav";
+  grid-template-areas: "aside main";
   grid-template-rows: 1fr;
-  grid-template-columns: 12% 1fr 11%;
+  grid-template-columns: 17vmin 1fr;
 
-  aside, main, nav {
-    padding: 12px;
+  aside, main {
+    padding: .3vmin;
   }
 
   .assets {
@@ -16,22 +15,8 @@
   
   .main {
     grid-area: main;
-    border-left: 1px solid #4F5A65;
-    border-right: 1px solid #4F5A65;
+    border-left: .1vmin solid #4F5A65;
   }
-  
-  .nav {
-    grid-area: nav;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  
-    .navigation {
-      flex-grow: 1;
-    }
-  }
-
-
 
 }
 

@@ -18,12 +18,13 @@ export const ItemDay = ( props ) => {
       : item.day === 0 || item.day === 6 
         ? `${styles.lableDay} ${styles.weekEndColor}` 
         : `${styles.lableDay} ${styles.weekDayColor}`;
-  let events, profit, costs;
 
+  let events, profit, costs, accepted;
   if ( item.data ) {
-    profit = item.data.filter(item => item.type === 'profit').reduce((sum, curr) => sum + +curr.value, 0)
-    costs = item.data.filter(item => item.type === 'costs').reduce((sum, curr) => sum + +curr.value, 0)
-    events = item.data.filter(item => item.type === 'event').length;  
+    profit    = item.data.filter(item => item.type === 'profit').reduce((sum, curr) => sum + +curr.value, 0)
+    costs     = item.data.filter(item => item.type === 'costs').reduce((sum, curr) => sum + +curr.value, 0)
+    events    = item.data.filter(item => item.type === 'event').length;  
+    accepted  = !item.data.filter(item => item.status === 'active').length;
   }
 
   const handlerClick = () => {
@@ -41,9 +42,9 @@ export const ItemDay = ( props ) => {
         </div>
 
         <div className={styles.dataDay}>
-          { !!profit ? <p className={styles.profit}><span>Profit</span> <span>{ moneyFormat(profit) }</span></p> : null}
-          { !!costs ? <p className={styles.costs}><span>Costs</span> <span>{ moneyFormat(costs) }</span></p> : null}
-          { !!events ? <p className={styles.event}><span>{events > 1 ? 'Events ' : 'Event '}</span> <span>{events}</span></p> : null}
+          { !!profit ? <p className={accepted ? styles.accepted : styles.profit}><span>Profit</span> <span>{ moneyFormat(profit) }</span></p> : null}
+          { !!costs ? <p className={accepted ? styles.accepted : styles.costs}><span>Costs</span> <span>{ moneyFormat(costs) }</span></p> : null}
+          { !!events ? <p className={accepted ? styles.accepted : styles.event}><span>{events > 1 ? 'Events ' : 'Event '}</span> <span>{events}</span></p> : null}
         </div>        
       </button>
     </li>

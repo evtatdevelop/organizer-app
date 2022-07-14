@@ -1,7 +1,7 @@
 .monthList {
   display: grid;
   place-items: center;
-  gap: .5vmax;
+  gap: .7vmin;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: auto;
   // animation: open 750ms ease-in-out forwards;
@@ -21,7 +21,7 @@
   background-color: transparent;
   cursor: pointer;
   color: #ffffff;
-
+  font-size: 2vmin;
 
   &::before {
     content: '';
@@ -45,11 +45,11 @@
 }
 
 .header {
-  margin-bottom: 1vw;
+  margin-bottom: 2vmin;
+  font-size: 2.1vmin;
   .sums{
-    margin-left: .5vw;
-    span { margin-left: .5vw }
-    font-size: .8vw;
+    margin-left: 1vmin;
+    span { margin-left: 1vmin }
     .sumProfits { color: var(--profit-color) }
     .sumCosts { color: var(--costs-color) }   
   }

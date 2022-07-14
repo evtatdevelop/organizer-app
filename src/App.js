@@ -12,10 +12,6 @@ function App() {
     <div className="App">
       <main className='main'><Organiser/></main>
       <aside className='assets'><Assets/></aside>
-      <nav className='nav'>
-        <ul className='navigation'></ul>
-        {/* <Counter /> */}
-      </nav>
       <Loader/>
     </div>
   );

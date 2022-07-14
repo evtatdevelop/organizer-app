@@ -23,7 +23,7 @@ export const EventItem = props => {
             <span className={styles.eventStatus}>
               {item.status === 'resolved' ? <FontAwesomeIcon icon={faCheck}/> : null}
             </span>
-            <span className={styleEventVal(item.type)}>
+            <span className={styleEventVal(item.type, item.status)}>
               {item.type !== 'event' 
                 ? item.type !== 'profit' 
                   ? `- ${moneyFormat(item.value)}`
@@ -31,10 +31,9 @@ export const EventItem = props => {
                 : null
               }
             </span>
-            <span className={styleEventCash(item.cash)}>
+            <span className={styleEventCash(item.cash, item.status)}>
               {item.cash === 'cash' ? <FontAwesomeIcon icon={faWallet}/> : null}
               {item.cash === 'card' ? <FontAwesomeIcon icon={faCreditCard}  /> : null}
-            
             </span>
           </button>
           {item.description
@@ -45,8 +44,9 @@ export const EventItem = props => {
 }
 
 
-const styleEventVal = (eventType) => {
+const styleEventVal = (eventType, eventStatus) => {
   let result = styles.eventValue;
+  if ( eventStatus === 'success' ) return result + ` ${styles.accepted}`;
   switch ( eventType ) {
     case 'profit': result += ' ' + styles.profit; break;
     case 'costs': result += ' ' + styles.costs; break;
@@ -61,8 +61,10 @@ const styleEventName = (itemDate) => {
   return result;
 }
 
-const styleEventCash = (itemCash) => {
+const styleEventCash = (itemCash, eventStatus) => {
   let result = styles.eventCash;
+  console.log(eventStatus);
+  if ( eventStatus === 'success' ) return result + ` ${styles.accepted}`;
   if ( itemCash === 'cash' ) result += ` ${styles.cash}`;
   if ( itemCash === 'card' ) result += ` ${styles.card}`;
   return result;  
