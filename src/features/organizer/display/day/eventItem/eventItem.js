@@ -63,7 +63,7 @@ const styleEventName = (itemDate) => {
 
 const styleEventCash = (itemCash, eventStatus) => {
   let result = styles.eventCash;
-  console.log(eventStatus);
+  // console.log(eventStatus);
   if ( eventStatus === 'success' ) return result + ` ${styles.accepted}`;
   if ( itemCash === 'cash' ) result += ` ${styles.cash}`;
   if ( itemCash === 'card' ) result += ` ${styles.card}`;

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './day.module.scss';
-import { days, currYear, currMonth, currDay, setDisplayMode, onShowForm } from "../../organizerSlice";
+import { days, currYear, currMonth, currDay, setDisplayMode, onShowForm, onRegForm } from "../../organizerSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { moneyFormat } from "../../../../helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -60,10 +60,15 @@ export const Day = () => {
         {dataDay.data.map( item => <EventItem key={`${item.mode}${item.id}`} item={item} day={dataDay.key} mode={item.mode}/> )}
       </ul>
 
-      <button 
-        className={styles.addEvent}
-        onClick={() => dispatch( onShowForm(true))}
-      >new event</button>      
+      <div className={styles.addButtons}>
+        <button className={`${styles.addEvent} ${styles.eventBtn}`}
+          onClick={() => dispatch( onShowForm(true))}
+        >new event</button>      
+        <button className={`${styles.addEvent} ${styles.regBtn}`}
+          onClick={() => dispatch( onRegForm(true))}
+        >new regular</button>       
+      </div>      
+     
 
       {/* footer */}
       <footer className={styles.dayTotals}>

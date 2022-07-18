@@ -50,18 +50,32 @@
   .card { color: var(--main-blue) }
   .cash { color: var(--main-green) }
 
-  .addEvent {
-    background-color: transparent;
-    border: 1px solid wheat;
-    border-radius: 3px;
-    color: wheat;
-    padding: .3vw;
-    cursor: pointer;
+  .addButtons{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 
-    &:hover {
-      background-color: rgba($color: #ffffff, $alpha: .1);
-    }
-  }  
+    .addEvent {
+      &.eventBtn {
+        width: 69%;
+      }
+      &.regBtn {
+        width: 30%;
+      }
+      
+      background-color: transparent;
+      border: 1px solid wheat;
+      border-radius: 3px;
+      color: wheat;
+      padding: .3vw;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba($color: #ffffff, $alpha: .1);
+      }
+    }    
+  }
+  
 
   .dayTotals {
     display: flex;

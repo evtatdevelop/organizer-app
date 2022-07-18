@@ -10,6 +10,7 @@ const initialState = {
   month:        data.getMonth(),
   day:          data.getDate(),
   showForm:     false,
+  regForm:      false,
   currentEvent: {}
 }
 
@@ -62,6 +63,7 @@ export const organizerSlice = createSlice({
     setEventValue:  ( state, action ) => { state.currentEvent.value       = action.payload },
     setEventCash:   ( state, action ) => { state.currentEvent.cash        = action.payload },
     setEventStatus: ( state, action ) => { state.currentEvent.status      = action.payload },
+    setRegPeriod:    ( state, action ) => { state.currentEvent.period     = action.payload },
 
     setEventType:   ( state, action ) => { 
       state.currentEvent.type = action.payload
@@ -78,6 +80,20 @@ export const organizerSlice = createSlice({
         state.currentEvent.value = 0;
         state.currentEvent.cash = null;
         state.currentEvent.description = '';
+      } else state.currentEvent = {}
+    },
+
+    onRegForm: ( state, action ) => {
+      state.regForm = action.payload;
+      if ( action.payload ) {
+        const now = new Date();
+        state.currentEvent.name = '';
+        state.currentEvent.date = new Date(state.year, state.month, state.day, now.getHours(), now.getMinutes()).getTime();
+        state.currentEvent.type = 'event';
+        state.currentEvent.value = 0;
+        state.currentEvent.cash = null;
+        state.currentEvent.description = '';
+        state.currentEvent.period = 'month';
       } else state.currentEvent = {}
     },
 
@@ -110,9 +126,8 @@ export const organizerSlice = createSlice({
               state.currentEvent = {...event}
               state.currentEvent.date = +event.date;
               state.currentEvent.value = event.value ? +event.value : null;
-              
               if ( mode === 'onetime' ) state.showForm = true;
-              if ( mode === 'regular' ) console.log('Regula form');
+              if ( mode === 'regular' ) state.regForm = true;
             }
           return event; })
         }
@@ -179,8 +194,8 @@ export const organizerSlice = createSlice({
 });
 
 export const { 
-  setDisplayMode, setDay, onShowForm, setCurrEvent,
-  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus
+  setDisplayMode, setDay, onShowForm, setCurrEvent, onRegForm,
+  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus, setRegPeriod
 } = organizerSlice.actions;
 
 export const loading      = ( state ) => state.organizer.loading;
@@ -190,6 +205,7 @@ export const currYear     = ( state ) => state.organizer.year;
 export const currMonth    = ( state ) => state.organizer.month;
 export const currDay      = ( state ) => state.organizer.day;
 export const showForm     = ( state ) => state.organizer.showForm;
+export const regForm     = ( state ) => state.organizer.regForm;
 export const currentEvent = ( state ) => state.organizer.currentEvent;
 
 export default organizerSlice.reducer;
