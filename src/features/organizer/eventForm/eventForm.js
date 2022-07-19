@@ -106,7 +106,7 @@ export const EventForm = () => {
           onInput={ e => dispatch(setEventDesc(e.target.value)) }
         ></textarea>
 
-        { id && status === 'active'
+        { status === 'active'
           ? <button type='submit'>Save</button>
           : null
         }

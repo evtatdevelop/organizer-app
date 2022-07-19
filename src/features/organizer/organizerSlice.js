@@ -83,6 +83,8 @@ export const organizerSlice = createSlice({
         state.currentEvent.value = 0;
         state.currentEvent.cash = null;
         state.currentEvent.description = '';
+        state.currentEvent.status = 'active';
+        state.currentEvent.mode = 'onetime';
       } else state.currentEvent = {}
     },
 
@@ -96,7 +98,9 @@ export const organizerSlice = createSlice({
         state.currentEvent.value = 0;
         state.currentEvent.cash = null;
         state.currentEvent.description = '';
+        state.currentEvent.description = '';
         state.currentEvent.period = 'month';
+        state.currentEvent.mode = 'regular';
       } else state.currentEvent = {}
     },
 

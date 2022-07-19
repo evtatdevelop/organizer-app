@@ -131,7 +131,7 @@ export const RegularsForm = () => {
           onInput={ e => dispatch(setEventDesc(e.target.value)) }
         ></textarea>
         
-        { id && Number(last_date) < Number(date) && status === 'active'
+        { true
           ? <button type='submit'>Save</button>
           : null
         }
