@@ -3,8 +3,8 @@ import styles from './regularsForm.module.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { 
   currentEvent, onRegForm, getMonth,
-  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus, setRegPeriod,
-  saveEvent, newEvent, removeEvent 
+  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus, setRegPeriod, setLastDate,
+  saveRegular, newEvent, removeEvent 
 } from "../organizerSlice";
 import { getDate, getTime } from "../../../helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,11 +13,11 @@ import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
 export const RegularsForm = () => {
   const dispatch = useDispatch();
   const data = useSelector(currentEvent);
-  const { id, date, name, description, type, value, cash, status, period, last_date } = data;
-  const eventDate = getDate(date);
-  const eventTime = getTime(date);
+  const { id, date, date_from, name, description, type, value, cash, status, period, last_date } = data;
+  const eventDate = getDate(date_from);
+  const eventTime = getTime(date_from);
   
-  console.log( period, last_date, type);
+  // console.log( period, last_date, type);
 
   return (
     <section className={ styles.regularsForm }>
@@ -29,7 +29,7 @@ export const RegularsForm = () => {
       <form id="eventForm" name="eventForm" 
         onSubmit={ (e)=>{ 
           e.preventDefault();
-          id ? dispatch(saveEvent(data)) : dispatch(newEvent(data));
+          id ? dispatch(saveRegular(data)) : dispatch(newEvent(data));
           e.target.reset();
         } } 
       >
@@ -130,21 +130,26 @@ export const RegularsForm = () => {
           defaultValue={ description }
           onInput={ e => dispatch(setEventDesc(e.target.value)) }
         ></textarea>
-
-        <button type='submit'>Save</button>
-
+        
+        { id && Number(last_date) < Number(date) && status === 'active'
+          ? <button type='submit'>Save</button>
+          : null
+        }
+        
         {/* control buttons */}
-        { id && status === 'active'
+        { id && Number(last_date) < Number(date) && status === 'active'
           ? <div className={styles.controlBtn}>
               <button type="button"
               onClick={ () => dispatch(removeEvent(id)) }
               ><FontAwesomeIcon icon={faXmark} className={styles.delete}/> Delete</button> 
               <button type="button"
                 onClick={ () => {
-                  dispatch(setEventStatus('success'));
+                  const nowAccept = Date.now();
+                  dispatch(setLastDate(nowAccept));
                   const acceptData = {...data}
-                  acceptData.status = 'success';
-                  dispatch(saveEvent(acceptData));
+                  acceptData.last_date = nowAccept;
+                  // console.log(acceptData);
+                  dispatch(saveRegular(acceptData));
                 }
               }
               ><FontAwesomeIcon icon={faCheck} className={styles.accept}/> Accept</button> 

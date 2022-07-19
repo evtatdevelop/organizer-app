@@ -106,8 +106,10 @@ export const EventForm = () => {
           onInput={ e => dispatch(setEventDesc(e.target.value)) }
         ></textarea>
 
-        <button type='submit'>Save</button>
-
+        { id && status === 'active'
+          ? <button type='submit'>Save</button>
+          : null
+        }
         {/* control buttons */}
         { id && status === 'active'
           ? <div className={styles.controlBtn}>

@@ -7,3 +7,8 @@ export const getEvents    = ( from, to )  => service.getResource(`${_apiBase}/?q
 export const addEvent     = ( data )      => service.postResource(`${_apiBase}/?q=events`, data);
 export const setEvent     = ( data )      => service.updateResource(`${_apiBase}/?q=events`, data);
 export const delEvent     = ( id )        => service.deleteResource(`${_apiBase}/?q=events&id=${id}`);
+
+export const setRegulars  = ( data )      => {
+  console.log(data);
+  return service.updateResource(`${_apiBase}/?q=regulars`, data)
+};

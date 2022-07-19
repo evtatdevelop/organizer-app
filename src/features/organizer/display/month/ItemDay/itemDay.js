@@ -24,13 +24,17 @@ export const ItemDay = ( props ) => {
     profit    = item.data.filter(item => item.type === 'profit').reduce((sum, curr) => sum + +curr.value, 0)
     costs     = item.data.filter(item => item.type === 'costs').reduce((sum, curr) => sum + +curr.value, 0)
     events    = item.data.filter(item => item.type === 'event').length;  
-    accepted  = !item.data.filter(item => item.status === 'active').length;
+    accepted  = !item.data.filter(itemEvent => 
+      (itemEvent.status === 'active' && itemEvent.mode === 'onetime') || 
+      (itemEvent.mode === 'regular' && Number(itemEvent.last_date) <= Number(item.endDayTime)) ).length;
   }
 
   const handlerClick = () => {
     // console.log(item.key);
-    dispatch( setDay(item.dateNumber));
-    dispatch( setDisplayMode('day'));
+    if ( item.dateNumber ) {
+      dispatch( setDay(item.dateNumber));
+      dispatch( setDisplayMode('day'));      
+    }
   } 
   
   return (
