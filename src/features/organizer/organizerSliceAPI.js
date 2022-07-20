@@ -8,7 +8,6 @@ export const addEvent     = ( data )      => service.postResource(`${_apiBase}/?
 export const setEvent     = ( data )      => service.updateResource(`${_apiBase}/?q=events`, data);
 export const delEvent     = ( id )        => service.deleteResource(`${_apiBase}/?q=events&id=${id}`);
 
-export const setRegulars  = ( data )      => {
-  console.log(data);
-  return service.updateResource(`${_apiBase}/?q=regulars`, data)
-};
+export const setRegulars  = ( data )      => service.updateResource(`${_apiBase}/?q=regulars`, data);
+export const addRegulars  = ( data )      => service.postResource(`${_apiBase}/?q=regulars`, data);
+export const delRegulars  = ( id )        => service.deleteResource(`${_apiBase}/?q=regulars&id=${id}`);

@@ -2,9 +2,9 @@ import React from "react";
 import styles from './regularsForm.module.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { 
-  currentEvent, onRegForm, getMonth,
-  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus, setRegPeriod, setLastDate,
-  saveRegular, newEvent, removeEvent 
+  currentEvent, onRegForm,
+  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setRegPeriod, setLastDate,
+  saveRegular, newRegular, removeRegular 
 } from "../organizerSlice";
 import { getDate, getTime } from "../../../helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -29,7 +29,7 @@ export const RegularsForm = () => {
       <form id="eventForm" name="eventForm" 
         onSubmit={ (e)=>{ 
           e.preventDefault();
-          id ? dispatch(saveRegular(data)) : dispatch(newEvent(data));
+          id ? dispatch(saveRegular(data)) : dispatch(newRegular(data));
           e.target.reset();
         } } 
       >
@@ -56,26 +56,26 @@ export const RegularsForm = () => {
         </div>
 
         <div className={`${styles.formGroup} ${styles.eventType}`}>
-          <input type='radio' name='period' id='day'
+          <input type='radio' name='period' id='periodDay'
             value='day' 
             defaultChecked={ period === 'day' }
             onChange = { e => dispatch(setRegPeriod(e.target.value)) }
-          /><label htmlFor="day"> <span className={styles.event}>Day</span> </label>
-          <input type='radio' name='period' id='week'
+          /><label htmlFor="periodDay"> <span className={styles.event}>Day</span> </label>
+          <input type='radio' name='period' id='periodWeek'
             value='week' 
             defaultChecked={ period === 'week' }
             onChange = { e => dispatch(setRegPeriod(e.target.value)) }
-          /><label htmlFor="week"><span className={styles.event}>Week</span> </label>
-          <input type='radio' name='period' id='momth'
-            value='momth' 
+          /><label htmlFor="periodWeek"><span className={styles.event}>Week</span> </label>
+          <input type='radio' name='period' id='periodMonth'
+            value='month' 
             defaultChecked={ period === 'month' }
             onChange = { e => dispatch(setRegPeriod(e.target.value)) }
-          /><label htmlFor="momth"><span className={styles.event}>Month</span> </label>        
-          <input type='radio' name='period' id='year'
+          /><label htmlFor="periodMonth"><span className={styles.event}>Month</span> </label>        
+          <input type='radio' name='period' id='periodYear'
             value='year' 
             defaultChecked={ period === 'year' }
             onChange = { e => dispatch(setRegPeriod(e.target.value)) }
-          /><label htmlFor="year"><span className={styles.event}>Year</span> </label>        
+          /><label htmlFor="periodYear"><span className={styles.event}>Year</span> </label>        
         </div>
 
         {/* Type of event */}
@@ -131,7 +131,8 @@ export const RegularsForm = () => {
           onInput={ e => dispatch(setEventDesc(e.target.value)) }
         ></textarea>
         
-        { true
+
+        { status === 'active'
           ? <button type='submit'>Save</button>
           : null
         }
@@ -140,7 +141,7 @@ export const RegularsForm = () => {
         { id && Number(last_date) < Number(date) && status === 'active'
           ? <div className={styles.controlBtn}>
               <button type="button"
-              onClick={ () => dispatch(removeEvent(id)) }
+              onClick={ () => dispatch(removeRegular(id)) }
               ><FontAwesomeIcon icon={faXmark} className={styles.delete}/> Delete</button> 
               <button type="button"
                 onClick={ () => {

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getEvents, setEvent, addEvent, delEvent, setRegulars } from './organizerSliceAPI';
+import { getEvents, setEvent, addEvent, delEvent, setRegulars, addRegulars, delRegulars } from './organizerSliceAPI';
 
 const data = new Date();
 const initialState = {
@@ -48,11 +48,13 @@ export const getMonth = createAsyncThunk( 'organizer/getMonth', async ( MonthDay
   return result;
 })
 
-export const newEvent = createAsyncThunk('organizer/addEvent', async ( data ) => await addEvent(data) )
-export const saveEvent = createAsyncThunk( 'organizer/setEvent', async ( data ) => await setEvent(data) )
-export const removeEvent = createAsyncThunk('organizer/delEvent', async ( id ) => await delEvent(id) )
+export const newEvent       = createAsyncThunk('organizer/addEvent', async ( data ) => await addEvent(data) )
+export const saveEvent      = createAsyncThunk( 'organizer/setEvent', async ( data ) => await setEvent(data) )
+export const removeEvent    = createAsyncThunk('organizer/delEvent', async ( id ) => await delEvent(id) )
 
-export const saveRegular = createAsyncThunk( 'organizer/setRegulars', async ( data ) => await setRegulars(data) )
+export const saveRegular    = createAsyncThunk( 'organizer/setRegulars', async ( data ) => await setRegulars(data) )
+export const newRegular     = createAsyncThunk('organizer/addRegulars', async ( data ) => await addRegulars(data) )
+export const removeRegular  = createAsyncThunk('organizer/delRegulars', async ( id ) => await delRegulars(id) )
 
 export const organizerSlice = createSlice({
   name: 'organizer',
@@ -94,13 +96,15 @@ export const organizerSlice = createSlice({
         const now = new Date();
         state.currentEvent.name = '';
         state.currentEvent.date_from = new Date(state.year, state.month, state.day, now.getHours(), now.getMinutes()).getTime();
+        state.currentEvent.date_to = null;
         state.currentEvent.type = 'event';
         state.currentEvent.value = 0;
         state.currentEvent.cash = null;
         state.currentEvent.description = '';
-        state.currentEvent.description = '';
-        state.currentEvent.period = 'month';
+        state.currentEvent.period = 'day';
+        state.currentEvent.status = 'active';
         state.currentEvent.mode = 'regular';
+        state.currentEvent.last_date = now - 365*24*3600*1000
       } else state.currentEvent = {}
     },
 
@@ -210,6 +214,7 @@ export const organizerSlice = createSlice({
       })
 
 
+
       .addCase(saveRegular.pending, ( state ) => { state.loading = true })
       .addCase(saveRegular.fulfilled, (state, action) => {
         console.log(action.payload);
@@ -219,6 +224,38 @@ export const organizerSlice = createSlice({
         //     const data = day.data.filter(event => Number(event.id) !== Number(id))
         //     data.push({ id, date, name, description, type, value, status, cash, mode });
         //     data.sort((a, b) => Number(a.date) - Number(b.date))
+        //     day.data = data;
+        //   }
+        // return day; })
+        state.loading = false;
+        state.regForm = false;
+        state.currentEvent = {};
+      })
+
+      .addCase(newRegular.pending, ( state ) => { state.loading = true })
+      .addCase(newRegular.fulfilled, (state, action) => {
+        
+        console.log(action.payload);
+        // const { id, date, name, description, type, value, status, cash, mode} = action.payload;
+        // state.days.map(day => {
+        //   if ( date >= day.startDayTime && date <= day.endDayTime ) {          
+        //     day.data.push({ id, date, name, description, type, value, status, cash, mode })
+        //     day.data.sort((a, b) => Number(a.date) - Number(b.date))
+        //   }
+        // return day; })
+        state.loading = false;
+        state.regForm = false;
+        state.currentEvent = {};
+      })
+      
+      .addCase(removeRegular.pending, ( state ) => { state.loading = true })
+      .addCase(removeRegular.fulfilled, (state, action) => {
+
+        console.log(action.payload);
+        // const { id, date } = state.currentEvent;
+        // state.days.map(day => {
+        //   if ( date >= day.startDayTime && date <= day.endDayTime ) {
+        //     const data = day.data.filter(event => Number(event.id) !== Number(id))
         //     day.data = data;
         //   }
         // return day; })
