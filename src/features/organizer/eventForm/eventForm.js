@@ -29,6 +29,7 @@ export const EventForm = () => {
           e.preventDefault();
           id ? dispatch(saveEvent(data)) : dispatch(newEvent(data));
           e.target.reset();
+          setTimeout( () => dispatch(getMonth(Date.now())), 1000)
         } } 
       >
 
@@ -114,7 +115,10 @@ export const EventForm = () => {
         { id && status === 'active'
           ? <div className={styles.controlBtn}>
               <button type="button"
-              onClick={ () => dispatch(removeEvent(id)) }
+              onClick={ () => {
+                dispatch(removeEvent(id))
+                setTimeout( () => dispatch(getMonth(Date.now())), 1000)
+              }}
               ><FontAwesomeIcon icon={faXmark} className={styles.delete}/> Delete</button> 
               <button type="button"
                 onClick={ () => {

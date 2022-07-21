@@ -2,7 +2,7 @@ import React from "react";
 import styles from './regularsForm.module.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { 
-  currentEvent, onRegForm,
+  currentEvent, onRegForm, getMonth,
   setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setRegPeriod, setLastDate,
   saveRegular, newRegular, removeRegular 
 } from "../organizerSlice";
@@ -31,6 +31,7 @@ export const RegularsForm = () => {
           e.preventDefault();
           id ? dispatch(saveRegular(data)) : dispatch(newRegular(data));
           e.target.reset();
+          setTimeout( () => dispatch(getMonth(Date.now())), 1000)
         } } 
       >
         
@@ -141,7 +142,10 @@ export const RegularsForm = () => {
         { id && Number(last_date) < Number(date) && status === 'active'
           ? <div className={styles.controlBtn}>
               <button type="button"
-              onClick={ () => dispatch(removeRegular(id)) }
+              onClick={ () => {
+                dispatch(removeRegular(id))
+                setTimeout( () => dispatch(getMonth(Date.now())), 1000)
+              }}
               ><FontAwesomeIcon icon={faXmark} className={styles.delete}/> Delete</button> 
               <button type="button"
                 onClick={ () => {
