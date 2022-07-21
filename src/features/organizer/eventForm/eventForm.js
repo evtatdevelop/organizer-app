@@ -27,9 +27,10 @@ export const EventForm = () => {
       <form id="eventForm" name="eventForm" 
         onSubmit={ (e)=>{ 
           e.preventDefault();
-          id ? dispatch(saveEvent(data)) : dispatch(newEvent(data));
           e.target.reset();
-          setTimeout( () => dispatch(getMonth(Date.now())), 1000)
+          id ? dispatch(saveEvent(data)) : dispatch(newEvent(data));
+          setTimeout( () => dispatch(getMonth(Date.now())), 500);
+          // new Promise(resolve => { id ? dispatch(saveEvent(data)) : dispatch(newEvent(data)) }).then( dispatch(getMonth(Date.now())) );
         } } 
       >
 

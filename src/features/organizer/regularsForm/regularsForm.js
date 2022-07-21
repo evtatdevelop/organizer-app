@@ -29,9 +29,10 @@ export const RegularsForm = () => {
       <form id="eventForm" name="eventForm" 
         onSubmit={ (e)=>{ 
           e.preventDefault();
-          id ? dispatch(saveRegular(data)) : dispatch(newRegular(data));
           e.target.reset();
-          setTimeout( () => dispatch(getMonth(Date.now())), 1000)
+          id ? dispatch(saveRegular(data)) : dispatch(newRegular(data));
+          setTimeout( () => dispatch(getMonth(Date.now())), 500);
+          // new Promise(resolve => { id ? dispatch(saveRegular(data)) : dispatch(newRegular(data)) }).then( dispatch(getMonth(Date.now())) );
         } } 
       >
         

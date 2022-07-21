@@ -49,7 +49,7 @@ export const getMonth = createAsyncThunk( 'organizer/getMonth', async ( MonthDay
 })
 
 export const newEvent       = createAsyncThunk('organizer/addEvent', async ( data ) => await addEvent(data) )
-export const saveEvent      = createAsyncThunk( 'organizer/setEvent', async ( data ) => await setEvent(data) )
+export const saveEvent      = createAsyncThunk( 'organizer/setEvent', async ( data ) => {await setEvent(data)} )
 export const removeEvent    = createAsyncThunk('organizer/delEvent', async ( id ) => await delEvent(id) )
 
 export const saveRegular    = createAsyncThunk( 'organizer/setRegulars', async ( data ) => await setRegulars(data) )
@@ -196,6 +196,7 @@ export const organizerSlice = createSlice({
         //     day.data = data;
         //   }
         // return day; })
+
         state.loading = false;
         state.showForm = false;
         state.currentEvent = {};
@@ -248,7 +249,7 @@ export const organizerSlice = createSlice({
       
       .addCase(removeRegular.pending, ( state ) => { state.loading = true })
       .addCase(removeRegular.fulfilled, (state, action) => {
-        // console.log(action.payload);
+        console.log(action.payload);
         state.loading = false;
         state.regForm = false;
         state.currentEvent = {};
