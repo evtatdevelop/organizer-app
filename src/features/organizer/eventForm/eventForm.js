@@ -3,8 +3,9 @@ import styles from './eventForm.module.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { 
   currentEvent, onShowForm, getMonth,
-  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus, 
-  saveEvent, newEvent, removeEvent 
+  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCurrency, setEventCash, setEventStatus, 
+  saveEvent, newEvent, removeEvent,
+  currYear, currMonth, currDay,
 } from "../organizerSlice";
 import { getDate, getTime } from "../../../helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,9 +14,13 @@ import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
 export const EventForm = () => {
   const dispatch = useDispatch();
   const data = useSelector(currentEvent);
-  const {id, date, name, description, type, value, cash, status} = data;
+  const curDateY = useSelector(currYear);
+  const curDateM = useSelector(currMonth);
+  const curDateD = useSelector(currDay);
+  const {id, date, name, description, type, value, currency, cash, status} = data;
   const eventDate = getDate(date);
   const eventTime = getTime(date);
+  const currdate = new Date(curDateY, curDateM, curDateD, 0, 0, 0, 0 ).getTime();
   
   return (
     <section className={ styles.eventForm }>
@@ -29,12 +34,12 @@ export const EventForm = () => {
           e.preventDefault();
           e.target.reset();
           id ? dispatch(saveEvent(data)) : dispatch(newEvent(data));
-          setTimeout( () => dispatch(getMonth(Date.now())), 500);
+          setTimeout( () => dispatch(getMonth(currdate)), 500);
           // new Promise(resolve => { id ? dispatch(saveEvent(data)) : dispatch(newEvent(data)) }).then( dispatch(getMonth(Date.now())) );
         } } 
       >
 
-        <p>eventForm</p>
+        {/* <p>eventForm</p> */}
 
         {/* Name */}
         <input type='text' name="name" placeholder='Name' required
@@ -76,11 +81,18 @@ export const EventForm = () => {
 
         {/* Value */}
         { type !== 'event'
-          ? <input type='number' name="value" placeholder='Value' className={styles.hideField}
-              min={0}
-              defaultValue={value}
-              onInput={ e => dispatch(setEventValue(+e.target.value)) }
-            />
+          ?  <div className={styles.eventValue}>
+              <input type='number' name="value" placeholder='Value' className={styles.hideField}
+                min={0}
+                defaultValue={value}
+                onInput={ e => dispatch(setEventValue(+e.target.value)) }
+              />            
+              <input type='text' name="currency" placeholder='Currency' className={styles.hideField}
+                defaultValue={ currency }
+                onInput={ e => dispatch(setEventCurrency(e.target.value)) }
+              />            
+          </div>
+
           : null  
         }
         
@@ -118,7 +130,7 @@ export const EventForm = () => {
               <button type="button"
               onClick={ () => {
                 dispatch(removeEvent(id))
-                setTimeout( () => dispatch(getMonth(Date.now())), 1000)
+                setTimeout( () => dispatch(getMonth(currdate)), 1000)
               }}
               ><FontAwesomeIcon icon={faXmark} className={styles.delete}/> Delete</button> 
               <button type="button"

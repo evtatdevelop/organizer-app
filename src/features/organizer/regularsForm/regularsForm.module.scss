@@ -50,7 +50,7 @@
         letter-spacing: .3vmin;
         background-color: transparent;
         color: #ffffff;
-        text-transform: uppercase;
+        // text-transform: uppercase;
         cursor: pointer;
 
         &::-webkit-calendar-picker-indicator{
@@ -165,7 +165,7 @@
       width: 100%;
       background-color: transparent;
       color: #ffffff;
-      text-transform: uppercase;
+      // text-transform: uppercase;
       cursor: pointer;
       padding: 1vmin;
       border-bottom: .1vmin solid wheat;
@@ -179,6 +179,18 @@
         &::placeholder {
           color: rgba($color: #ffffff, $alpha: .1)
         }
+      }
+    }
+
+    .eventValue {
+      display: flex;
+
+      input[type=number],
+      input[type=text]:first-child {
+        text-align: right;
+      }
+      input[type=text] {  
+        text-transform: uppercase;
       }
     }
 

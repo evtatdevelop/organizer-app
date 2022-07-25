@@ -3,8 +3,9 @@ import styles from './regularsForm.module.scss';
 import { useSelector, useDispatch } from "react-redux";
 import { 
   currentEvent, onRegForm, getMonth,
-  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setRegPeriod, setLastDate,
-  saveRegular, newRegular, removeRegular 
+  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCurrency, setEventCash, setRegPeriod, setLastDate,
+  saveRegular, newRegular, removeRegular,
+  currYear, currMonth, currDay, 
 } from "../organizerSlice";
 import { getDate, getTime } from "../../../helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,11 +14,14 @@ import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
 export const RegularsForm = () => {
   const dispatch = useDispatch();
   const data = useSelector(currentEvent);
-  const { id, date, date_from, name, description, type, value, cash, status, period, last_date } = data;
+  const curDateY = useSelector(currYear);
+  const curDateM = useSelector(currMonth);
+  const curDateD = useSelector(currDay);
+  const { id, date, date_from, name, description, type, value, currency, cash, status, period, last_date } = data;
   const eventDate = getDate(date_from);
   const eventTime = getTime(date_from);
-  
-  // console.log( period, last_date, type);
+  const currdate = new Date(curDateY, curDateM, curDateD, 0, 0, 0, 0 ).getTime();
+
 
   return (
     <section className={ styles.regularsForm }>
@@ -31,12 +35,12 @@ export const RegularsForm = () => {
           e.preventDefault();
           e.target.reset();
           id ? dispatch(saveRegular(data)) : dispatch(newRegular(data));
-          setTimeout( () => dispatch(getMonth(Date.now())), 500);
+          setTimeout( () => dispatch(getMonth(currdate)), 500);
           // new Promise(resolve => { id ? dispatch(saveRegular(data)) : dispatch(newRegular(data)) }).then( dispatch(getMonth(Date.now())) );
         } } 
       >
         
-        <p>regularsForm</p>
+        {/* <p>regularsForm</p> */}
 
         {/* Name */}
         <input type='text' name="name" placeholder='Name' required
@@ -101,11 +105,22 @@ export const RegularsForm = () => {
 
         {/* Value */}
         { type !== 'event'
-          ? <input type='number' name="value" placeholder='Value' className={styles.hideField}
-              min={0}
-              defaultValue={value}
-              onInput={ e => dispatch(setEventValue(+e.target.value)) }
-            />
+          // ? <input type='number' name="value" placeholder='Value' className={styles.hideField}
+          //     min={0}
+          //     defaultValue={value}
+          //     onInput={ e => dispatch(setEventValue(+e.target.value)) }
+          //   />
+          ?  <div className={styles.eventValue}>
+              <input type='number' name="value" placeholder='Value' className={styles.hideField} required
+                min={0}
+                defaultValue={ value }
+                onInput={ e => dispatch(setEventValue(+e.target.value)) }
+              />            
+              <input type='text' name="currency" placeholder='Currency' className={styles.hideField} required
+                defaultValue={ currency }
+                onInput={ e => dispatch(setEventCurrency(e.target.value)) }
+              />            
+          </div>
           : null  
         }
         
@@ -145,7 +160,7 @@ export const RegularsForm = () => {
               <button type="button"
               onClick={ () => {
                 dispatch(removeRegular(id))
-                setTimeout( () => dispatch(getMonth(Date.now())), 1000)
+                setTimeout( () => dispatch(getMonth(currdate)), 1000)
               }}
               ><FontAwesomeIcon icon={faXmark} className={styles.delete}/> Delete</button> 
               <button type="button"

@@ -60,15 +60,16 @@ export const organizerSlice = createSlice({
   name: 'organizer',
   initialState,
   reducers: {
-    setDisplayMode: ( state, action ) => { state.display                  = action.payload },
-    setDay:         ( state, action ) => { state.day                      = action.payload },
-    setEventName:   ( state, action ) => { state.currentEvent.name        = action.payload },
-    setEventDesc:   ( state, action ) => { state.currentEvent.description = action.payload },
-    setEventValue:  ( state, action ) => { state.currentEvent.value       = action.payload },
-    setEventCash:   ( state, action ) => { state.currentEvent.cash        = action.payload },
-    setEventStatus: ( state, action ) => { state.currentEvent.status      = action.payload },
-    setRegPeriod:   ( state, action ) => { state.currentEvent.period      = action.payload },
-    setLastDate:    ( state, action ) => { state.currentEvent.last_date   = action.payload },
+    setDisplayMode:   ( state, action ) => { state.display                  = action.payload },
+    setDay:           ( state, action ) => { state.day                      = action.payload },
+    setEventName:     ( state, action ) => { state.currentEvent.name        = action.payload },
+    setEventDesc:     ( state, action ) => { state.currentEvent.description = action.payload },
+    setEventValue:    ( state, action ) => { state.currentEvent.value       = action.payload },
+    setEventCurrency: ( state, action ) => { state.currentEvent.currency    = action.payload },
+    setEventCash:     ( state, action ) => { state.currentEvent.cash        = action.payload },
+    setEventStatus:   ( state, action ) => { state.currentEvent.status      = action.payload },
+    setRegPeriod:     ( state, action ) => { state.currentEvent.period      = action.payload },
+    setLastDate:      ( state, action ) => { state.currentEvent.last_date   = action.payload },
 
     setEventType:   ( state, action ) => { 
       state.currentEvent.type = action.payload
@@ -259,7 +260,7 @@ export const organizerSlice = createSlice({
 
 export const { 
   setDisplayMode, setDay, onShowForm, setCurrEvent, onRegForm,
-  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCash, setEventStatus, setRegPeriod, setLastDate
+  setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCurrency, setEventCash, setEventStatus, setRegPeriod, setLastDate
 } = organizerSlice.actions;
 
 export const loading      = ( state ) => state.organizer.loading;
