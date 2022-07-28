@@ -9,6 +9,7 @@ const initialState = {
   showTools: '',
   showButtonAll: false,
   currentAsset: {},
+  currencies: []
 }
 
 const sorting = (state) => {
@@ -56,6 +57,7 @@ export const assetsListSlice = createSlice({
         state.loading = false;
         state.data = action.payload;
         sorting(state);
+        state.currencies = [...new Set([...action.payload.map(item => item.currensy)])]
       })
 
       .addCase(getOneAsset.pending, ( state ) => { state.loading = true })
@@ -111,5 +113,6 @@ export const showTools      = ( state ) => state.assets.showTools;
 export const currentAsset   = ( state ) => state.assets.currentAsset;
 export const showButtonAll  = ( state ) => state.assets.showButtonAll;
 export const onlyActive     = ( state ) => state.assets.onlyActive;
+export const currencies     = ( state ) => state.assets.currencies;
 
 export default assetsListSlice.reducer;

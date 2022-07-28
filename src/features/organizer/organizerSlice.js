@@ -255,6 +255,7 @@ export const organizerSlice = createSlice({
         state.regForm = false;
         state.currentEvent = {};
       })
+
   }
 });
 

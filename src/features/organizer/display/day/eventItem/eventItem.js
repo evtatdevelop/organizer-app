@@ -7,10 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import worldCurrencies from "world-currencies";
 
 export const EventItem = props => {
   const { item, day, mode} = props;
   const dispatch = useDispatch();
+  const currencies = worldCurrencies;
+
+  // console.log(item);
 
   return ( 
         // <li key={item.id} className={styles.eventItem}>
@@ -26,8 +30,8 @@ export const EventItem = props => {
             <span className={styleEventVal(item.type, item.status)}>
               {item.type !== 'event' 
                 ? item.type !== 'profit' 
-                  ? `- ${moneyFormat(item.value)}`
-                  : `+ ${moneyFormat(item.value)}`
+                  ? `- ${moneyFormat(item.value)} ${currencies[item.currency]['units']['major']['symbol']}`
+                  : `+ ${moneyFormat(item.value)} ${currencies[item.currency]['units']['major']['symbol']}`
                 : null
               }
             </span>

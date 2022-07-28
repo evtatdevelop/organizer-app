@@ -49,4 +49,18 @@ export default class Service {
     if (!res.ok) throw new Error(`Could non fetch ${url}. Status: ${res.status}`);
     return await res.json(); 
   }
+
+
+  APIRates = async () => {
+    // const res = await fetch('https://www.cbr-xml-daily.ru/daily_jsonp.js', {
+    // const res = await fetch('https://www.cbr-xml-daily.ru/latest.js', {
+    // const res = await fetch('http://www.floatrates.com/daily/usd.json', {
+    const res = await fetch('http://www.floatrates.com/daily/rub.json', {
+      method: 'GET',
+    });
+    if (!res.ok) throw new Error(`Could non fetch ${'https://www.cbr-xml-daily.ru/daily_jsonp.js'}. Status: ${res.status}`);
+    return await res.json();   
+  }
+
+
 }

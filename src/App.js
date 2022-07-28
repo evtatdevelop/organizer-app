@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from "react";
 // import { Counter } from './features/counter/Counter';
+import { useDispatch } from "react-redux";
+import { getRates } from "./features/commonAPI/commonSlice";
 import { Assets } from './features/assets/asset';
 import { Loader } from './features/loader/loader';
 import Organiser from './features/organizer';
@@ -8,6 +10,9 @@ import './constants.css';
 import './App.scss';
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(() => { dispatch(getRates()) }, []);
+
   return (
     <div className="App">
       <main className='main'><Organiser/></main>

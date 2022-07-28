@@ -8,6 +8,7 @@ export const ItemDay = ( props ) => {
   const { item, direction } = props;
   const dispatch = useDispatch();
 
+
   const now = Date.now();
   let itemDay = item.dateNumber ? styles.itemDay : `${styles.itemDay} ${styles.empty}`;
   itemDay = now > item.startDayTime && now < item.endDayTime ? `${itemDay} ${styles.today}` : itemDay;
@@ -20,9 +21,15 @@ export const ItemDay = ( props ) => {
         : `${styles.lableDay} ${styles.weekDayColor}`;
 
   let events, profit, costs, accepted;
+  
+    
   if ( item.data ) {
+  
+    // console.log(item.data);
+  
     profit    = item.data.filter(item => item.type === 'profit').reduce((sum, curr) => sum + +curr.value, 0)
     costs     = item.data.filter(item => item.type === 'costs').reduce((sum, curr) => sum + +curr.value, 0)
+    
     events    = item.data.filter(item => item.type === 'event').length;  
     accepted  = !item.data.filter(itemEvent => 
       (itemEvent.status === 'active' && itemEvent.mode === 'onetime') || 
