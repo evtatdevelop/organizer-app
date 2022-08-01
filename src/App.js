@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// import { Counter } from './features/counter/Counter';
 import { useDispatch } from "react-redux";
 import { getRates } from "./features/commonAPI/commonSlice";
 import { Assets } from './features/assets/asset';

@@ -2,7 +2,7 @@ import Service from "../../services";
 
 const service = new Service();
 
-export const APIRates = () => service.APIRates();
+export const APIRates = () => service.APIRates('http://www.floatrates.com/daily/rub.json');
 // export const APIRates = () => {return {
 //   usd: {
 //     code: 'USD',

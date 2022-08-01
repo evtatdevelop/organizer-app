@@ -155,7 +155,7 @@ export const RegularsForm = () => {
         }
         
         {/* control buttons */}
-        { id && Number(last_date) < Number(date) && status === 'active'
+        { id && Number(last_date) < Number(date) // && status === 'active'
           ? <div className={styles.controlBtn}>
               <button type="button"
               onClick={ () => {
@@ -171,6 +171,7 @@ export const RegularsForm = () => {
                   acceptData.last_date = nowAccept;
                   // console.log(acceptData);
                   dispatch(saveRegular(acceptData));
+                  setTimeout( () => dispatch(getMonth(currdate)), 1000)
                 }
               }
               ><FontAwesomeIcon icon={faCheck} className={styles.accept}/> Accept</button> 

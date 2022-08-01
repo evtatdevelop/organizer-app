@@ -8,25 +8,35 @@ import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
 import EventItem  from "./eventItem";
 import Clock from "./clock";
+import { rates } from "../../../commonAPI/commonSlice";
 
 export const Day = () => {  
   const year = useSelector(currYear)
   const month = useSelector(currMonth)
   const day = useSelector(currDay)
+  const currencies = useSelector(rates)
 
   const monthDays = useSelector(days)
   const dispatch = useDispatch();
   
   const dataDay = monthDays.find(item => item.key === `${year}.${month}.${day}`);
-  const totalProfit = moneyFormat(dataDay.data.filter(item => item.type === 'profit').reduce((sum, curr) => sum + +curr.value, 0))
-  const totalCosts = moneyFormat(dataDay.data.filter(item => item.type === 'costs').reduce((sum, curr) => sum + +curr.value, 0))
-  const cardCosts = dataDay.data.filter(item => item.type === 'costs' && item.cash === 'card').reduce((sum, curr) => sum + +curr.value, 0)
-  const cashCosts = dataDay.data.filter(item => item.type === 'costs' && item.cash === 'cash').reduce((sum, curr) => sum + +curr.value, 0)
 
-  const handlerClickView = (mode) => {
-    // console.log(dataDay.key);
-    dispatch( setDisplayMode(mode));
-  } 
+  const getRate = ( curr ) => {
+    let rate = 1;
+    if ( curr !== 'RUB' ) {
+      const currency = currencies.find(item => item.code === curr)
+      rate = currency.inverseRate;
+    }
+    return Number(rate)
+  }
+
+
+  const totalProfit = moneyFormat(Math.round(dataDay.data.filter(item => item.type === 'profit').reduce((sum, curr) => sum + +curr.value * getRate(curr.currency), 0)))
+  const totalCosts = moneyFormat(Math.round(dataDay.data.filter(item => item.type === 'costs').reduce((sum, curr) => sum + +curr.value * getRate(curr.currency), 0)))
+  const cardCosts = dataDay.data.filter(item => item.type === 'costs' && item.cash === 'card').reduce((sum, curr) => sum + +curr.value * getRate(curr.currency), 0)
+  const cashCosts = dataDay.data.filter(item => item.type === 'costs' && item.cash === 'cash').reduce((sum, curr) => sum + +curr.value * getRate(curr.currency), 0)
+
+  const handlerClickView = (mode) => { dispatch( setDisplayMode(mode)) } 
 
   return ( 
     <section className={styles.dayList}>
@@ -57,7 +67,7 @@ export const Day = () => {
 
       {/* main */}
       <ul className={styles.eventList}>
-        {dataDay.data.map( item => <EventItem key={`${item.mode}${item.id}`} item={item} day={dataDay.key} mode={item.mode}/> )}
+        {dataDay.data.map( item => <EventItem key={`${item.mode}${item.id}`} item={item} day={dataDay} mode={item.mode}/> )}
       </ul>
 
       <div className={styles.addButtons}>

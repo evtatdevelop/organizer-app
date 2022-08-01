@@ -1,13 +1,14 @@
 import React from "react";
 import styles from './itemDay.module.scss';
 import { setDisplayMode, setDay } from "../../../organizerSlice";
-import {  useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { moneyFormat } from "../../../../../helpers";
+import { rates } from "../../../../commonAPI/commonSlice";
 
 export const ItemDay = ( props ) => {
   const { item, direction } = props;
   const dispatch = useDispatch();
-
+  const currencies = useSelector(rates)
 
   const now = Date.now();
   let itemDay = item.dateNumber ? styles.itemDay : `${styles.itemDay} ${styles.empty}`;
@@ -27,13 +28,34 @@ export const ItemDay = ( props ) => {
   
     // console.log(item.data);
   
-    profit    = item.data.filter(item => item.type === 'profit').reduce((sum, curr) => sum + +curr.value, 0)
-    costs     = item.data.filter(item => item.type === 'costs').reduce((sum, curr) => sum + +curr.value, 0)
+    profit    = item.data.filter(item => item.type === 'profit').reduce((sum, curr) => {
+      
+      let rate = 1;
+      if ( curr.currency !== 'RUB' ) {
+        const currency = currencies.find(item => item.code === curr.currency)
+        rate = currency.inverseRate;
+      }
+      return sum + +curr.value * rate
+      
+      // return sum + +curr.value
+    }, 0)
+    costs     = item.data.filter(item => item.type === 'costs').reduce((sum, curr) => {
+      
+      let rate = 1;
+      if ( curr.currency !== 'RUB' ) {
+        const currency = currencies.find(item => item.code === curr.currency)
+        rate = currency.inverseRate;
+      }
+      return sum + +curr.value * rate
+
+      // return sum + +curr.value
+    }, 0)
     
     events    = item.data.filter(item => item.type === 'event').length;  
-    accepted  = !item.data.filter(itemEvent => 
-      (itemEvent.status === 'active' && itemEvent.mode === 'onetime') || 
-      (itemEvent.mode === 'regular' && Number(itemEvent.last_date) <= Number(item.endDayTime)) ).length;
+    // accepted  = !item.data.filter(itemEvent => 
+    //   (itemEvent.status !== 'success' && itemEvent.mode === 'onetime') ||
+    //   (itemEvent.mode === 'regular' && Number(itemEvent.last_date) < Number(item.endDayTime))
+    //   ).length;
   }
 
   const handlerClick = () => {
@@ -53,8 +75,8 @@ export const ItemDay = ( props ) => {
         </div>
 
         <div className={styles.dataDay}>
-          { !!profit ? <p className={accepted ? styles.accepted : styles.profit}><span>Profit</span> <span>{ moneyFormat(profit) }</span></p> : null}
-          { !!costs ? <p className={accepted ? styles.accepted : styles.costs}><span>Costs</span> <span>{ moneyFormat(costs) }</span></p> : null}
+          { !!profit ? <p className={accepted ? styles.accepted : styles.profit}><span>Profit</span> <span>{ moneyFormat( Math.round(profit)) }</span></p> : null}
+          { !!costs ? <p className={accepted ? styles.accepted : styles.costs}><span>Costs</span> <span>{ moneyFormat( Math.round(costs)) }</span></p> : null}
           { !!events ? <p className={accepted ? styles.accepted : styles.event}><span>{events > 1 ? 'Events ' : 'Event '}</span> <span>{events}</span></p> : null}
         </div>        
       </button>

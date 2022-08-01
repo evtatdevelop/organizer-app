@@ -3,7 +3,7 @@ import { APIRates } from './commonAPI';
 
 const initialState = {
   loading:  false,
-  rates:    null
+  rates:    []
 }
 
 export const getRates = createAsyncThunk('common/rates', async () => {
@@ -15,7 +15,7 @@ export const getRates = createAsyncThunk('common/rates', async () => {
   }
 })
 
-export const organizerSlice = createSlice({
+export const commonSlice = createSlice({
   name: 'common',
   initialState,
   reducers: {
@@ -61,9 +61,9 @@ export const organizerSlice = createSlice({
 // export const { 
 //   setDisplayMode, setDay, onShowForm, setCurrEvent, onRegForm,
 //   setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCurrency, setEventCash, setEventStatus, setRegPeriod, setLastDate
-// } = organizerSlice.actions;
+// } = commonSlice.actions;
 
-export const loading = ( state ) => state.organizer.loading;
-export const rates   = ( state ) => state.organizer.rates;
+export const loading = ( state ) => state.common.loading;
+export const rates   = ( state ) => state.common.rates;
 
-export default organizerSlice.reducer;
+export default commonSlice.reducer;

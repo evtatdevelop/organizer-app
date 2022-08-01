@@ -20,7 +20,7 @@ export const EventItem = props => {
         // <li key={item.id} className={styles.eventItem}>
         <li className={styles.eventItem}>
           
-          <button onClick={ ()=> dispatch( setCurrEvent({day, id: item.id, mode})) }>
+          <button onClick={ ()=> dispatch( setCurrEvent({day: day.key, id: item.id, mode})) }>
 
             <span className={styles.eventTime}>{getTime(Number(item.date))}</span>
             <span className={styleEventName(item.date)}>{item.name}</span> 
@@ -35,7 +35,7 @@ export const EventItem = props => {
                 : null
               }
             </span>
-            <span className={styleEventCash(item.cash, item.status)}>
+            <span className={styleEventCash( item, day )}>
               {item.cash === 'cash' ? <FontAwesomeIcon icon={faWallet}/> : null}
               {item.cash === 'card' ? <FontAwesomeIcon icon={faCreditCard}  /> : null}
             </span>
@@ -48,10 +48,14 @@ export const EventItem = props => {
 }
 
 
-const styleEventVal = (eventType, eventStatus) => {
+const styleEventVal = (item, day) => {
+  
+  const { type, status, mode, last_date } = item
   let result = styles.eventValue;
-  if ( eventStatus === 'success' ) return result + ` ${styles.accepted}`;
-  switch ( eventType ) {
+  // if (!((status !== 'success' && mode === 'onetime') ||
+  //     (mode === 'regular' && Number(last_date) < Number(day.endDayTime)))
+  // ) return result + ` ${styles.accepted}`;
+  switch ( type ) {
     case 'profit': result += ' ' + styles.profit; break;
     case 'costs': result += ' ' + styles.costs; break;
     default: result += ' ' + styles.event; break;
@@ -65,11 +69,13 @@ const styleEventName = (itemDate) => {
   return result;
 }
 
-const styleEventCash = (itemCash, eventStatus) => {
+const styleEventCash = ( item, day ) => {
+  const { cash, status, mode, last_date } = item
   let result = styles.eventCash;
-  // console.log(eventStatus);
-  if ( eventStatus === 'success' ) return result + ` ${styles.accepted}`;
-  if ( itemCash === 'cash' ) result += ` ${styles.cash}`;
-  if ( itemCash === 'card' ) result += ` ${styles.card}`;
+  // if (!((status !== 'success' && mode === 'onetime') ||
+  //     (mode === 'regular' && Number(last_date) < Number(day.endDayTime)))
+  //  ) return result + ` ${styles.accepted}`;
+  if ( cash === 'cash' ) result += ` ${styles.cash}`;
+  if ( cash === 'card' ) result += ` ${styles.card}`;
   return result;  
 }

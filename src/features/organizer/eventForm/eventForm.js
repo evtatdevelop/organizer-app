@@ -139,6 +139,7 @@ export const EventForm = () => {
                   const acceptData = {...data}
                   acceptData.status = 'success';
                   dispatch(saveEvent(acceptData));
+                  setTimeout( () => dispatch(getMonth(currdate)), 1000)
                 }
               }
               ><FontAwesomeIcon icon={faCheck} className={styles.accept}/> Accept</button> 

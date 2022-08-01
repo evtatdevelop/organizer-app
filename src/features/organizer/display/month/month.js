@@ -4,6 +4,7 @@ import ItemDay from "./ItemDay";
 import { useSelector, useDispatch } from "react-redux";
 import { days, currYear, currMonth, currDay, getMonth } from "../../organizerSlice";
 import { moneyFormat } from "../../../../helpers";
+import { rates } from "../../../commonAPI/commonSlice";
 
 export const Month = () => { 
   const dispatch = useDispatch()
@@ -11,6 +12,7 @@ export const Month = () => {
   const year = useSelector(currYear)
   const month = useSelector(currMonth)
   const day = useSelector(currDay)
+  const currencies = useSelector(rates)
   const date = new Date(year, month , day)
 
   const [direction, setDirection] = useState(null);
@@ -24,8 +26,10 @@ export const Month = () => {
     setDirection('next');
   }
 
-  const profit = getMonthSumm(monthDays, 'profit');
-  const costs = getMonthSumm(monthDays, 'costs');
+  // console.log(curencies);
+
+  const profit = getMonthSumm(monthDays, 'profit', currencies);
+  const costs = getMonthSumm(monthDays, 'costs', currencies);
 
   return ( 
     <>
@@ -54,10 +58,19 @@ export const Month = () => {
   )    
 }
 
-const getMonthSumm = (dayArr, mode) => moneyFormat(
-  dayArr.reduce((sum, curr) => 
-    curr.data 
-    ? sum + curr.data.filter(item => item.type === mode).reduce((sum, event) => sum + +event.value, 0)
-    : sum
-  , 0)
-)
+const getMonthSumm = (dayArr, mode, currencies) => {
+  const sum = 
+    dayArr.reduce((sum, curr) => 
+      curr.data 
+      ? sum + curr.data.filter(item => item.type === mode).reduce((sum, event) => {
+        let rate = 1;
+        if ( event.currency !== 'RUB' ) {
+          const currency = currencies.find(item => item.code === event.currency)
+          rate = currency.inverseRate;
+        }
+        return sum + +event.value * rate
+      }, 0)
+      : sum
+    , 0)
+  return moneyFormat( Math.round(sum) )
+}
