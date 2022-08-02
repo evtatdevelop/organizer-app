@@ -4,12 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { 
   currentEvent, onRegForm, getMonth,
   setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCurrency, setEventCash, setRegPeriod, setLastDate,
-  saveRegular, newRegular, removeRegular,
+  saveRegular, newRegular, removeRegular, 
   currYear, currMonth, currDay, 
 } from "../organizerSlice";
 import { getDate, getTime } from "../../../helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { getPeriod } from "../../../helpers";
 
 export const RegularsForm = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ export const RegularsForm = () => {
         onClick={() => dispatch(onRegForm(false))}
       >&times;</button>
       
-      <form id="eventForm" name="eventForm" 
+      <form id="regularForm" name="regularForm" 
         onSubmit={ (e)=>{ 
           e.preventDefault();
           e.target.reset();
@@ -155,7 +156,9 @@ export const RegularsForm = () => {
         }
         
         {/* control buttons */}
-        { id && Number(last_date) < Number(date) // && status === 'active'
+        { id 
+          && Date.now() <= Number(date)
+          && Date.now() + getPeriod(date, period) >= Number(date)
           ? <div className={styles.controlBtn}>
               <button type="button"
               onClick={ () => {

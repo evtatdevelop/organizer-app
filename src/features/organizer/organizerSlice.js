@@ -174,6 +174,7 @@ export const organizerSlice = createSlice({
 
       .addCase(newEvent.pending, ( state ) => { state.loading = true })
       .addCase(newEvent.fulfilled, (state, action) => {
+        console.log(action);
         // const { id, date, name, description, type, value, status, cash, mode} = action.payload;
         // state.days.map(day => {
         //   if ( date >= day.startDayTime && date <= day.endDayTime ) {          
@@ -205,6 +206,7 @@ export const organizerSlice = createSlice({
 
       .addCase(removeEvent.pending, ( state ) => { state.loading = true })
       .addCase(removeEvent.fulfilled, (state, action) => {
+        console.log(action);
         // const { id, date } = state.currentEvent;
         // state.days.map(day => {
         //   if ( date >= day.startDayTime && date <= day.endDayTime ) {

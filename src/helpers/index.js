@@ -17,3 +17,15 @@ export const getDate = ( timeStamp ) => {
   d = d > 9 ? d : `0${d}`
   return `${time.getFullYear()}-${m}-${d}`
 }
+
+export const getPeriod = ( now, period ) => {
+  const dateNow = new Date(now);
+  const day = 24*60*60*1000;
+  switch ( period ) {
+    case 'day':   return day;
+    case 'week':  return 7 * day;
+    case 'month': return new Date(dateNow.getFullYear(), dateNow.getMonth()+1, 0).getDate() * day;
+    case 'year':  return (new Date(dateNow.getFullYear(),11,31) - new Date(dateNow.getFullYear(),0,0));
+    default:      return 0  
+  }
+}
