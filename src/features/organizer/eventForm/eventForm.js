@@ -10,6 +10,7 @@ import {
 import { getDate, getTime } from "../../../helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { getDataAsync } from "../../assets/assetsSlice";
 
 export const EventForm = () => {
   const dispatch = useDispatch();
@@ -87,7 +88,7 @@ export const EventForm = () => {
                 defaultValue={value}
                 onInput={ e => dispatch(setEventValue(+e.target.value)) }
               />            
-              <input type='text' name="currency" placeholder='Currency' className={styles.hideField}
+              <input type='text' name="currency" placeholder='Currency' className={styles.hideField} required
                 defaultValue={ currency }
                 onInput={ e => dispatch(setEventCurrency(e.target.value)) }
               />            
@@ -139,7 +140,10 @@ export const EventForm = () => {
                   const acceptData = {...data}
                   acceptData.status = 'success';
                   dispatch(saveEvent(acceptData));
-                  setTimeout( () => dispatch(getMonth(currdate)), 1000)
+                  setTimeout( () => {
+                    dispatch(getMonth(currdate))
+                    dispatch(getDataAsync())
+                  }, 1000)
                 }
               }
               ><FontAwesomeIcon icon={faCheck} className={styles.accept}/> Accept</button> 

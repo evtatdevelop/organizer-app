@@ -21,10 +21,8 @@ export const getMonth = createAsyncThunk( 'organizer/getMonth', async ( MonthDay
         date = new Date(year, month, 1),
         from = date.getTime(),
         to = new Date(year, month + 1, 0, 23, 59, 59, 999 ).getTime(); 
-  const events = await getEvents(from, to); 
-  // console.log(events);
+  const events = await getEvents(from, to);
   const response = [...events];
-
   const onejan = new Date(year,0,1), 
         onejanDay = onejan.getDay(),
         result = [];
@@ -51,7 +49,6 @@ export const getMonth = createAsyncThunk( 'organizer/getMonth', async ( MonthDay
 export const newEvent       = createAsyncThunk('organizer/addEvent', async ( data ) => await addEvent(data) )
 export const saveEvent      = createAsyncThunk( 'organizer/setEvent', async ( data ) => {await setEvent(data)} )
 export const removeEvent    = createAsyncThunk('organizer/delEvent', async ( id ) => await delEvent(id) )
-
 export const saveRegular    = createAsyncThunk( 'organizer/setRegulars', async ( data ) => await setRegulars(data) )
 export const newRegular     = createAsyncThunk('organizer/addRegulars', async ( data ) => await addRegulars(data) )
 export const removeRegular  = createAsyncThunk('organizer/delRegulars', async ( id ) => await delRegulars(id) )
@@ -140,19 +137,14 @@ export const organizerSlice = createSlice({
               state.currentEvent = {...event}
               state.currentEvent.date = +event.date;
               state.currentEvent.value = event.value ? +event.value : null;
-              
               if ( mode === 'onetime' ) {
                 state.currentEvent.date = +event.date;
                 state.showForm = true;
               }
               if ( mode === 'regular' ) {
                 state.currentEvent.id = event.id.split('-')[0];
-                // delete state.currentEvent.date;
-                // state.currentEvent.date_from = +event.date_from;
                 state.regForm = true;
               }
-            
-            
             }
           return event; })
         }
@@ -174,14 +166,6 @@ export const organizerSlice = createSlice({
 
       .addCase(newEvent.pending, ( state ) => { state.loading = true })
       .addCase(newEvent.fulfilled, (state, action) => {
-        console.log(action);
-        // const { id, date, name, description, type, value, status, cash, mode} = action.payload;
-        // state.days.map(day => {
-        //   if ( date >= day.startDayTime && date <= day.endDayTime ) {          
-        //     day.data.push({ id, date, name, description, type, value, status, cash, mode })
-        //     day.data.sort((a, b) => Number(a.date) - Number(b.date))
-        //   }
-        // return day; })
         state.loading = false;
         state.showForm = false;
         state.currentEvent = {};
@@ -189,16 +173,6 @@ export const organizerSlice = createSlice({
 
       .addCase(saveEvent.pending, ( state ) => { state.loading = true })
       .addCase(saveEvent.fulfilled, (state, action) => {
-        // const { id, date, name, description, type, value, status, cash, mode } = action.payload;
-        // state.days.map(day => {
-        //   if ( date >= day.startDayTime && date <= day.endDayTime ) {
-        //     const data = day.data.filter(event => Number(event.id) !== Number(id))
-        //     data.push({ id, date, name, description, type, value, status, cash, mode });
-        //     data.sort((a, b) => Number(a.date) - Number(b.date))
-        //     day.data = data;
-        //   }
-        // return day; })
-
         state.loading = false;
         state.showForm = false;
         state.currentEvent = {};
@@ -206,37 +180,13 @@ export const organizerSlice = createSlice({
 
       .addCase(removeEvent.pending, ( state ) => { state.loading = true })
       .addCase(removeEvent.fulfilled, (state, action) => {
-        console.log(action);
-        // const { id, date } = state.currentEvent;
-        // state.days.map(day => {
-        //   if ( date >= day.startDayTime && date <= day.endDayTime ) {
-        //     const data = day.data.filter(event => Number(event.id) !== Number(id))
-        //     day.data = data;
-        //   }
-        // return day; })
         state.loading = false;
         state.showForm = false;
         state.currentEvent = {};
       })
 
-
-
       .addCase(saveRegular.pending, ( state ) => { state.loading = true })
       .addCase(saveRegular.fulfilled, (state, action) => {
-        // console.log(action.payload);
-        // const { id, name, date_from, date_to, last_date, period, description, type, value, status, cash, mode } = action.payload;
-        // state.days.map(day => {
-        //   if ( day.data ) {
-        //     const targetEvent = day.data.find(event => Number(event.id.split('-')[0]) === Number(id) )
-        //     if ( targetEvent ) {
-        //       const {id: oldId , date} = targetEvent;
-        //       const data = day.data.filter(event => Number(event.id.split('-')[0]) !== Number(id) )
-        //       data.push({ id: oldId , date, name, date_from, date_to, last_date, period, description, type, value, status, cash, mode })
-        //       data.sort((a, b) => Number(a.date) - Number(b.date))
-        //       day.data = data;
-        //     }
-        //   }
-        // return day; })
         state.loading = false;
         state.regForm = false;
         state.currentEvent = {};
@@ -244,7 +194,6 @@ export const organizerSlice = createSlice({
 
       .addCase(newRegular.pending, ( state ) => { state.loading = true })
       .addCase(newRegular.fulfilled, (state, action) => {
-        // console.log(action.payload);
         state.loading = false;
         state.regForm = false;
         state.currentEvent = {};
@@ -257,7 +206,6 @@ export const organizerSlice = createSlice({
         state.regForm = false;
         state.currentEvent = {};
       })
-
   }
 });
 

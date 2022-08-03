@@ -11,6 +11,7 @@ import { getDate, getTime } from "../../../helpers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { getPeriod } from "../../../helpers";
+import { getDataAsync } from "../../assets/assetsSlice";
 
 export const RegularsForm = () => {
   const dispatch = useDispatch();
@@ -157,7 +158,7 @@ export const RegularsForm = () => {
         
         {/* control buttons */}
         { id 
-          && Date.now() <= Number(date)
+          // && Date.now() <= Number(date)
           && Date.now() + getPeriod(date, period) >= Number(date)
           ? <div className={styles.controlBtn}>
               <button type="button"
@@ -174,7 +175,10 @@ export const RegularsForm = () => {
                   acceptData.last_date = nowAccept;
                   // console.log(acceptData);
                   dispatch(saveRegular(acceptData));
-                  setTimeout( () => dispatch(getMonth(currdate)), 1000)
+                  setTimeout( () => {
+                    dispatch(getMonth(currdate))
+                    dispatch(getDataAsync())
+                  }, 1000)
                 }
               }
               ><FontAwesomeIcon icon={faCheck} className={styles.accept}/> Accept</button> 
