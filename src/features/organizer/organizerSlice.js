@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getEvents, setEvent, addEvent, delEvent, setRegulars, addRegulars, delRegulars } from './organizerSliceAPI';
+import { getPeriod } from "../../helpers";
 
 const data = new Date();
 const initialState = {
@@ -65,7 +66,10 @@ export const organizerSlice = createSlice({
     setEventCurrency: ( state, action ) => { state.currentEvent.currency    = action.payload },
     setEventCash:     ( state, action ) => { state.currentEvent.cash        = action.payload },
     setEventStatus:   ( state, action ) => { state.currentEvent.status      = action.payload },
-    setRegPeriod:     ( state, action ) => { state.currentEvent.period      = action.payload },
+    setRegPeriod:     ( state, action ) => { 
+      state.currentEvent.period      = action.payload 
+      state.currentEvent.last_date = state.currentEvent.date_from - getPeriod(state.currentEvent.date_from, state.currentEvent.period)
+    },
     setLastDate:      ( state, action ) => { state.currentEvent.last_date   = action.payload },
 
     setEventType:   ( state, action ) => { 
@@ -92,8 +96,9 @@ export const organizerSlice = createSlice({
       state.regForm = action.payload;
       if ( action.payload ) {
         const now = new Date();
+        const date = new Date(state.year, state.month, state.day, now.getHours(), now.getMinutes()).getTime();
         state.currentEvent.name = '';
-        state.currentEvent.date_from = new Date(state.year, state.month, state.day, now.getHours(), now.getMinutes()).getTime();
+        state.currentEvent.date_from = date;
         state.currentEvent.date_to = null;
         state.currentEvent.type = 'event';
         state.currentEvent.value = 0;
@@ -102,30 +107,34 @@ export const organizerSlice = createSlice({
         state.currentEvent.period = 'day';
         state.currentEvent.status = 'active';
         state.currentEvent.mode = 'regular';
-        state.currentEvent.last_date = now - 365*24*3600*1000
+        state.currentEvent.last_date = date - 24*60*60*1000
       } else state.currentEvent = {}
     },
 
     setEventDate: (state, action) => { 
-      console.log(state.currentEvent.mode);
-      let date = action.payload;
-      if ( date.includes(':') ) {
-        const splitInput = date.split(':');
-        if ( state.currentEvent.date ) 
-          date = new Date(state.currentEvent.date);
-        else date = new Date();
-        date.setHours(splitInput[0]);
-        date.setMinutes(splitInput[1]);
-      } else {
-        if ( state.currentEvent.date ) {
-          const currDate = new Date(state.currentEvent.date);
-          date = new Date(date);
-          date.setHours( currDate.getHours() );
-          date.setMinutes( currDate.getMinutes() );
-        } else date = new Date(date);  
+      const {mode, date, date_from, period} = state.currentEvent;
+      let payload = action.payload;
+      let setDate;
+      if ( mode === 'onetime' ) setDate = new Date( date );
+      if ( mode === 'regular' ) setDate = new Date( date_from );
+      
+      if ( payload.includes(':') ) {
+        const splitInput = payload.split(':');
+        setDate.setHours(splitInput[0]);
+        setDate.setMinutes(splitInput[1]);
       }
-      if (state.currentEvent.mode === 'onetime') state.currentEvent.date = date.getTime();
-      if (state.currentEvent.mode === 'regular') state.currentEvent.date_from = date.getTime();
+      if ( payload.includes('-') ) {
+        const splitInput = payload.split('-');
+        setDate.setDate( splitInput[2] );
+        setDate.setMonth( splitInput[1] - 1 );
+        setDate.setFullYear( splitInput[0] );  
+      }
+      if ( mode === 'onetime' ) state.currentEvent.date = setDate.getTime();
+      if ( mode === 'regular' ) {
+        const time =  setDate.getTime();
+        state.currentEvent.date_from = time;
+        state.currentEvent.last_date = time - getPeriod(time, period);
+      }
     },
 
     setCurrEvent: (state, action) => {

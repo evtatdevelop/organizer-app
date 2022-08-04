@@ -155,11 +155,9 @@ export const RegularsForm = () => {
           ? <button type='submit'>Save</button>
           : null
         }
-        
+
         {/* control buttons */}
-        { id 
-          // && Date.now() <= Number(date)
-          && Date.now() + getPeriod(date, period) >= Number(date)
+        { id && Number(last_date) + getPeriod(date, period) === date
           ? <div className={styles.controlBtn}>
               <button type="button"
               onClick={ () => {
@@ -169,11 +167,11 @@ export const RegularsForm = () => {
               ><FontAwesomeIcon icon={faXmark} className={styles.delete}/> Delete</button> 
               <button type="button"
                 onClick={ () => {
-                  const nowAccept = Date.now();
-                  dispatch(setLastDate(nowAccept));
+                  // const nowAccept = Date.now();
+                  // dispatch(setLastDate(nowAccept));
                   const acceptData = {...data}
-                  acceptData.last_date = nowAccept;
-                  // console.log(acceptData);
+                  acceptData.last_date = data.date;
+                  console.log(acceptData);
                   dispatch(saveRegular(acceptData));
                   setTimeout( () => {
                     dispatch(getMonth(currdate))
