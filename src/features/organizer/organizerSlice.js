@@ -89,6 +89,7 @@ export const organizerSlice = createSlice({
         state.currentEvent.description = '';
         state.currentEvent.status = 'active';
         state.currentEvent.mode = 'onetime';
+        state.currentEvent.currency = 'RUB'
       } else state.currentEvent = {}
     },
 
@@ -108,6 +109,7 @@ export const organizerSlice = createSlice({
         state.currentEvent.status = 'active';
         state.currentEvent.mode = 'regular';
         state.currentEvent.last_date = date - 24*60*60*1000
+        state.currentEvent.currency = 'RUB'
       } else state.currentEvent = {}
     },
 

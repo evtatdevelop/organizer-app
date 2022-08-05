@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { APIRates } from './commonAPI';
+import { APIRates, getInstantBalance } from './commonAPI';
 
 const initialState = {
   loading:  false,
-  rates:    []
+  rates:    [],
+  instBalance: null,
 }
 
 export const getRates = createAsyncThunk('common/rates', async () => {
@@ -14,6 +15,9 @@ export const getRates = createAsyncThunk('common/rates', async () => {
     return await APIRates();
   }
 })
+
+
+export const instantBalance = createAsyncThunk('common/getDayBalance', async ( time ) => await getInstantBalance(time) )
 
 export const commonSlice = createSlice({
   name: 'common',
@@ -55,6 +59,13 @@ export const commonSlice = createSlice({
         state.rates = rates
         state.loading = false;
       })
+
+      
+      .addCase(instantBalance.pending, ( state ) => { state.loading = true })
+      .addCase(instantBalance.fulfilled, (state, action) => {
+        // console.log(action.payload);
+        state.instBalance = action.payload
+      })
   }
 });
 
@@ -63,7 +74,8 @@ export const commonSlice = createSlice({
 //   setEventName, setEventDate, setEventDesc, setEventType, setEventValue, setEventCurrency, setEventCash, setEventStatus, setRegPeriod, setLastDate
 // } = commonSlice.actions;
 
-export const loading = ( state ) => state.common.loading;
-export const rates   = ( state ) => state.common.rates;
+export const loading      = ( state ) => state.common.loading;
+export const rates        = ( state ) => state.common.rates;
+export const instBalance  = ( state ) => state.common.instBalance;
 
 export default commonSlice.reducer;

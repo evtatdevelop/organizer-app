@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from './day.module.scss';
 import { days, currYear, currMonth, currDay, setDisplayMode, onShowForm, onRegForm } from "../../organizerSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,15 +10,17 @@ import EventItem  from "./eventItem";
 import Clock from "./clock";
 import { rates } from "../../../commonAPI/commonSlice";
 
+import { instantBalance, instBalance } from "../../../commonAPI/commonSlice";
+
 export const Day = () => {  
   const year = useSelector(currYear)
   const month = useSelector(currMonth)
   const day = useSelector(currDay)
   const currencies = useSelector(rates)
-
   const monthDays = useSelector(days)
   const dispatch = useDispatch();
-  
+  const balance = useSelector(instBalance)
+
   const dataDay = monthDays.find(item => item.key === `${year}.${month}.${day}`);
 
   const getRate = ( curr ) => {
@@ -37,6 +39,12 @@ export const Day = () => {
   const cashCosts = dataDay.data.filter(item => item.type === 'costs' && item.cash === 'cash').reduce((sum, curr) => sum + +curr.value * getRate(curr.currency), 0)
 
   const handlerClickView = (mode) => { dispatch( setDisplayMode(mode)) } 
+
+
+  // console.log(dataDay.startDayTime);
+  useEffect(() => { 
+    dispatch( instantBalance(dataDay.startDayTime));
+  }, []);
 
   return ( 
     <section className={styles.dayList}>
@@ -60,9 +68,21 @@ export const Day = () => {
           >{dataDay.dayNameLong}</span>          
         </div>
 
-        <div className={styles.clock}>
-          {Date.now() < dataDay.endDayTime && Date.now() > dataDay.startDayTime ? <Clock/> : null}
-        </div>
+
+        {Date.now() > dataDay.startDayTime 
+          ? <div className={styles.balance}> </div>
+          : null
+        }    
+        {Date.now() < dataDay.endDayTime && Date.now() > dataDay.startDayTime 
+          ? <div className={styles.clock}> <Clock/> </div>
+          : null
+        }       
+        {Date.now() < dataDay.startDayTime 
+          ? <div className={styles.balance}> {moneyFormat(Number(balance))} </div>
+          : null
+        }
+        
+
       </header>
 
       {/* main */}

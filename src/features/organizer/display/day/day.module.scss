@@ -40,6 +40,13 @@
       align-items: center;
       font-size: 3vw;
     }
+    .balance {
+      width: 9vw;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 1.5vw;
+    }
   }
 
   .weekEndColor { color: var(--main-red) }

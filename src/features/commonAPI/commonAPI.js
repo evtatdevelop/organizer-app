@@ -2,6 +2,12 @@ import Service from "../../services";
 
 const service = new Service();
 
+
+
+const _apiBase = 'http://localhost/finorg';
+
+export const getInstantBalance = ( time )  => service.getResource(`${_apiBase}/?q=balance&time=${time}`);
+
 export const APIRates = () => service.APIRates('http://www.floatrates.com/daily/rub.json');
 // export const APIRates = () => {return {
 //   usd: {
