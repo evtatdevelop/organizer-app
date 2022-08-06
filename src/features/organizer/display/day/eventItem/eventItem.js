@@ -27,7 +27,7 @@ export const EventItem = props => {
             <span className={styles.eventStatus}>
               {item.status === 'resolved' ? <FontAwesomeIcon icon={faCheck}/> : null}
             </span>
-            <span className={styleEventVal(item.type, item.status)}>
+            <span className={styleEventVal(item, item.status)}>
               {item.type !== 'event' 
                 ? item.type !== 'profit' 
                   ? `- ${moneyFormat(item.value)} ${currencies[item.currency]['units']['major']['symbol']}`
@@ -55,6 +55,7 @@ const styleEventVal = (item, day) => {
   // if (!((status !== 'success' && mode === 'onetime') ||
   //     (mode === 'regular' && Number(last_date) < Number(day.endDayTime)))
   // ) return result + ` ${styles.accepted}`;
+  // console.log(item)
   switch ( type ) {
     case 'profit': result += ' ' + styles.profit; break;
     case 'costs': result += ' ' + styles.costs; break;
