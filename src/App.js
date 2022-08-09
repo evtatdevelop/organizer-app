@@ -4,6 +4,7 @@ import { getRates } from "./features/commonAPI/commonSlice";
 import { Assets } from './features/assets/asset';
 import { Loader } from './features/loader/loader';
 import Organiser from './features/organizer';
+import Calculator from "./features/calculator";
 import './rest.css';
 import './constants.css';
 import './App.scss';
@@ -17,6 +18,7 @@ function App() {
       <main className='main'><Organiser/></main>
       <aside className='assets'><Assets/></aside>
       <Loader/>
+      <Calculator/>
     </div>
   );
 }
