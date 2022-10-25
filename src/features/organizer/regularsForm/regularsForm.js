@@ -157,6 +157,7 @@ export const RegularsForm = () => {
         }
 
         {/* control buttons */}
+        {console.log( last_date, getPeriod(date, period), Number(last_date) + getPeriod(date, period), date )}
         { id && Number(last_date) + getPeriod(date, period) === date
           ? <div className={styles.controlBtn}>
               <button type="button"
@@ -171,7 +172,7 @@ export const RegularsForm = () => {
                   // dispatch(setLastDate(nowAccept));
                   const acceptData = {...data}
                   acceptData.last_date = data.date;
-                  console.log(acceptData);
+                  // console.log(acceptData);
                   dispatch(saveRegular(acceptData));
                   setTimeout( () => {
                     dispatch(getMonth(currdate))

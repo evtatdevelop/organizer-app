@@ -24,7 +24,7 @@ export const getPeriod = ( now, period ) => {
   switch ( period ) {
     case 'day':   return day;
     case 'week':  return 7 * day;
-    case 'month': return new Date(dateNow.getFullYear(), dateNow.getMonth()+1, 0).getDate() * day;
+    case 'month': return new Date(dateNow.getFullYear(), dateNow.getMonth(), 0).getDate() * day;
     case 'year':  return (new Date(dateNow.getFullYear(),11,31) - new Date(dateNow.getFullYear(),0,0));
     default:      return 0  
   }

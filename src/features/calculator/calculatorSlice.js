@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   display:  'flex',
-  left:     100,
-  top:      100,
+  left:     200,
+  top:      390,
   exp:      '',
   res:      '',
   label:    'Calculator',
